@@ -8,13 +8,14 @@ Outlets pulled from OpenStreetMap on 23 October 2026.
 Do lottery outlets in the Philippines cluster in poorer neighbourhoods?
 On the best open data, no.
 Per person, mapped outlets are more common in richer places: the richer half of the population has 6.4 times the mapped-outlet density of the poorer half, and each one standard deviation rise in neighbourhood wealth goes with 2.2 times the outlet rate (95% CI 2.0-2.4).
-Most of that gradient is urbanicity and OpenStreetMap coverage rather than a preference for rich streets.
-Inside Metro Manila, where both are roughly constant, there is no clear gradient (rate ratio 0.79, 95% CI 0.57-1.09).
-The open record holds 602 outlets, about 13% of the roughly 4,600 lotto outlets the Philippine Charity Sweepstakes Office (PCSO) reports, and its gaps are likely to fall mostly in poorer rural areas, which volunteers map less thoroughly.
+The biggest caveat is the data itself.
+The open record holds 397 lotto outlets, about 9% of the roughly 4,600 the Philippine Charity Sweepstakes Office (PCSO) reports, plus 205 Small Town Lottery points, 176 of them in one region.
+Its gaps run the same way as the finding: richer, more urban regions are better mapped, so the national gradient may be mostly a mapping artefact.
+Inside Metro Manila, where urbanicity and mapping are roughly constant, there is no clear gradient (rate ratio 0.79, 95% CI 0.57-1.09).
 The study measures where tickets are sold, not who buys them, so it says little about the spending claim at the heart of "a tax on the poor".
 That needs household budget data.
 
-![Map of the Philippines coloured by the Relative Wealth Index, with 602 mapped lotto outlets as dark red points, and a zoomed panel of Metro Manila](figures/fig_map_static.png)
+![Map of the Philippines coloured by the Relative Wealth Index, with 602 mapped lottery outlets as dark red points, and a zoomed panel of Metro Manila](figures/fig_map_static.png)
 
 *Map 1. Left: the national wealth grid (terracotta = poorer, teal = richer) with every mapped lotto outlet. Right: Metro Manila, which is wealthy by national standards almost everywhere.
 The interactive version is [`maps/lottery_map.html`](maps/lottery_map.html): download it and open it in any browser to pan, zoom and click outlets.*
@@ -84,14 +85,15 @@ All four layers are public, free and need no account or API key.
 | Lottery outlets | OpenStreetMap, via the Overpass API | [overpass-api.de](https://overpass-api.de/) | ODbL 1.0 | Points | Pulled 23 Oct 2026 |
 | Neighbourhood wealth | Meta / Data for Good Relative Wealth Index (RWI) [13] | [HDX](https://data.humdata.org/dataset/relative-wealth-index) | CC BY-NC 4.0 | About 2.4 km grid, 40,824 cells | 2021 |
 | Population | WorldPop UN-adjusted population count | [WorldPop](https://hub.worldpop.org/geodata/summary?id=49730) | CC BY 4.0 | 1 km raster | 2020 |
-| Boundaries | GADM 4.1 | [gadm.org](https://gadm.org/download_country.html) | Free for non-commercial use, no redistribution | Region to municipality | 2022 |
+| Boundaries | GADM 4.1 | [gadm.org](https://gadm.org/download_country.html) | Free for non-commercial use, no redistribution | Province to municipality | 2022 |
 
 **Outlets.**
 OpenStreetMap is the only open, nationwide, point-level list of lottery outlets.
-The Overpass query returned 632 elements; after keeping only genuine lotto outlets, 602 remain.
+The Overpass query returned 632 elements; after keeping only genuine lottery outlets, 602 remain.
 Of these, 586 are tagged `shop=lottery` and 238 name the PCSO as operator.
+397 are lotto outlets and 205 are named as Small Town Lottery points; the analysis uses all 602, with a lotto-only check in [3.1](#31-the-outlet-coverage-gap).
 All 602 fall inside an RWI cell.
-That is about 13% of the PCSO's roughly 4,600 outlets, so this is a sample, not a census (see [6.3](#63-limitations)).
+This is a sample, not a census, and how far it falls short is the main limit on everything that follows ([3.1](#31-the-outlet-coverage-gap)).
 The first run of this study, on 23 September 2026, found 591 outlets; the extra 11 moved the headline numbers by less than 10% and changed no conclusion.
 
 **Wealth.**
@@ -104,10 +106,53 @@ WorldPop's 1 km count sums to 109.6 million, consistent with the 2020 census.
 It turns outlet counts into a per-person rate, which is the only fair way to compare a crowded city block with a rural barangay.
 
 **Boundaries.**
-GADM supplies the Metro Manila (National Capital Region) polygon for the robustness check and the coastline for the static map.
+GADM supplies the province polygons for the regional coverage table, the Metro Manila (National Capital Region) polygon for the robustness check, and the coastline for the static map.
 Its finest Philippine level is the city or municipality, which is why the RWI grid, not an administrative choropleth, is the base layer.
 
-### 3.1 Choosing a wealth measure
+### 3.1 The outlet coverage gap
+
+The PCSO reported about 4,600 authorised lotto outlets in October 2023 [4].
+OpenStreetMap has **397** of them, about **9%**: 0.36 mapped lotto outlets per 100,000 people against about 4.2 authorised.
+The Small Town Lottery is a separate network, which took PHP 31.76 billion in 2024, more than Lotto [2].
+OpenStreetMap has 205 points named as STL, and 176 of them are in Davao region, so STL coverage is in effect one region's mapping.
+This study uses the OpenStreetMap outlets as they are; it does not add other outlet sources.
+
+The gap is not spread evenly.
+Rolling the grid up to the 17 administrative regions (as they stood before the 2024 Negros Island Region) shows how uneven the record is.
+
+| Region | Share of people | Share of mapped lotto outlets | Lotto outlets per 100k | STL points | Mean RWI |
+|---|---:|---:|---:|---:|---:|
+| NCR (Metro Manila) | 12.0% | 20.7% | 0.64 | 1 | 1.31 |
+| IV-A Calabarzon | 14.9% | 20.9% | 0.52 | 2 | 0.89 |
+| III Central Luzon | 11.2% | 10.6% | 0.35 | 3 | 0.67 |
+| VII Central Visayas | 7.8% | 14.4% | 0.68 | 1 | 0.54 |
+| XI Davao | 5.2% | 6.8% | 0.49 | 176 | 0.47 |
+| I Ilocos | 5.1% | 1.8% | 0.13 | 0 | 0.45 |
+| X Northern Mindanao | 5.2% | 3.5% | 0.25 | 14 | 0.34 |
+| VI Western Visayas | 7.4% | 4.0% | 0.20 | 1 | 0.31 |
+| CAR | 1.8% | 1.5% | 0.32 | 0 | 0.28 |
+| XIII Caraga | 2.6% | 1.8% | 0.26 | 0 | 0.21 |
+| V Bicol | 6.0% | 1.8% | 0.11 | 0 | 0.19 |
+| IX Zamboanga Peninsula | 3.6% | 1.8% | 0.18 | 1 | 0.18 |
+| VIII Eastern Visayas | 4.2% | 8.8% | 0.78 | 1 | 0.17 |
+| II Cagayan Valley | 3.5% | 0.3% | 0.03 | 0 | 0.14 |
+| BARMM | 2.2% | 0.0% | 0.00 | 0 | 0.13 |
+| XII Soccsksargen | 4.5% | 0.3% | 0.02 | 3 | 0.11 |
+| Mimaropa | 2.9% | 1.3% | 0.16 | 2 | 0.06 |
+
+Regions sorted from richest to poorest by population-weighted RWI.
+Source: [`data/derived/outlets_by_region.csv`](data/derived/outlets_by_region.csv), from [`src/coverage.py`](src/coverage.py).
+
+Richer regions have more mapped lotto outlets per person (rank correlation across the 17 regions +0.67, p = 0.003).
+Metro Manila and Calabarzon hold 27% of people and 42% of mapped lotto outlets; Cagayan Valley, Soccsksargen and BARMM hold 10% of people and 2 outlets between them.
+With open data alone there is no way to tell how much of that is real outlet density and how much is mapping effort, but a more than 30-fold spread in mapped lotto outlets per person between regions with any outlets at all is far more than retail geography would explain.
+
+What matters for the research questions (RQ4) is the direction.
+The gaps are largest in poorer, more rural regions, which is the same direction as the national finding.
+So the national gradient in [section 5](#5-analysis) may be mostly a mapping artefact.
+Dropping the STL points does not remove it: on lotto outlets alone the national wealth rate ratio is 2.43 per standard deviation (95% CI 2.16-2.73; [`data/derived/coverage.json`](data/derived/coverage.json)), so the gradient does not come from Davao's STL mapping but from the urban, richer tilt of the whole record.
+
+### 3.2 Choosing a wealth measure
 
 Every Philippine wealth or poverty measure trades truth against spatial fineness.
 
@@ -137,6 +182,8 @@ flowchart LR
   grid --> nb["Negative-binomial<br/>count models"]
   gadm["GADM 4.1<br/>boundaries"] -->|NCR polygon| ncr["Metro Manila<br/>check"]
   grid --> ncr
+  gadm -->|provinces| cov["Coverage<br/>by region"]
+  grid --> cov
   grid --> maps["Static and<br/>interactive maps"]
 ```
 
@@ -145,6 +192,7 @@ flowchart LR
 | Download the four layers | [`src/fetch_data.sh`](src/fetch_data.sh) | `data/raw/` (gitignored) |
 | Build the grid, run the decile test and count models | [`src/analysis.py`](src/analysis.py) | [`data/derived/`](data/derived/) decile table, headline numbers, outlet list |
 | Metro Manila check | [`src/robustness.py`](src/robustness.py) | [`data/derived/`](data/derived/) quintile table and model |
+| Outlet coverage by region | [`src/coverage.py`](src/coverage.py) | [`data/derived/`](data/derived/) region table, model without Davao |
 | Charts | [`src/viz.py`](src/viz.py) | [`figures/`](figures/) |
 | Static map | [`src/mapfig.py`](src/mapfig.py) | [`figures/fig_map_static.png`](figures/fig_map_static.png) |
 | Interactive map | [`src/map.py`](src/map.py) | [`maps/lottery_map.html`](maps/lottery_map.html) |
@@ -254,6 +302,7 @@ The models use the 40,170 cells with at least 50 people, to avoid unstable tiny 
 Source: [`data/derived/headline.json`](data/derived/headline.json).
 
 **Model 1** says a cell one standard deviation richer has about 2.2 times the mapped-outlet rate, with a confidence interval well clear of 1 (RQ1).
+On the 397 lotto outlets alone, leaving out the STL points, the ratio is 2.43 (95% CI 2.16-2.73).
 **Model 2** adds population density.
 The wealth ratio grows to 3.2 and density turns negative: among places of equal wealth, the denser one has fewer mapped outlets per person (RQ2).
 So the gradient is not simply "more people, more shops".
@@ -297,12 +346,13 @@ There is no evidence here that lotto outlets are packed into the poorest neighbo
 The national pattern should not be read as "outlets target the rich" either.
 Three forces produce it.
 **Urbanicity:** outlets are retail, and retail sits in town centres, markets and transport hubs, which are wealthier on average than the barangays around them.
-**Coverage:** OpenStreetMap is mapped by volunteers, who map cities and richer areas more completely, so outlets in poor rural areas are more likely to be missing from the data (RQ4).
+**Coverage:** OpenStreetMap is mapped by volunteers, who map cities and richer areas more completely, so outlets in poor rural areas are more likely to be missing from the data (RQ4, [3.1](#31-the-outlet-coverage-gap)).
 **Geography of wealth:** the richest tenth of Filipinos live in 189 grid cells, so any shop type that clusters in cities will look "rich".
 
-Coverage bias pushes in the same direction as the observed gradient, so it cannot rescue the "tax on the poor" reading.
-If anything the true gradient is flatter than the map shows.
-The data cannot say whether it is flat, mildly negative, or still positive.
+Put plainly: the coverage gap is biased the same way as the national finding, so the national gradient may be mostly a mapping artefact.
+The record covers about 9% of authorised lotto outlets and STL points in only a couple of regions, and what it misses is concentrated in poorer regions.
+That bias cannot rescue the "tax on the poor" reading either: correcting it would flatten the gradient, not reverse it on its own.
+With this data we cannot say whether the true gradient is flat, mildly negative or still positive.
 
 ### 6.2 Why outlet location is the wrong instrument for the spending claim
 
@@ -319,7 +369,7 @@ The case made in the video that motivated this project [17] is about spending, a
 
 ### 6.3 Limitations
 
-- **Coverage bias.** 602 mapped outlets against roughly 4,600 authorised is about 13% coverage, skewed to cities and wealthier areas, with no open register to check it against. This inflates the national gradient. The STL network, which takes more money than Lotto, is almost absent from the map.
+- **Coverage bias.** 397 mapped lotto outlets against roughly 4,600 authorised is about 9% coverage, skewed to cities and wealthier regions, with no open register to check it against ([3.1](#31-the-outlet-coverage-gap)). This inflates the national gradient. The STL network, which takes more money than Lotto, is mapped almost only in Davao.
 - **Ecological fallacy.** The unit is the neighbourhood, not the person. Outlet location is not buyer residence.
 - **Modifiable areal unit problem.** Results are computed on a 2.4 km grid. A different cell size or an administrative choropleth could change the magnitudes, though the direction agrees across the decile table and the count models.
 - **RWI is a relative proxy.** It is a modelled 2021 score with per-cell error, not measured income or poverty, and it ranks places within the country only.
@@ -329,8 +379,20 @@ The case made in the video that motivated this project [17] is about spending, a
 ### 6.4 What would answer the question properly
 
 - **For the spending claim:** the PSA Family Income and Expenditure Survey records household spending by category and income decile. The share of income spent on gambling by decile is the direct test of regressivity.
-- **For the access claim:** an authoritative PCSO outlet and STL agent list with addresses. Freedom of information requests for the national lotto outlet list have been filed [16]; a released list would remove the coverage bias.
+- **For the access claim:** a complete outlet list, which is what the next steps below go after.
 - **For a finer wealth measure:** barangay poverty rates from the Community-Based Monitoring System, if local governments released them, or PSA municipal poverty estimates as a coarser cross-check.
+
+### 6.5 Next steps: closing the outlet gap
+
+This first pass deliberately uses only the OpenStreetMap outlets.
+The sources to revisit, roughly in order of effort:
+
+- **Overture Maps Places** [18]. An open places dataset assembled from Meta, Microsoft, Foursquare and others. Licences are per record (CDLA Permissive 2.0, or Apache 2.0 for Foursquare-sourced places). Check first whether its categories separate lotto outlets from general shops.
+- **Foursquare Open Source Places** [19]. Released under Apache 2.0 and also folded into Overture. Same category question.
+- **PCSO's own outlet listings.** Any outlet or agent lists the PCSO publishes, which would also show whether STL agents can be located at all.
+- **An eFOI request to the PCSO** for the authorised outlet list with addresses, through the Philippine Freedom of Information portal. Similar requests have been filed before [16]; a released list would let the analysis run on a census instead of a sample, and would show how biased the OpenStreetMap record is.
+
+Any new source should be checked against the regional table in [3.1](#31-the-outlet-coverage-gap) before it goes into the models.
 
 ## References
 
@@ -351,6 +413,8 @@ The case made in the video that motivated this project [17] is about spending, a
 15. Republic Act No. 11315 (2019), Community-Based Monitoring System Act. Official Gazette. <https://www.officialgazette.gov.ph/2019/04/17/republic-act-no-11315/>
 16. eFOI Philippines. "List of lotto outlets in the Philippines as of December 31, 2023." <https://www.foi.gov.ph/requests/list-of-lotto-outlets-in-the-philippines-as-of-december-31-2023/>
 17. Harris, J. *The US Lottery is a Lie.* YouTube, 8 March 2023. <https://www.youtube.com/watch?v=3Yn_3HqfV1w>
+18. Overture Maps Foundation. "Places guide." <https://docs.overturemaps.org/guides/places>
+19. Foursquare. "Foursquare Open Source Places." <https://opensource.foursquare.com/os-places/>
 
 Data: © OpenStreetMap contributors (ODbL); Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); GADM 4.1.
 
