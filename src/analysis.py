@@ -86,10 +86,13 @@ for e in osm["elements"]:
                     "lat": lat, "lon": lon})
 odf = pd.DataFrame(outlets).sort_values(["osm_type", "osm_id"]).reset_index(drop=True)
 odf["tx"], odf["ty"] = lonlat_to_tile(odf["lon"].values, odf["lat"].values)
+# Small Town Lottery points are a separate network from the PCSO's lotto outlets
+odf["is_stl"] = odf["name"].str.contains(r"\bstl\b|small town", case=False, regex=True)
 odf.to_csv(DERIVED / "outlets_clean.csv", index=False)
 n_pcso_operator = int(odf["operator"].str.contains("PCSO|Charity Sweepstakes", case=False, na=False).sum())
 print(f"Overpass elements: {len(osm['elements']):,}   lottery outlets kept: {len(odf):,}  "
-      f"(shop=lottery: {(odf.shop == 'lottery').sum()}, operator names PCSO: {n_pcso_operator})")
+      f"(shop=lottery: {(odf.shop == 'lottery').sum()}, operator names PCSO: {n_pcso_operator}, "
+      f"named as STL: {odf.is_stl.sum()})")
 outcell = odf.groupby(["tx", "ty"], as_index=False).size().rename(columns={"size": "n_outlets"})
 
 
@@ -192,6 +195,7 @@ headline = {
     "n_outlets_total": int(len(odf)),
     "n_outlets_shop_lottery": int((odf.shop == "lottery").sum()),
     "n_outlets_operator_pcso": n_pcso_operator,
+    "n_outlets_stl": int(odf.is_stl.sum()),
     "n_outlets_in_grid": outlets_in_grid,
     "n_rwi_cells": int(len(rwi)),
     "n_cells_pop": int(len(m)),

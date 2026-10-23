@@ -15,7 +15,7 @@ fi
 
 bash src/fetch_data.sh "$@"
 
-for step in analysis robustness viz mapfig map; do
+for step in analysis robustness coverage viz mapfig map; do
   echo "== src/$step.py"
   .venv/bin/python src/$step.py
 done
