@@ -1,0 +1,14 @@
+{
+  "ncr_cells": 101,
+  "ncr_pop": 12323700.0,
+  "ncr_outlets": 81,
+  "ncr_spearman_rho": -0.5,
+  "ncr_spearman_p": 0.391002,
+  "ncr_nb_irr": 0.789369,
+  "ncr_nb_ci": [
+    0.569343,
+    1.09442
+  ],
+  "ncr_nb_p": 0.155975,
+  "ncr_nb_n_cells": 101
+}
