@@ -1,0 +1,7 @@
+# Downloads and large intermediates; regenerate with ./run_all.sh
+data/raw/
+data/work/
+
+.venv/
+__pycache__/
+.DS_Store

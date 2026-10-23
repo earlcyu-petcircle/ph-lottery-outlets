@@ -1,0 +1,36 @@
+{
+  "outlets_pull_date": "2026-10-23",
+  "n_overpass_elements": 632,
+  "n_outlets_total": 602,
+  "n_outlets_shop_lottery": 586,
+  "n_outlets_operator_pcso": 238,
+  "n_outlets_stl": 205,
+  "n_outlets_in_grid": 602,
+  "n_rwi_cells": 40824,
+  "n_cells_pop": 40726,
+  "n_cells_regression": 40170,
+  "national_pop": 109581000.0,
+  "spearman_rho": 0.890909,
+  "spearman_p": 0.000542144,
+  "per100k_poorer_half": 0.15223,
+  "per100k_richer_half": 0.979081,
+  "ratio_richer_over_poorer": 6.43161,
+  "m1_rwi_irr": 2.20318,
+  "m1_rwi_ci": [
+    2.01298,
+    2.41134
+  ],
+  "m1_rwi_p": 6.48065e-66,
+  "m2_rwi_irr": 3.18825,
+  "m2_rwi_ci": [
+    2.78362,
+    3.6517
+  ],
+  "m2_rwi_p": 6.2355e-63,
+  "m2_dens_irr": 0.631797,
+  "m2_dens_ci": [
+    0.560237,
+    0.712496
+  ],
+  "m2_dens_p": 7.04597e-14
+}
