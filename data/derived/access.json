@@ -1,0 +1,26 @@
+{
+  "by_area": {
+    "Davao City": {
+      "population_worldpop": 1652560.0,
+      "mean_m": 6640.99,
+      "median_m": 2854.16,
+      "share_within_500m": 0.0459273,
+      "share_within_1km": 0.178687
+    },
+    "Metro Cebu": {
+      "population_worldpop": 3313880.0,
+      "mean_m": 7062.94,
+      "median_m": 3822.45,
+      "share_within_500m": 0.0107582,
+      "share_within_1km": 0.0537793
+    },
+    "Metro Manila (NCR)": {
+      "population_worldpop": 13068600.0,
+      "mean_m": 2045.98,
+      "median_m": 1697.9,
+      "share_within_500m": 0.0739268,
+      "share_within_1km": 0.250738
+    }
+  },
+  "pixels": 112127
+}

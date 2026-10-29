@@ -1,0 +1,20 @@
+{
+  "n_barangays": 42048,
+  "census_join_on_psgc": 38501,
+  "census_join_on_name": 3370,
+  "census_unmatched_barangays": 177,
+  "census_pop_matched": 108556000.0,
+  "census_pop_total": 108818000.0,
+  "pop_total_used": 108835000.0,
+  "rwi_from_pixels": 32091,
+  "rwi_from_centre_tile": 8751,
+  "rwi_missing": 1206,
+  "outlets_unassigned": 0,
+  "lotto_osm": 397,
+  "lotto_union": 505,
+  "stl_osm": 205,
+  "retail_osm": 162820,
+  "retail_overture": 408802,
+  "road_km": 365237.0,
+  "osm_extract_date": "2026-10-28"
+}

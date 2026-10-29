@@ -1,0 +1,5 @@
+area,barangays,population,area_km2,osm_retail,overture_retail,road_km,osm_lotto,union_lotto,osm_retail_per_1k,overture_retail_per_1k,road_km_per_km2,union_lotto_per_100k,share_of_pcso_average,osm_lotto_per_100_osm_retail
+Metro Manila (NCR),1712,13492466.02,598.54,35894,127515,12680.646,83,119,2.66,9.451,21.186,0.882,0.21,0.231
+Metro Cebu,349,3165799.0,1069.556,5951,19921,5682.253,6,9,1.88,6.293,5.313,0.284,0.068,0.101
+Davao City,183,1777736.884,2341.426,7169,11225,6338.875,18,20,4.033,6.314,2.707,1.125,0.268,0.251
+Rest of the country,39804,90398735.88,289415.059,113806,250141,340534.853,290,357,1.259,2.767,1.177,0.395,0.094,0.255

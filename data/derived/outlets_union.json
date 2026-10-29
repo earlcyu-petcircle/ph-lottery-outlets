@@ -1,0 +1,12 @@
+{
+  "overture_candidates": {
+    "lotto": 114,
+    "office_or_noise": 83,
+    "false_positive": 29,
+    "stl_operator": 18
+  },
+  "overture_lotto": 114,
+  "overture_lotto_within_100m_of_osm": 6,
+  "union_lotto": 505,
+  "union_stl": 205
+}

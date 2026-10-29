@@ -30,6 +30,25 @@ WEALTH_STOPS = ["#9C5B3B", "#C89B5A", "#EADFC5", "#7FA6A0", "#3E6B66"]
 WEALTH = LinearSegmentedColormap.from_list("wealth", WEALTH_STOPS)
 OUTLET_FILL, OUTLET_EDGE = "#8C2E2E", "#3B0D0D"
 
+# OSM highway classes counted as road length (the commerce and urbanity control); paths and
+# tracks are walkable but their mapping depends far more on mapper effort.
+ROAD_CLASSES = ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link",
+                "secondary", "secondary_link", "tertiary", "tertiary_link", "unclassified",
+                "residential", "living_street", "service", "road"]
+
+METRO_CEBU = ["Cebu City (Capital)", "Lapu-Lapu City (Opon)", "Mandaue City", "City of Talisay",
+              "Danao City", "City of Carcar", "City of Naga", "Compostela", "Consolacion",
+              "Cordova", "Liloan", "Minglanilla", "San Fernando"]  # the 13 LGUs of Metro Cebu
+
+
+def area_of(df):
+    area = pd.Series("Rest of the country", index=df.index)
+    area[df.adm1_name.str.contains("NCR")] = "Metro Manila (NCR)"
+    area[(df.adm2_name == "Cebu") & df.adm3_name.isin(METRO_CEBU)] = "Metro Cebu"
+    area[df.adm3_name == "Davao City"] = "Davao City"
+    return area
+
+
 # lat/lon canvas the wealth grid is painted onto for the maps
 CANVAS = dict(lon_min=116.85, lon_max=126.65, lat_min=4.55, lat_max=21.15)
 
