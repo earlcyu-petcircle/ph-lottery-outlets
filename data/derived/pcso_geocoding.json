@@ -1,0 +1,71 @@
+{
+  "outlets": 7443,
+  "duplicate_addresses": 12,
+  "coordinate_parse": {
+    "decimal": 5656,
+    "dms": 1128,
+    "malformed": 349,
+    "blank": 298,
+    "out_of_range": 11,
+    "bad_dms": 1
+  },
+  "status": {
+    "coordinates_consistent": 6458,
+    "address_barangay": 391,
+    "coordinates_other_municipality": 309,
+    "unplaced_town_only": 244,
+    "unplaced_town_ambiguous": 35,
+    "unplaced": 6
+  },
+  "placed": 7158,
+  "placed_share": 0.9617,
+  "by_area": {
+    "Mindanao": {
+      "outlets": 845,
+      "placed": 816,
+      "address_barangay": 35,
+      "unplaced": 29
+    },
+    "National Capital Region": {
+      "outlets": 1998,
+      "placed": 1974,
+      "address_barangay": 25,
+      "unplaced": 24
+    },
+    "Northern and Central Luzon": {
+      "outlets": 1282,
+      "placed": 1264,
+      "address_barangay": 62,
+      "unplaced": 18
+    },
+    "Southern Luzon and Bicol Region": {
+      "outlets": 1933,
+      "placed": 1869,
+      "address_barangay": 101,
+      "unplaced": 64
+    },
+    "Visayas": {
+      "outlets": 1385,
+      "placed": 1235,
+      "address_barangay": 168,
+      "unplaced": 150
+    }
+  },
+  "unplaced_town_only_by_region": {
+    "Region VI (Western Visayas)": 108,
+    "Region V (Bicol Region)": 27,
+    "National Capital Region (NCR)": 22,
+    "Region VIII (Eastern Visayas)": 20,
+    "Region IV-A (Calabarzon)": 19,
+    "Region XIII (Caraga)": 13,
+    "Region II (Cagayan Valley)": 7,
+    "Region III (Central Luzon)": 5,
+    "Region XII (Soccsksargen)": 4,
+    "Region XI (Davao Region)": 4,
+    "Region VII (Central Visayas)": 4,
+    "Cordillera Administrative Region (CAR)": 4,
+    "Region IX (Zamboanga Peninsula)": 3,
+    "Region X (Northern Mindanao)": 2,
+    "Mimaropa Region": 2
+  }
+}

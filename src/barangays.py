@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """
-Build the barangay table the redesigned study runs on.
+Build the barangay table and the pixel table every unit is built from.
 
 One row per barangay (OCHA COD-AB, PSGC-coded), carrying:
   - 2020 census population and the PSA urban/rural flag (OCHA's 2020 census table),
     joined on PSGC and, where codes changed since 2020, on municipality and barangay name;
   - wealth: the population-weighted mean Relative Wealth Index of the 2.4 km tiles the
     barangay's people live in, using WorldPop 100 m pixels as the weights;
-  - outcomes: lotto outlets (OSM, Overture, union) and Small Town Lottery points;
-  - commerce: mapped retail and food points from OSM and from Overture, and OSM road length.
+  - commerce: OSM and Overture shop and food points (their lotto points left out) and
+    OSM road length.
 
-Writes data/work/barangays.parquet (attributes) and data/work/barangay_geoms.parquet.
+Also writes the dasymetric pixel table: every populated WorldPop 100 m pixel with its
+barangay, its tile and its share of the barangay's census population (Mennis 2003), and
+the road segment midpoints, so tiles.py can sum everything onto RWI tiles.
 
-Run after osm_extract.py and outlets.py:  python src/barangays.py
+Writes data/work/barangays.parquet, barangay_geoms.parquet, pixels.parquet, retail_points.parquet
+and road_segments.npz.
+
+Run after osm_extract.py:  python src/barangays.py
 """
 import json
 import re
@@ -109,7 +114,7 @@ rtx, rty = lonlat_to_tile(rwi.longitude.values, rwi.latitude.values)
 rwi_by_tile = pd.Series(rwi.rwi.values, index=rtx.astype(np.int64) * 100000 + rty).groupby(level=0).mean()
 ptx, pty = lonlat_to_tile(pix.lon.values, pix.lat.values)
 pix["rwi"] = rwi_by_tile.reindex(ptx.astype(np.int64) * 100000 + pty).values
-pix = pix[pix.b >= 0]
+pix = pix[pix.b >= 0].copy()
 pix["w"] = np.where(pix.rwi.notna(), pix["pop"], 0.0)
 pix["rwi_w"] = pix.rwi.fillna(0) * pix.w
 agg = pix.groupby("b").agg(worldpop=("pop", "sum"), w=("w", "sum"), rwi_w=("rwi_w", "sum"))
@@ -121,10 +126,18 @@ ftx, fty = lonlat_to_tile(rp.x.values, rp.y.values)
 fallback = rwi_by_tile.reindex(ftx.astype(np.int64) * 100000 + fty).values
 geo["rwi_source"] = np.where(geo.rwi.notna(), "pixels", np.where(~np.isnan(fallback), "centre_tile", "none"))
 geo["rwi"] = geo.rwi.fillna(pd.Series(fallback, index=geo.index))
-del pix, pts
+del pts
 
 geo["pop_source"] = np.where(geo.census_pop.notna(), "census", "worldpop")
 geo["pop"] = geo.census_pop.fillna(geo.worldpop)
+# Dasymetric step: each pixel carries its share of the barangay's census count
+pix["pop_census"] = pix["pop"] * (geo["pop"].values[pix.b] / geo.worldpop.values[pix.b])
+pix["tx"], pix["ty"] = ptx[pix.index], pty[pix.index]
+pix[["lon", "lat", "pop", "pop_census", "b", "tx", "ty"]].to_parquet(WORK / "pixels.parquet", index=False)
+# Barangays with no populated pixel keep their count at their interior point
+rp_tx, rp_ty = lonlat_to_tile(rp.x.values, rp.y.values)
+geo["rp_lon"], geo["rp_lat"], geo["rp_tx"], geo["rp_ty"] = rp.x.values, rp.y.values, rp_tx, rp_ty
+del pix
 geo["urban"] = (geo.urban_rural == "U").astype(float).where(geo.urban_rural.notna())
 
 # ---------------------------------------------------------------------------
@@ -153,25 +166,23 @@ def count_into(name, b):
     geo[name] = np.bincount(b[b >= 0], minlength=len(geo))
 
 
-outlets = pd.read_csv(DERIVED / "outlets_union.csv")
-outlets["b"] = assign(outlets.lon, outlets.lat)
-is_osm, is_lotto = outlets.source == "osm", outlets["product"] == "lotto"
-count_into("lotto_osm", outlets.b[is_osm & is_lotto].values)
-count_into("lotto_union", outlets.b[is_lotto].values)
-count_into("stl_osm", outlets.b[outlets["product"] == "stl"].values)
-n_unassigned = int((outlets.b < 0).sum())
-
-osm_retail = pd.read_parquet(WORK / "osm_retail.parquet", columns=["lon", "lat"])
-count_into("retail_osm", assign(osm_retail.lon, osm_retail.lat))
-
+# Shops and food points, with each source's own lotto points left out: retail density is a
+# control, so it must not contain the outcome.
+osm_retail = pd.read_parquet(WORK / "osm_retail.parquet", columns=["lon", "lat", "value", "name"])
+osm_retail = osm_retail[(osm_retail.value != "lottery") &
+                        ~osm_retail.name.str.contains(r"lotto|pcso|\bstl\b", case=False, regex=True)]
 ov = pd.read_parquet(RAW / "overture_places_ph.parquet",
-                     columns=["lon", "lat", "basic_category", "hierarchy", "country"])
+                     columns=["lon", "lat", "category", "hierarchy", "country"])
 ov = ov[ov.country == "PH"]
 top = ov.hierarchy.map(lambda h: h[0] if h is not None and len(h) else None)
-ov_retail = ov[top.isin(["food_and_drink", "shopping"])]
-count_into("retail_overture", assign(ov_retail.lon, ov_retail.lat))
-# Lotto shops are retail too, so the mapped-share denominator can never be below the numerator
-geo["retail_osm"] = np.maximum(geo.retail_osm, geo.lotto_osm + geo.stl_osm)
+ov_retail = ov[top.isin(["food_and_drink", "shopping"]) & (ov.category != "lottery_vendor")]
+retail_pts = pd.concat([pd.DataFrame({"lon": osm_retail.lon, "lat": osm_retail.lat, "source": "osm"}),
+                        pd.DataFrame({"lon": ov_retail.lon, "lat": ov_retail.lat, "source": "overture"})],
+                       ignore_index=True)
+retail_pts["b"] = assign(retail_pts.lon, retail_pts.lat)
+retail_pts.to_parquet(WORK / "retail_points.parquet", index=False)
+count_into("retail_osm", retail_pts.b[retail_pts.source == "osm"].values)
+count_into("retail_overture", retail_pts.b[retail_pts.source == "overture"].values)
 geo["retail_all"] = geo.retail_osm + geo.retail_overture
 
 # ---------------------------------------------------------------------------
@@ -196,6 +207,7 @@ for s in range(0, len(a), 2_000_000):
     ok = b >= 0
     road_km += np.bincount(b[ok], weights=km[s:s + 2_000_000][ok], minlength=len(geo))
 geo["road_km"] = road_km
+np.savez(WORK / "road_segments.npz", lon=mlon, lat=mlat, km=km)
 del w, lon, lat
 
 # ---------------------------------------------------------------------------
@@ -214,10 +226,8 @@ summary = {
     "rwi_from_pixels": int((geo.rwi_source == "pixels").sum()),
     "rwi_from_centre_tile": int((geo.rwi_source == "centre_tile").sum()),
     "rwi_missing": int((geo.rwi_source == "none").sum()),
-    "outlets_unassigned": n_unassigned,
-    "lotto_osm": int(geo.lotto_osm.sum()), "lotto_union": int(geo.lotto_union.sum()),
-    "stl_osm": int(geo.stl_osm.sum()),
-    "retail_osm": int(geo.retail_osm.sum()), "retail_overture": int(geo.retail_overture.sum()),
+    "retail_osm_excl_lotto": int(geo.retail_osm.sum()),
+    "retail_overture_excl_lotto": int(geo.retail_overture.sum()),
     "road_km": sig(geo.road_km.sum()),
     "osm_extract_date": (RAW / "osm_extract_date.txt").read_text().strip(),
 }

@@ -9,12 +9,8 @@
   "rwi_from_pixels": 32091,
   "rwi_from_centre_tile": 8751,
   "rwi_missing": 1206,
-  "outlets_unassigned": 0,
-  "lotto_osm": 397,
-  "lotto_union": 505,
-  "stl_osm": 205,
-  "retail_osm": 162820,
-  "retail_overture": 408802,
+  "retail_osm_excl_lotto": 162216,
+  "retail_overture_excl_lotto": 408802,
   "road_km": 365237.0,
   "osm_extract_date": "2026-10-28"
 }
