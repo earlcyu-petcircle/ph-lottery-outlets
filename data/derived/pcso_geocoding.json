@@ -1,0 +1,26 @@
+{
+  "outlets": 7443,
+  "pull_date": "2026-10-30",
+  "duplicate_addresses": 12,
+  "coordinate_parse": {
+    "decimal": 5656,
+    "dms": 1128,
+    "blank": 298,
+    "decimal_repaired": 277,
+    "malformed": 72,
+    "out_of_range": 11,
+    "bad_dms": 1
+  },
+  "status": {
+    "gps_consistent": 6711,
+    "address_barangay": 242,
+    "gps_other_town": 221,
+    "address_town": 133,
+    "gps_far": 91,
+    "unplaced_town_ambiguous": 21,
+    "gps_town_unnamed": 19,
+    "unplaced": 5
+  },
+  "placed_in_barangay": 7284,
+  "placed_share": 0.9786
+}

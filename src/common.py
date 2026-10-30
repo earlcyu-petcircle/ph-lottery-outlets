@@ -30,6 +30,42 @@ WEALTH_STOPS = ["#9C5B3B", "#C89B5A", "#EADFC5", "#7FA6A0", "#3E6B66"]
 WEALTH = LinearSegmentedColormap.from_list("wealth", WEALTH_STOPS)
 OUTLET_FILL, OUTLET_EDGE = "#8C2E2E", "#3B0D0D"
 
+# OSM highway classes counted as road length (the commerce and urbanity control); paths and
+# tracks are walkable but their mapping depends far more on mapper effort.
+ROAD_CLASSES = ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link",
+                "secondary", "secondary_link", "tertiary", "tertiary_link", "unclassified",
+                "residential", "living_street", "service", "road"]
+
+# PCSO's five sales areas (the folders of its outlet map) -> COD-AB region pcodes,
+# confirmed by where the map's own points fall.
+PCSO_AREAS = {
+    "National Capital Region": ["PH13"],
+    "Northern and Central Luzon": ["PH14", "PH01", "PH02", "PH03"],
+    "Southern Luzon and Bicol Region": ["PH04", "PH17", "PH05"],
+    "Visayas": ["PH06", "PH07", "PH08"],
+    "Mindanao": ["PH09", "PH10", "PH11", "PH12", "PH16", "PH19"],
+}
+REGION_TO_AREA = {r: a for a, regions in PCSO_AREAS.items() for r in regions}
+
+METRO_CEBU = ["Cebu City (Capital)", "Lapu-Lapu City (Opon)", "Mandaue City", "City of Talisay",
+              "Danao City", "City of Carcar", "City of Naga", "Compostela", "Consolacion",
+              "Cordova", "Liloan", "Minglanilla", "San Fernando"]  # the 13 LGUs of Metro Cebu
+
+
+def metro_of(adm1_pcode, adm2_name, adm3_name):
+    """The three city areas the study looks inside, or "Rest of the country"."""
+    metro = pd.Series("Rest of the country", index=adm1_pcode.index)
+    metro[adm1_pcode == "PH13"] = "Metro Manila"
+    metro[(adm2_name == "Cebu") & adm3_name.isin(METRO_CEBU)] = "Metro Cebu"
+    metro[adm3_name == "Davao City"] = "Davao City"
+    return metro
+
+
+def quadkey(x, y, z=Z):
+    """Bing quadkey of tile (x, y): the RWI's tile id, as a string of z digits."""
+    return "".join(str(((x >> (z - i)) & 1) | (((y >> (z - i)) & 1) << 1)) for i in range(1, z + 1))
+
+
 # lat/lon canvas the wealth grid is painted onto for the maps
 CANVAS = dict(lon_min=116.85, lon_max=126.65, lat_min=4.55, lat_max=21.15)
 

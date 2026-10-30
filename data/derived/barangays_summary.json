@@ -1,0 +1,27 @@
+{
+  "n_barangays": 42048,
+  "census_vintage": "2020 census (PSA, via OCHA on HDX)",
+  "census_join_on_psgc": 38501,
+  "census_join_on_name": 3370,
+  "census_unmatched_barangays": 177,
+  "census_pop_matched": 108556000.0,
+  "census_pop_total": 108818000.0,
+  "pop_total_used": 109141000.0,
+  "worldpop_2024_total": 115360000.0,
+  "worldpop_2024_in_a_barangay": 114998000.0,
+  "barangays_without_populated_pixel": 77,
+  "rwi_from_pixels": 41888,
+  "rwi_from_centre_tile": 48,
+  "rwi_missing": 112,
+  "shops_osm": 107323,
+  "food_osm": 54960,
+  "shops_overture": 197390,
+  "food_overture": 211393,
+  "lotto_points_left_out": {
+    "osm": 605,
+    "overture": 219
+  },
+  "commerce_points_unassigned": 32,
+  "road_km": 365254.0,
+  "osm_extract_date": "2026-10-29"
+}

@@ -1,0 +1,48 @@
+{
+  "pcso_pull_date": "2026-10-30",
+  "osm_extract_date": "2026-10-29",
+  "outlets": 7443,
+  "coordinates_parse": {
+    "decimal": 5656,
+    "dms": 1128,
+    "blank": 298,
+    "decimal_repaired": 277,
+    "malformed": 72,
+    "out_of_range": 11,
+    "bad_dms": 1
+  },
+  "coordinates_parsed": 7061,
+  "coordinates_parsed_share": 0.948677,
+  "status": {
+    "gps_consistent": 6711,
+    "gps_other_town": 221,
+    "gps_far": 91,
+    "gps_town_unnamed": 19,
+    "address_barangay": 242,
+    "address_town": 133,
+    "unplaced_town_ambiguous": 21,
+    "unplaced": 5
+  },
+  "placed_in_barangay": 7284,
+  "placed_in_barangay_share": 0.978638,
+  "placed_in_barangay_or_town": 7417,
+  "geocoded_from_address": {
+    "needed": 401,
+    "to_barangay": 242,
+    "to_town_only": 133,
+    "unplaced": 26
+  },
+  "gps_far_median_km": 18.9406,
+  "placed_outlets_outside_rwi_tiles": 13,
+  "tiles": 40824,
+  "tiles_with_people": 40737,
+  "tiles_with_outlets": 2330,
+  "barangays": 42048,
+  "barangays_with_outlets": 3886,
+  "pop_total": 109141000.0,
+  "pop_in_rwi_tiles": 108454000.0,
+  "pop_share_in_rwi_tiles": 0.993708,
+  "cy2023_agents_by_area_sum": 6416,
+  "cy2023_agents_printed_total": 6494,
+  "map_vs_cy2023_printed_total": 1.14613
+}

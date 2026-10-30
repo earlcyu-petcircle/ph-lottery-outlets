@@ -1,6 +1,8 @@
 # Downloads and large intermediates; regenerate with ./run_all.sh
 data/raw/
 data/work/
+# Manual downloads (PSA files behind a bot check); see docs/data-quality.md
+data/manual/
 
 .venv/
 __pycache__/

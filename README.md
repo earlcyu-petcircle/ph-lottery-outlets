@@ -29,7 +29,8 @@ The interactive version is [`maps/lottery_map.html`](maps/lottery_map.html): dow
 5. [Analysis](#5-analysis)
 6. [Discussion](#6-discussion)
 7. [References](#references)
-8. [How to reproduce](#how-to-reproduce)
+8. [Data collection for the redesigned study](#data-collection-for-the-redesigned-study)
+9. [How to reproduce](#how-to-reproduce)
 
 ## 1. Background and objectives
 
@@ -418,16 +419,31 @@ Any new source should be checked against the regional table in [3.1](#31-the-out
 
 Data: © OpenStreetMap contributors (ODbL); Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); GADM 4.1.
 
+## Data collection for the redesigned study
+
+The study is being rebuilt in five steps: research design, data collection, analysis, results, and a clean-up of this README.
+Step 2, data collection, swaps OpenStreetMap's lotto points for PCSO's own published outlet map and puts every layer on two units.
+
+- [`data/derived/tiles.csv`](data/derived/tiles.csv): one row per Relative Wealth Index tile (40,824), the main unit.
+- [`data/derived/barangays.csv`](data/derived/barangays.csv): one row per barangay (42,048), the check.
+- Each row carries PCSO outlets, people (2020 census counts spread over WorldPop 2024 100 m pixels), wealth and its error, OSM and Overture shop counts, OSM road length, urban share, province and region.
+- [`docs/data-quality.md`](docs/data-quality.md) reports how complete each layer is: 97.9% of PCSO's 7,443 outlets are placed in a barangay, and 99.4% of people live in a tile with a wealth value.
+
+`./run_all.sh data` rebuilds both tables from scratch.
+The analysis above still uses the version-1 OpenStreetMap data until steps 3 and 4 replace it.
+PCSO addresses can carry owners' names, so only counts per tile and per barangay are committed, never the outlet list.
+
 ## How to reproduce
 
-Needs Python 3.12, `curl` and about 80 MB of downloads.
+Needs Python 3.12, `curl`, about 1.2 GB of downloads and 8 GB of memory.
 Nothing is installed globally.
 
 ```bash
 git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
 cd ph-lottery-outlets
-./run_all.sh              # venv, pinned packages, downloads, analysis, figures, maps
-./run_all.sh --refresh    # same, but pull a fresh OpenStreetMap snapshot
+./run_all.sh              # venv, pinned packages, downloads, data tables, analysis, figures, maps
+./run_all.sh data         # only the data-collection step: tile and barangay tables, quality tables
+./run_all.sh --refresh    # same, but pull fresh PCSO, OpenStreetMap and Overture snapshots
 ```
 
 Set `PYTHON=/path/to/python3.12` if `python3.12` is not on your path.
