@@ -82,21 +82,4 @@ else
   echo "keep     $RAW/overture_places_ph.parquet"
 fi
 
-# --- Version-1 study (OSM outlets on the 1 km grid); kept until the step 5 clean-up ------
-
-# 8. Lottery outlets in OpenStreetMap via the Overpass API.
-#    Overpass refuses requests without a User-Agent (HTTP 406).
-fetch osm_lottery_ph.json --max-time 300 \
-  --data-urlencode "data@src/overpass_query.ql" \
-  "https://overpass-api.de/api/interpreter"
-stamp pull_date.txt
-
-# 9. WorldPop 2020 UN-adjusted 1 km population count.
-fetch phl_pop_1km.tif --max-time 300 \
-  "https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/PHL/phl_ppp_2020_1km_Aggregated_UNadj.tif"
-
-# 10. GADM 4.1 Philippines (all levels, GeoPackage).
-fetch gadm41_PHL.gpkg --max-time 600 \
-  "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_PHL.gpkg"
-
 ls -la "$RAW"

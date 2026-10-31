@@ -4,7 +4,7 @@ This note covers step 2 of the study: collecting the data and building the two a
 It reports how complete each layer is and where the gaps sit, so steps 3 and 4 know what they are standing on.
 It holds no models and no findings.
 
-Every number here is rebuilt by `./run_all.sh data` from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`).
+Every number here is rebuilt by `./run_all.sh` from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`).
 Snapshots in this build: PCSO outlet map pulled 30 October 2026, OpenStreetMap extract of 29 October 2026, Overture release 2026-10-21.0.
 
 ## The short version

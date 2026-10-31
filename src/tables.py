@@ -18,7 +18,6 @@ import json
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-import shapely
 
 from common import DERIVED, RAW, REGION_TO_AREA, WORK, Z, lonlat_to_tile, metro_of, quadkey, read_rwi
 
