@@ -1,0 +1,34 @@
+{
+  "folder": "data/manual/popcen2024",
+  "workbooks": 18,
+  "sheets_read": 118,
+  "barangays": 42011,
+  "towns": 1655,
+  "national_sum": 112727776,
+  "missions_abroad": 1708,
+  "national_official": 112729484,
+  "by_region": {
+    "barmm": 5691583,
+    "calabarzon": 16933234,
+    "car": 1808985,
+    "caraga": 2865196,
+    "mimaropa": 3245446,
+    "ncr": 14001751,
+    "nir": 4904944,
+    "region_01": 5342453,
+    "region_02": 3777608,
+    "region_03": 12989074,
+    "region_05": 6064426,
+    "region_06": 4861911,
+    "region_07": 6640875,
+    "region_08": 4625929,
+    "region_09": 3943837,
+    "region_10": 5178326,
+    "region_11": 5389422,
+    "region_12": 4462776
+  },
+  "regional_totals_in_workbooks": {
+    "ncr": 14001751
+  },
+  "problems": []
+}

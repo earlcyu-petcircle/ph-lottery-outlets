@@ -37,6 +37,16 @@ PCSO_AREAS = {
 }
 REGION_TO_AREA = {r: a for a, regions in PCSO_AREAS.items() for r in regions}
 
+# PSA 2024 census workbook (data/manual/popcen2024/<file>.xlsx) -> the COD-AB v03 regions it
+# covers. COD-AB predates the Negros Island Region (NIR), so NIR's provinces are still in
+# Regions VI and VII there.
+POPCEN_FILES = {"ncr": ["PH13"], "car": ["PH14"], "region_01": ["PH01"], "region_02": ["PH02"],
+                "region_03": ["PH03"], "calabarzon": ["PH04"], "mimaropa": ["PH17"],
+                "region_05": ["PH05"], "region_06": ["PH06"], "nir": ["PH06", "PH07"],
+                "region_07": ["PH07"], "region_08": ["PH08"], "region_09": ["PH09"],
+                "region_10": ["PH10"], "region_11": ["PH11"], "region_12": ["PH12"],
+                "caraga": ["PH16"], "barmm": ["PH19"]}
+
 METRO_CEBU = ["Cebu City (Capital)", "Lapu-Lapu City (Opon)", "Mandaue City", "City of Talisay",
               "Danao City", "City of Carcar", "City of Naga", "Compostela", "Consolacion",
               "Cordova", "Liloan", "Minglanilla", "San Fernando"]  # the 13 LGUs of Metro Cebu

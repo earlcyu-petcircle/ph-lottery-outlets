@@ -1,12 +1,93 @@
 {
   "n_barangays": 42048,
-  "census_vintage": "2020 census (PSA, via OCHA on HDX)",
-  "census_join_on_psgc": 38501,
-  "census_join_on_name": 3370,
-  "census_unmatched_barangays": 177,
-  "census_pop_matched": 108556000.0,
-  "census_pop_total": 108818000.0,
-  "pop_total_used": 109141000.0,
+  "census_vintage": "2024 Census of Population (PSA), as of 1 July 2024",
+  "census_join": {
+    "name": 41772,
+    "name_province": 101,
+    "fuzzy": 55,
+    "name_footnote": 33,
+    "name_split": 1
+  },
+  "census_unmatched_barangays": 86,
+  "census_unmatched_by_region": {
+    "PH04": 36,
+    "PH05": 6,
+    "PH06": 8,
+    "PH08": 2,
+    "PH09": 4,
+    "PH10": 10,
+    "PH11": 3,
+    "PH12": 2,
+    "PH13": 2,
+    "PH17": 10,
+    "PH19": 3
+  },
+  "census_2024_rows_unmatched": 44,
+  "census_2024_pop_unmatched": 176362,
+  "census_2024_unmatched_by_workbook": {
+    "barmm": {
+      "barangays": 6,
+      "pop": 12952
+    },
+    "calabarzon": {
+      "barangays": 9,
+      "pop": 121217
+    },
+    "caraga": {
+      "barangays": 1,
+      "pop": 1500
+    },
+    "region_05": {
+      "barangays": 6,
+      "pop": 11651
+    },
+    "region_06": {
+      "barangays": 8,
+      "pop": 14544
+    },
+    "region_08": {
+      "barangays": 2,
+      "pop": 1020
+    },
+    "region_09": {
+      "barangays": 1,
+      "pop": 1754
+    },
+    "region_10": {
+      "barangays": 8,
+      "pop": 7203
+    },
+    "region_11": {
+      "barangays": 2,
+      "pop": 3876
+    },
+    "region_12": {
+      "barangays": 1,
+      "pop": 645
+    }
+  },
+  "census_split_barangays": {
+    "Barangay 176": 6
+  },
+  "census_2024_unmatched_pop_not_placed": 8390.0,
+  "census_pop_matched": 112551000.0,
+  "census_pop_total": 112728000.0,
+  "pop_source": {
+    "census_2024": 41962,
+    "census_2024_town_residual": 66,
+    "worldpop_2024": 18,
+    "census_2024_province_residual": 2
+  },
+  "pop_by_source": {
+    "census_2024": 112551000.0,
+    "census_2024_province_residual": 3971.0,
+    "census_2024_town_residual": 164001.0,
+    "worldpop_2024": 17758.8
+  },
+  "census_2024_unmatched_pop_shared_out": 167972.0,
+  "urban_share_source": "GHSL GHS-SMOD R2023A, 2025 epoch, classes 21-30",
+  "pop_share_urban": 0.804158,
+  "pop_total_used": 112737000.0,
   "worldpop_2024_total": 115360000.0,
   "worldpop_2024_in_a_barangay": 114998000.0,
   "barangays_without_populated_pixel": 77,

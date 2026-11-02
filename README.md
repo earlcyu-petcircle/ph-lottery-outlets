@@ -87,7 +87,8 @@ The choices were made on a methodology review of 22 studies and the Philippine d
 |---|---|---|---|---|---|
 | Outcome: lotto outlets | PCSO "Traditional Lotto Outlets" map [6] | Outlet: address, PCSO area, GPS text | Undated; pulled 30 Oct 2026 | Public PCSO publication | PCSO's own list, so it is complete by construction; 7,443 outlets against 6,494 agents at the end of 2023 |
 | Wealth | Meta / Data for Good Relative Wealth Index (RWI) [19] | About 2.4 km tile, with a per-tile error | 2021 file | CC BY-NC 4.0 | The only open wealth measure finer than a city, so it can see rich and poor parts of the same city |
-| Population count | PSA Census of Population, by barangay (via OCHA on HDX) | Barangay | 2020 (2024 planned) | HDX, PSA source | Official counts at the smallest administrative unit |
+| Population count | PSA 2024 Census of Population, by barangay (downloaded by hand) | Barangay | 1 Jul 2024 | PSA publication | Official counts at the smallest administrative unit |
+| Urban share | JRC GHSL Degree of Urbanisation | 1 km cell | 2025 epoch | CC BY 4.0 | A standard international urban definition, since the 2024 census carries no urban flag |
 | Population pattern | WorldPop R2025A, constrained, 100 m | Pixel | 2024 | CC BY 4.0 | Spreads each barangay's census count to where its people live inside it |
 | Boundaries and codes | OCHA COD-AB Philippines v03, PSGC codes | Barangay to region | Valid from Feb 2025 | CC BY-IGO | Official NAMRIA and PSA boundaries; 42,048 barangays |
 | Shops | OpenStreetMap (Geofabrik) and Overture Maps places [20] | Point | Oct 2026 | ODbL; CDLA Permissive 2.0 and per-source terms | General shop counts for the commerce control; their own lotto points are left out |
@@ -149,17 +150,18 @@ The data-quality headline:
 
 - 7,284 of PCSO's 7,443 outlets (97.9%) are placed in a barangay, 133 more only at a town centre, and 26 (0.3%) cannot be placed.
 - 331 GPS points disagree with the town in their address; they are kept and flagged.
-- 99.4% of people live in a tile with an RWI value, and 99.6% of barangays join the census.
-- Population is the 2020 census for now: the 2024 barangay counts sit behind a bot check on psa.gov.ph, and the note names the files for a manual swap.
-- BARMM is the weakest region (135 barangays without a census match, 15 outlets).
+- Population is the 2024 census: the 18 regional workbooks add up to the official 112,729,484 (with the 1,708 Filipinos counted at missions abroad), and 99.8% of barangays match a 2024 count by name.
+- 99.4% of people live in a tile with an RWI value.
+- BARMM is the weakest region for wealth (41 barangays without RWI) and has 15 outlets.
 
 PCSO's outlet addresses can carry owners' names, so the outlet list itself is never committed; only counts per tile and per barangay are.
 
 | Step | Script | Writes |
 |---|---|---|
 | Download every source | [`src/fetch_data.sh`](src/fetch_data.sh), [`src/fetch_overture.py`](src/fetch_overture.py) | `data/raw/` (gitignored) |
+| Read and check the 2024 census workbooks | [`src/popcen2024.py`](src/popcen2024.py) | `data/work/`, `data/derived/popcen2024_validation.json` |
 | Shop points and roads from OpenStreetMap | [`src/osm_extract.py`](src/osm_extract.py) | `data/work/` (gitignored) |
-| Barangays, census join, population on 100 m pixels, shops and roads per barangay | [`src/barangays.py`](src/barangays.py) | `data/work/`, `data/derived/barangays_summary.json` |
+| Barangays, 2024 census join, population and urban share on 100 m pixels, shops and roads per barangay | [`src/barangays.py`](src/barangays.py) | `data/work/`, `data/derived/barangays_summary.json` |
 | Parse PCSO GPS text, check it against the address, place outlets without coordinates | [`src/pcso.py`](src/pcso.py) | `data/work/` (outlet rows), `data/derived/pcso_geocoding.json` |
 | Tile and barangay tables, quality tables | [`src/tables.py`](src/tables.py) | `data/derived/` |
 
@@ -167,6 +169,7 @@ PCSO's outlet addresses can carry owners' names, so the outlet list itself is ne
 
 Needs Python 3.12, `curl`, about 1.2 GB of downloads and 5 GB of memory.
 Nothing is installed globally.
+The 2024 census workbooks cannot be downloaded by script: fetch the 18 files by hand into `data/manual/popcen2024/` first, as [`docs/data-quality.md`](docs/data-quality.md#getting-the-files) describes.
 
 ```bash
 git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
@@ -207,4 +210,4 @@ Code is MIT licensed (see [LICENSE](LICENSE)); the data keep their own licences,
 22. Mennis, J. "Generating surface models of population using dasymetric mapping." *The Professional Geographer* 55 (1), 31-42, 2003. <https://doi.org/10.1111/0033-0124.10042>
 23. Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." *Statistical Methods in Medical Research*, 2016. <https://doi.org/10.1177/0962280216660421>
 
-Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); PSA 2020 census counts via OCHA; OCHA COD-AB Philippines (CC BY-IGO); © OpenStreetMap contributors (ODbL); Overture Maps places (CDLA Permissive 2.0 and per-source terms).
+Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); PSA 2024 Census of Population; JRC GHSL Degree of Urbanisation (CC BY 4.0); OCHA COD-AB Philippines (CC BY-IGO); © OpenStreetMap contributors (ODbL); Overture Maps places (CDLA Permissive 2.0 and per-source terms).

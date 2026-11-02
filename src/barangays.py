@@ -3,8 +3,9 @@
 Put every layer except the outlets onto barangays and onto WorldPop 100 m pixels.
 
 One row per barangay (OCHA COD-AB v03, PSGC-coded), carrying:
-  - 2020 census population and the PSA urban/rural flag (OCHA's 2020 census table),
-    joined on PSGC and, where codes changed since 2020, on municipality and barangay name;
+  - 2024 census population (popcen2024.py), joined by town and barangay name, since the PSA
+    workbooks carry no PSGC codes;
+  - urban share: the share of its people in GHSL Degree of Urbanisation urban cells;
   - wealth: the population-weighted mean Relative Wealth Index, and its error, of the
     2.4 km tiles the barangay's people live in, plus the tile holding most of them;
   - commerce: OSM and Overture shop and food points (their lotto points left out) and
@@ -19,6 +20,7 @@ commerce_points.parquet, road_segments.npz and data/derived/barangays_summary.js
 
 Run after osm_extract.py:  python src/barangays.py
 """
+import difflib
 import json
 import re
 import unicodedata
@@ -26,13 +28,17 @@ import unicodedata
 import geopandas as gpd
 import numpy as np
 import pandas as pd
+import pyproj
 import rasterio
+import rasterio.transform
+import rasterio.windows
 import shapely
 
-from common import DERIVED, RAW, ROAD_CLASSES, WORK, lonlat_to_tile, read_rwi
+from common import DERIVED, POPCEN_FILES, RAW, ROAD_CLASSES, WORK, lonlat_to_tile, read_rwi
 
 UTM = "EPSG:32651"
 GDB = "zip://" + str(RAW / "phl_admin_boundaries.gdb.zip")
+SMOD = "zip://" + str(RAW / "ghs_smod_e2025_1km.zip") + "!GHS_SMOD_E2025_GLOBE_R2023A_54009_1000_V2_0.tif"
 
 
 def sig(x):
@@ -44,7 +50,7 @@ def tile_key(tx, ty):
 
 
 # ---------------------------------------------------------------------------
-# 1. Boundaries and census population
+# 1. Boundaries and 2024 census population
 # ---------------------------------------------------------------------------
 cols = ["adm4_pcode", "adm4_name", "adm3_pcode", "adm3_name", "adm2_pcode", "adm2_name",
         "adm1_pcode", "adm1_name", "area_sqkm"]
@@ -52,11 +58,8 @@ geo = gpd.read_file(GDB, layer="phl_admin4", columns=cols, engine="pyogrio")
 geo = geo.sort_values("adm4_pcode").reset_index(drop=True)
 print(f"Barangays (COD-AB): {len(geo):,}")
 
-census = pd.read_excel(RAW / "phl_census2020_brgy_pop.xlsx", sheet_name="2020 CPH")
-census.columns = [re.sub(r"\s+", " ", c).strip() for c in census.columns]
-census = census.rename(columns={"New 10 PCODE": "census_pcode", "Mun_City": "mun", "Barangay": "brgy",
-                                "Urban / Rural (based on 2020 CPH)": "urban_rural",
-                                "2020 Census Popn": "census_pop"})
+popcen = pd.read_parquet(WORK / "popcen2024.parquet")  # from popcen2024.py
+popcen["row"] = np.arange(len(popcen))
 
 
 def _ascii(s):
@@ -67,6 +70,15 @@ def _saints(s):
     return re.sub(r"\bsto\b\.?", "santo", re.sub(r"\bsta\b\.?", "santa", s))
 
 
+ROMAN = {"i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5", "vi": "6", "vii": "7", "viii": "8",
+         "ix": "9", "x": "10"}
+
+
+def _numerals(s):
+    """Roman numerals as digits, so "Ligas II" and "Ligas 2" agree."""
+    return re.sub(r"\b(" + "|".join(sorted(ROMAN, key=len, reverse=True)) + r")\b", lambda m: ROMAN[m.group(1)], s)
+
+
 def norm_mun(s):
     s = _saints(re.sub(r"\(.*?\)|\bcity of\b|\bcity\b", "", _ascii(s)))
     return re.sub(r"[^a-z0-9]", "", s)
@@ -74,25 +86,123 @@ def norm_mun(s):
 
 def norm_brgy(s):
     s = re.sub(r"\(.*?\)|\bpoblacion\b|\bpob\b\.?|\bbarangay\b|\bbrgy\b|\bbgy\b", "", _ascii(s))
-    return re.sub(r"[^a-z0-9]", "", _saints(s))
+    return re.sub(r"[^a-z0-9]", "", _numerals(_saints(s)))
 
 
-# PSGC codes changed after 2020 in NCR, BARMM and elsewhere: match on code first, then on
-# normalised municipality + barangay name for the barangays whose code moved.
-xwalk = {k: k for k in set(geo.adm4_pcode) & set(census.census_pcode)}
-left_g = geo[~geo.adm4_pcode.isin(xwalk)]
-left_c = census[~census.census_pcode.isin(xwalk)]
-key_c = (left_c.mun.map(norm_mun) + "|" + left_c.brgy.map(norm_brgy))
-unique_c = key_c[~key_c.duplicated(keep=False)]
-lookup = dict(zip(unique_c.values, left_c.loc[unique_c.index, "census_pcode"]))
-for pc, k in zip(left_g.adm4_pcode, left_g.adm3_name.map(norm_mun) + "|" + left_g.adm4_name.map(norm_brgy)):
-    if k in lookup:
-        xwalk[pc] = lookup.pop(k)
-geo["census_pcode"] = geo.adm4_pcode.map(xwalk)
-geo = geo.merge(census[["census_pcode", "urban_rural", "census_pop"]], on="census_pcode", how="left")
-n_code = int((geo.census_pcode == geo.adm4_pcode).sum())
-n_name = int(geo.census_pcode.notna().sum()) - n_code
-print(f"Census join: {n_code:,} on PSGC, {n_name:,} on name, {int(geo.census_pcode.isna().sum()):,} unmatched")
+def strip_note(s):
+    """A 2024 barangay name without a trailing footnote mark ("Saray 2", "Ligas 2 1", "East ²")."""
+    return re.sub(r"\s*[\u00b9\u00b2\u00b3\u2070-\u2079]+$|\s+\d{1,2}$", "", s.strip())
+
+
+def loose(s):
+    return re.sub(r"[^a-z0-9]", "", _numerals(_saints(re.sub(r"\(.*?\)", "", _ascii(s)))))
+
+
+# The 2024 workbooks carry names only, so the join is by name: town first, then barangay
+# inside it. COD-AB v03 predates the Negros Island Region, so each workbook is matched against
+# the COD-AB regions it covers (POPCEN_FILES).
+towns = geo.drop_duplicates("adm3_pcode")[["adm3_pcode", "adm3_name", "adm2_name", "adm1_pcode"]]
+towns = towns.assign(k=towns.adm3_name.map(norm_mun), kp=towns.adm2_name.map(norm_mun))
+town_of = {}
+for f, area, town in popcen[["file", "sheet_area", "town"]].drop_duplicates().itertuples(index=False):
+    cand = towns[towns.adm1_pcode.isin(POPCEN_FILES[f])]
+    hit = cand[cand.k == norm_mun(town)]
+    if len(hit) > 1:  # a town name used in two provinces of the region
+        hit = hit[hit.kp == norm_mun(area)]
+    if len(hit) == 0 and f == "ncr":  # the City of Manila sheet lists its districts as towns
+        hit = cand[cand.k == norm_mun(area)]
+    if len(hit) == 1:
+        town_of[(f, area, town)] = hit.adm3_pcode.iloc[0]
+popcen["adm3_pcode"] = [town_of.get(k) for k in zip(popcen.file, popcen.sheet_area, popcen.town)]
+# Where the barangays of an unmatched town are looked for (a new or renamed town, or a
+# barangay moved between towns): its province, or all of NCR
+prov_of_town = dict(zip(towns.adm3_pcode, towns.adm2_name))
+prov_by_name = {}
+for f, regions in POPCEN_FILES.items():
+    for name in towns[towns.adm1_pcode.isin(regions)].adm2_name.unique():
+        prov_by_name[(f, norm_mun(name))] = name
+popcen["scope"] = [("PH13" if f == "ncr" else prov_by_name.get((f, norm_mun(a)), prov_of_town.get(t)))
+                   for f, a, t in zip(popcen.file, popcen.sheet_area, popcen.adm3_pcode)]
+geo["scope"] = np.where(geo.adm1_pcode == "PH13", "PH13", geo.adm2_name)
+
+match = {}  # adm4_pcode -> popcen row
+split = {}  # adm4_pcode -> the 2024 rows it holds, for barangays split since COD-AB was drawn
+
+
+def match_unique(g_keys, p_keys, how):
+    """Pair COD-AB and 2024 barangays whose key is unique on both sides of one group."""
+    gu = g_keys[~g_keys.duplicated(keep=False) & (g_keys != "")]
+    pu = p_keys[~p_keys.duplicated(keep=False) & (p_keys != "")]
+    lut = dict(zip(gu.values, gu.index))
+    for row, k in zip(pu.index, pu.values):
+        if k in lut:
+            match[lut[k]] = (row, how)
+
+
+def left(group_col):
+    taken = {r for r, _ in match.values()} | {r for rows in split.values() for r in rows}
+    return (geo[~geo.adm4_pcode.isin(match)].set_index("adm4_pcode").groupby(group_col),
+            popcen[~popcen.row.isin(taken)].set_index("row"))
+
+
+# Two keys: norm_brgy drops "Poblacion" and the like, so it can leave a name empty; loose
+# keeps them ("Poblacion (Titay)" and "Poblacion" are the same barangay in a town)
+KEYS = [(norm_brgy, norm_brgy), (loose, loose)]
+KEYS_NOTE = [(gf, lambda s, pf=pf: pf(strip_note(s))) for gf, pf in KEYS]
+# Pass 1: exact name inside the town; pass 2: the same without a footnote number
+for how, keys in (("name", KEYS), ("name_footnote", KEYS_NOTE)):
+    for gf, pf in keys:
+        g_left, p_left = left("adm3_pcode")
+        p_by_town = dict(list(p_left.groupby("adm3_pcode")))
+        for a3, g in g_left:
+            if a3 in p_by_town:
+                match_unique(g.adm4_name.map(gf), p_by_town[a3].barangay.map(pf), how)
+# Pass 3: exact name (with or without the footnote) anywhere in the province, or in NCR
+for gf, pf in KEYS + KEYS_NOTE:
+    g_left, p_left = left("scope")
+    p_by_scope = dict(list(p_left.groupby("scope")))
+    for sc, g in g_left:
+        if sc in p_by_scope:
+            match_unique(g.adm4_name.map(gf), p_by_scope[sc].barangay.map(pf), "name_province")
+# Pass 4: a barangay split since COD-AB was drawn (Caloocan's Barangay 176 into 176-A to 176-F):
+# two or more 2024 barangays named like an unmatched COD-AB one plus a letter all go to it
+g_left, p_left = left("adm3_pcode")
+p_by_town = dict(list(p_left.groupby("adm3_pcode")))
+for a3, g in g_left:
+    if a3 not in p_by_town:
+        continue
+    pk = p_by_town[a3].barangay.map(lambda s: norm_brgy(strip_note(s)))
+    for gc, gk in zip(g.index, g.adm4_name.map(norm_brgy)):
+        parts = pk[pk.str.fullmatch(re.escape(gk) + "[a-z]")] if gk else pk.iloc[:0]
+        if len(parts) >= 2:
+            split[gc] = list(parts.index)
+            match[gc] = (parts.index[0], "name_split")
+# Pass 5: spelling variants inside the town ("Pooc" and "Pook"): mutual best match, ratio >= 0.8,
+# and the same numbers in both names (Bacoor merged its barangays in 2023, so "Ligas I" is not
+# "Ligas 2", and Caloocan's Barangay 176 was split into 176-A to 176-F)
+g_left, p_left = left("adm3_pcode")
+p_by_town = dict(list(p_left.groupby("adm3_pcode")))
+for a3, g in g_left:
+    if a3 not in p_by_town:
+        continue
+    gk = dict(zip(g.index, g.adm4_name.map(loose)))
+    pk = dict(zip(p_by_town[a3].index, p_by_town[a3].barangay.map(lambda s: loose(strip_note(s)))))
+    ratio = {(gc, r): difflib.SequenceMatcher(None, gn, pn).ratio() for gc, gn in gk.items() for r, pn in pk.items()}
+    best_g = {gc: max(pk, key=lambda r: ratio[gc, r]) for gc in gk}
+    best_p = {r: max(gk, key=lambda gc: ratio[gc, r]) for r in pk}
+    for gc, r in best_g.items():
+        if best_p[r] == gc and ratio[gc, r] >= 0.8 and re.findall(r"\d+", gk[gc]) == re.findall(r"\d+", pk[r]):
+            match[gc] = (r, "fuzzy")
+
+geo["popcen_row"] = geo.adm4_pcode.map({k: r for k, (r, _) in match.items()})
+geo["pop_join"] = geo.adm4_pcode.map({k: h for k, (_, h) in match.items()})
+geo["census_pop"] = geo.popcen_row.map(popcen["pop"])
+for gc, rows in split.items():
+    geo.loc[geo.adm4_pcode == gc, "census_pop"] = popcen["pop"].iloc[rows].sum()
+popcen["matched"] = popcen.row.isin(geo.popcen_row) | popcen.row.isin([r for rows in split.values() for r in rows])
+join_counts = geo.pop_join.value_counts().to_dict()
+print(f"2024 census join: {join_counts}, unmatched COD-AB barangays {int(geo.pop_join.isna().sum()):,}, "
+      f"2024 people matched {popcen.loc[popcen.matched, 'pop'].sum() / popcen['pop'].sum():.2%}")
 
 # ---------------------------------------------------------------------------
 # 2. WorldPop 100 m pixels -> barangay and RWI tile
@@ -115,6 +225,20 @@ del pts, pi, bi
 print(f"WorldPop 100 m pixels: {len(pix):,}, in a barangay: {(pix.b >= 0).mean():.2%}")
 pix = pix[pix.b >= 0].reset_index(drop=True)
 pix["tx"], pix["ty"] = lonlat_to_tile(pix.lon.values, pix.lat.values)
+
+
+def smod_at(lon, lat):
+    """GHSL Degree of Urbanisation class (2025 epoch, 1 km) under each lon/lat point."""
+    with rasterio.open(SMOD) as r:
+        x, y = pyproj.Transformer.from_crs("EPSG:4326", r.crs, always_xy=True).transform(lon, lat)
+        row, col = rasterio.transform.rowcol(r.transform, x, y)
+        row, col = np.asarray(row), np.asarray(col)
+        win = rasterio.windows.Window(col.min(), row.min(), col.max() - col.min() + 1, row.max() - row.min() + 1)
+        return r.read(1, window=win)[row - row.min(), col - col.min()]
+
+
+# Urban: GHSL classes 21-23 (urban clusters) and 30 (urban centres); 10-13 are rural or water
+pix["urban"] = (smod_at(pix.lon.values, pix.lat.values) >= 21).astype(np.int8)
 
 rwi = read_rwi()
 rtx, rty = lonlat_to_tile(rwi.longitude.values, rwi.latitude.values)
@@ -146,13 +270,37 @@ main = by_bt.sort_values("pop").drop_duplicates("b", keep="last").set_index("b")
 geo["main_tile_key"] = main.reindex(geo.index).fillna(pd.Series(tile_key(geo.rp_tx, geo.rp_ty), index=geo.index)).astype(np.int64).values
 geo["n_tiles"] = by_bt.groupby("b").size().reindex(geo.index).fillna(0).astype(int).values
 
-# Population: the census count, or WorldPop where the barangay has no census match
-geo["pop_source"] = np.where(geo.census_pop.notna(), "census_2020", "worldpop_2024")
-geo["pop"] = geo.census_pop.fillna(geo.worldpop)
-geo["urban"] = (geo.urban_rural == "U").astype(float).where(geo.urban_rural.notna())
+# Population: the 2024 census count, or WorldPop where the barangay has no census match
+# Population: the 2024 census count where the barangay matched. An unmatched barangay shares
+# out the 2024 people its town (or, for a new town, its province) has left unmatched, in
+# proportion to WorldPop, so area totals stay the census totals; with none left, it keeps
+# its WorldPop count.
+geo["pop_source"] = np.where(geo.census_pop.notna(), "census_2024", "worldpop_2024")
+geo["pop"] = geo.census_pop.copy()
+unmatched = popcen[~popcen.matched]
+for level, col_g, col_p in (("census_2024_town_residual", "adm3_pcode", "adm3_pcode"),
+                            ("census_2024_province_residual", "scope", "scope")):
+    residual = unmatched[unmatched[col_p].notna()].groupby(col_p)["pop"].sum()
+    if level.endswith("province_residual"):  # only rows whose town found no COD-AB match
+        residual = unmatched[unmatched.adm3_pcode.isna()].groupby(col_p)["pop"].sum()
+    open_ = geo["pop"].isna() & geo[col_g].isin(residual.index)
+    wp = geo.loc[open_].groupby(col_g).worldpop.transform("sum")
+    share = np.where(wp > 0, geo.loc[open_, "worldpop"] / wp,
+                     1 / geo.loc[open_].groupby(col_g).worldpop.transform("size"))
+    geo.loc[open_, "pop"] = residual.reindex(geo.loc[open_, col_g]).values * share
+    geo.loc[open_, "pop_source"] = level
+residual_used = {s: float(geo.loc[geo.pop_source == s, "pop"].sum())
+                 for s in ("census_2024_town_residual", "census_2024_province_residual")}
+geo["pop"] = geo["pop"].fillna(geo.worldpop)
+# Urban share: share of the barangay's WorldPop people in GHSL urban cells; a barangay with
+# no populated pixel takes the class under its interior point
+up = pix.assign(up=pix["pop"] * pix.urban).groupby("b")[["up", "pop"]].sum()
+geo["urban_share"] = (up.up / up["pop"]).reindex(geo.index).values
+no_pix = geo.urban_share.isna().values
+geo.loc[no_pix, "urban_share"] = (smod_at(geo.rp_lon.values[no_pix], geo.rp_lat.values[no_pix]) >= 21).astype(float)
 # Dasymetric step: each pixel carries its share of its barangay's count
 pix["pop_census"] = pix["pop"] * (geo["pop"].values[pix.b] / geo.worldpop.values[pix.b])
-pix[["lon", "lat", "pop", "pop_census", "b", "tx", "ty"]].to_parquet(WORK / "pixels.parquet", index=False)
+pix[["lon", "lat", "pop", "pop_census", "urban", "b", "tx", "ty"]].to_parquet(WORK / "pixels.parquet", index=False)
 del pix, by_bt
 
 # ---------------------------------------------------------------------------
@@ -237,10 +385,22 @@ geo[["adm4_pcode", "geometry"]].to_parquet(WORK / "barangay_geoms.parquet", inde
 
 summary = {
     "n_barangays": int(len(geo)),
-    "census_vintage": "2020 census (PSA, via OCHA on HDX)",
-    "census_join_on_psgc": n_code, "census_join_on_name": n_name,
-    "census_unmatched_barangays": int(geo.census_pcode.isna().sum()),
-    "census_pop_matched": sig(geo.census_pop.sum()), "census_pop_total": sig(census.census_pop.sum()),
+    "census_vintage": "2024 Census of Population (PSA), as of 1 July 2024",
+    "census_join": {k: int(v) for k, v in join_counts.items()},
+    "census_unmatched_barangays": int(geo.census_pop.isna().sum()),
+    "census_unmatched_by_region": {k: int(v) for k, v in geo[geo.census_pop.isna()].groupby("adm1_pcode").size().items()},
+    "census_2024_rows_unmatched": int((~popcen.matched).sum()),
+    "census_2024_pop_unmatched": int(popcen.loc[~popcen.matched, "pop"].sum()),
+    "census_2024_unmatched_by_workbook": {f: {"barangays": int(len(d)), "pop": int(d["pop"].sum())}
+                                          for f, d in popcen[~popcen.matched].groupby("file")},
+    "census_split_barangays": {geo.loc[geo.adm4_pcode == gc, "adm4_name"].iloc[0]: len(rows) for gc, rows in split.items()},
+    "census_2024_unmatched_pop_not_placed": sig(popcen.loc[~popcen.matched, "pop"].sum() - sum(residual_used.values())),
+    "census_pop_matched": sig(geo.census_pop.sum()), "census_pop_total": sig(popcen["pop"].sum()),
+    "pop_source": {k: int(v) for k, v in geo.pop_source.value_counts().items()},
+    "pop_by_source": {k: sig(v) for k, v in geo.groupby("pop_source")["pop"].sum().items()},
+    "census_2024_unmatched_pop_shared_out": sig(sum(residual_used.values())),
+    "urban_share_source": "GHSL GHS-SMOD R2023A, 2025 epoch, classes 21-30",
+    "pop_share_urban": sig((geo["pop"] * geo.urban_share).sum() / geo["pop"].sum()),
     "pop_total_used": sig(geo["pop"].sum()),
     "worldpop_2024_total": sig(worldpop_total),
     "worldpop_2024_in_a_barangay": sig(geo.worldpop.sum()),

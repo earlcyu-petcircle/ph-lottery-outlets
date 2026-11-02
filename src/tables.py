@@ -5,7 +5,7 @@ Build the two analysis-ready tables and the data-quality tables behind docs/data
   data/derived/tiles.csv      one row per Meta RWI tile (zoom 14, about 2.4 km): the main unit
   data/derived/barangays.csv  one row per COD-AB barangay: the check
 
-Both carry PCSO outlets, people (2020 census counts spread over WorldPop 2024 100 m pixels),
+Both carry PCSO outlets, people (2024 census counts spread over WorldPop 2024 100 m pixels),
 RWI and its error, OSM and Overture shop and food points, OSM road length, urban share,
 province, region, PCSO area and the three city areas. No outlet-level rows are written.
 
@@ -71,22 +71,21 @@ t = t.set_index("key")
 
 # People: census counts spread over pixels, plus barangays with no populated pixel at their
 # interior point
-pix = pd.read_parquet(WORK / "pixels.parquet", columns=["pop", "pop_census", "b", "tx", "ty"])
+pix = pd.read_parquet(WORK / "pixels.parquet", columns=["pop", "pop_census", "urban", "b", "tx", "ty"])
 pix["key"] = key_of(pix.tx, pix.ty)
-pix["urban_pop"] = pix.pop_census * b.urban.values[pix.b]  # NaN where the flag is unknown
-pix["flag_pop"] = np.where(np.isnan(b.urban.values[pix.b]), 0.0, pix.pop_census)
+pix["urban_pop"] = pix.pop_census * pix.urban  # GHSL urban cell
+pix = pix.drop(columns="urban")
 nopix = b[b.worldpop == 0]
 extra = pd.DataFrame({"pop": 0.0, "pop_census": nopix["pop"].fillna(0).values, "b": nopix.index.values,
                       "key": key_of(nopix.rp_tx, nopix.rp_ty)})
-extra["urban_pop"] = extra.pop_census * b.urban.values[extra.b]
-extra["flag_pop"] = np.where(np.isnan(b.urban.values[extra.b]), 0.0, extra.pop_census)
+extra["urban_pop"] = extra.pop_census * b.urban_share.values[extra.b]
 people = pd.concat([pix.drop(columns=["tx", "ty"]), extra], ignore_index=True)
 del pix
 per_tile = people.groupby("key").agg(pop=("pop_census", "sum"), worldpop_2024=("pop", "sum"),
-                                     urban_pop=("urban_pop", "sum"), flag_pop=("flag_pop", "sum"),
+                                     urban_pop=("urban_pop", "sum"),
                                      n_barangays=("b", "nunique"))
 t = t.join(per_tile)
-t["urban_share"] = (t.urban_pop / t.flag_pop).where(t.flag_pop > 0)
+t["urban_share"] = (t.urban_pop / t["pop"]).where(t["pop"] > 0)
 t[["pop", "worldpop_2024"]] = t[["pop", "worldpop_2024"]].fillna(0)
 t["n_barangays"] = t.n_barangays.fillna(0).astype(int)
 
@@ -153,11 +152,11 @@ brgy = b.rename(columns={"adm2_pcode": "province_pcode", "adm2_name": "province"
                          "adm1_pcode": "region_pcode", "adm1_name": "region"})
 brgy_cols = ["adm4_pcode", "adm4_name", "adm3_pcode", "adm3_name", "province_pcode", "province",
              "region_pcode", "region", "pcso_area", "metro", "area_sqkm", "pop", "pop_source",
-             "worldpop", "urban", "rwi", "rwi_error", "rwi_source", "main_tile", "n_tiles", *OUTLET_COLS,
+             "worldpop", "urban_share", "rwi", "rwi_error", "rwi_source", "main_tile", "n_tiles", *OUTLET_COLS,
              "shops", "shops_osm", "shops_overture", "food_osm", "food_overture", "road_km"]
 brgy = brgy[brgy_cols].rename(columns={"worldpop": "worldpop_2024", "area_sqkm": "area_km2"})
 brgy[["pop", "worldpop_2024"]] = brgy[["pop", "worldpop_2024"]].round(1)
-brgy[["rwi", "rwi_error"]] = brgy[["rwi", "rwi_error"]].round(4)
+brgy[["rwi", "rwi_error", "urban_share"]] = brgy[["rwi", "rwi_error", "urban_share"]].round(4)
 brgy[["area_km2", "road_km"]] = brgy[["area_km2", "road_km"]].round(3)
 brgy.to_csv(DERIVED / "barangays.csv", index=False)
 print(f"tiles.csv: {len(tiles):,} rows   barangays.csv: {len(brgy):,} rows")
@@ -177,7 +176,7 @@ by_area["cy2023_agents"] = pd.Series(CY2023_AGENTS)
 by_area["map_vs_cy2023"] = (by_area.outlets / by_area.cy2023_agents).round(3)
 by_area["placed_vs_cy2023"] = (by_area.placed_in_barangay / by_area.cy2023_agents).round(3)
 pop_area = b.groupby("pcso_area")["pop"].sum()
-by_area["pop_2020"] = pop_area.round(0)
+by_area["pop_2024"] = pop_area.round(0)
 by_area["outlets_per_100k"] = (by_area.outlets / pop_area * 1e5).round(2)
 by_area["cy2023_agents_per_100k"] = (by_area.cy2023_agents / pop_area * 1e5).round(2)
 order = list(CY2023_AGENTS)
@@ -208,11 +207,11 @@ by_region["barangays_no_census_match"] = g.census_pop.apply(lambda s: s.isna().s
 by_region["barangays_rwi_missing"] = g.rwi_source.apply(lambda s: (s == "none").sum())
 by_region["barangays_rwi_from_centre_tile"] = g.rwi_source.apply(lambda s: (s == "centre_tile").sum())
 in_rwi = t[t.rwi.notna()]
-by_region["pop_2020"] = g["pop"].sum().round(0)
-by_region["pop_share_in_rwi_tiles"] = (pop_in_rwi_by_region / by_region.pop_2020).round(4)
+by_region["pop_2024"] = g["pop"].sum().round(0)
+by_region["pop_share_in_rwi_tiles"] = (pop_in_rwi_by_region / by_region.pop_2024).round(4)
 by_region["shops_osm"] = g.shops_osm.sum()
 by_region["shops_overture"] = g.shops_overture.sum()
-by_region["shops_per_1k_people"] = ((by_region.shops_osm + by_region.shops_overture) / by_region.pop_2020 * 1e3).round(2)
+by_region["shops_per_1k_people"] = ((by_region.shops_osm + by_region.shops_overture) / by_region.pop_2024 * 1e3).round(2)
 by_region.insert(0, "region", region_names.reindex(by_region.index))
 by_region.insert(1, "pcso_area", by_region.index.map(REGION_TO_AREA))
 by_region.index.name = "region_pcode"
