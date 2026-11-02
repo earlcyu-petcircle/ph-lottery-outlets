@@ -1,0 +1,7 @@
+pcso_area,outlets,gps_consistent,gps_other_town,gps_far,gps_town_unnamed,address_barangay,address_town,unplaced_town_ambiguous,unplaced,parsed_coordinates,repaired_coordinates,placed_in_barangay,in_rwi_tile,cy2023_agents,map_vs_cy2023,placed_vs_cy2023,pop_2024,outlets_per_100k,cy2023_agents_per_100k
+National Capital Region,1998,1874,72,5,1,24,20,1,1,1952,3,1976,1976,1850,1.08,1.068,14016187,14.25,13.2
+Northern and Central Luzon,1282,1129,45,24,7,60,15,2,0,1209,3,1265,1255,1111,1.154,1.139,23918120,5.36,4.65
+Southern Luzon and Bicol Region,1933,1672,82,24,5,96,42,12,0,1791,16,1879,1879,1695,1.14,1.109,26246429,7.36,6.46
+Visayas,1385,1268,13,19,3,37,38,6,1,1308,237,1340,1338,1124,1.232,1.192,21033659,6.58,5.34
+Mindanao,845,768,9,19,3,25,18,0,3,801,18,824,823,636,1.329,1.296,27522750,3.07,2.31
+Total,7443,6711,221,91,19,242,133,21,5,7061,277,7284,7271,6416,1.16,1.135,112737145,6.6,5.69

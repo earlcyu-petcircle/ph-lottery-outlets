@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
-# One command, from a clean clone to every number, figure and map in the paper.
-#   ./run_all.sh            reuse files already in data/raw/
-#   ./run_all.sh --refresh  download everything again (new OpenStreetMap snapshot)
+# One command, from a clean clone to the analysis-ready tables.
+#   ./run_all.sh              reuse files already in data/raw/
+#   ./run_all.sh --refresh    download everything again (new PCSO, OSM and Overture snapshots)
+# Writes the tile and barangay tables and the data-quality tables to data/derived/.
+# First download the 18 PSA 2024 census workbooks by hand into data/manual/popcen2024/
+# (psa.gov.ph blocks scripts); docs/data-quality.md lists them.
 # Creates a local virtual environment in .venv/; installs nothing globally.
+# Needs about 1.2 GB of downloads and 5 GB of memory; the table build takes about 2 minutes.
 set -euo pipefail
 cd "$(dirname "$0")"
+
+FETCH_ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --refresh) FETCH_ARGS+=(--refresh) ;;
+    *) echo "unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
 
 PYTHON="${PYTHON:-python3.12}"
 if [ ! -x .venv/bin/python ]; then
@@ -13,9 +25,10 @@ if [ ! -x .venv/bin/python ]; then
 fi
 .venv/bin/pip install --quiet -r requirements.txt
 
-bash src/fetch_data.sh "$@"
+VENV_PYTHON=.venv/bin/python bash src/fetch_data.sh "${FETCH_ARGS[@]+"${FETCH_ARGS[@]}"}"
 
-for step in analysis robustness coverage viz mapfig map; do
+# Data collection: PCSO outlets, people, wealth, shops and roads on tiles and barangays
+for step in popcen2024 osm_extract barangays pcso tables; do
   echo "== src/$step.py"
   .venv/bin/python src/$step.py
 done
