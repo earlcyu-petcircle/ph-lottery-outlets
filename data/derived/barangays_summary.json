@@ -94,15 +94,15 @@
   "rwi_from_pixels": 41888,
   "rwi_from_centre_tile": 48,
   "rwi_missing": 112,
-  "shops_osm": 107323,
-  "food_osm": 54960,
+  "shops_osm": 107457,
+  "food_osm": 55002,
   "shops_overture": 197390,
   "food_overture": 211393,
   "lotto_points_left_out": {
-    "osm": 605,
+    "osm": 606,
     "overture": 219
   },
   "commerce_points_unassigned": 32,
-  "road_km": 365254.0,
-  "osm_extract_date": "2026-10-29"
+  "road_km": 365300.0,
+  "osm_extract_date": "2026-11-01"
 }

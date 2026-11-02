@@ -1,6 +1,6 @@
 {
-  "pcso_pull_date": "2026-10-30",
-  "osm_extract_date": "2026-10-29",
+  "pcso_pull_date": "2026-11-02",
+  "osm_extract_date": "2026-11-01",
   "outlets": 7443,
   "coordinates_parse": {
     "decimal": 5656,

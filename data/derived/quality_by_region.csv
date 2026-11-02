@@ -1,18 +1,18 @@
 region_pcode,region,pcso_area,outlets_located,gps_consistent,gps_other_town,gps_far,gps_town_unnamed,address_barangay,address_town,gps_flagged_share,address_placed_share,barangays,barangays_no_census_match,barangays_rwi_missing,barangays_rwi_from_centre_tile,pop_2024,pop_share_in_rwi_tiles,shops_osm,shops_overture,shops_per_1k_people
-PH01,Region I (Ilocos Region),Northern and Central Luzon,218,211,2,2,0,3,0,0.019,0.014,3267,0,1,0,5342453.0,0.9967,6599,6704,2.49
-PH02,Region II (Cagayan Valley),Northern and Central Luzon,194,143,4,1,0,40,6,0.034,0.237,2311,0,6,1,3777608.0,0.988,1438,3588,1.33
-PH03,Region III (Central Luzon),Northern and Central Luzon,786,694,40,26,7,14,5,0.095,0.024,3105,0,2,2,12989074.0,0.9966,14201,25046,3.02
-PH04,Region IV-A (Calabarzon),Southern Luzon and Bicol Region,1422,1290,69,14,5,31,13,0.064,0.031,4020,36,4,3,16935649.0,0.9985,20278,36484,3.35
+PH01,Region I (Ilocos Region),Northern and Central Luzon,218,211,2,2,0,3,0,0.019,0.014,3267,0,1,0,5342453.0,0.9967,6651,6704,2.5
+PH02,Region II (Cagayan Valley),Northern and Central Luzon,194,143,4,1,0,40,6,0.034,0.237,2311,0,6,1,3777608.0,0.988,1451,3588,1.33
+PH03,Region III (Central Luzon),Northern and Central Luzon,786,694,40,26,7,14,5,0.095,0.024,3105,0,2,2,12989074.0,0.9966,14209,25046,3.02
+PH04,Region IV-A (Calabarzon),Southern Luzon and Bicol Region,1422,1290,69,14,5,31,13,0.064,0.031,4020,36,4,3,16935649.0,0.9985,20279,36484,3.35
 PH05,Region V (Bicol Region),Southern Luzon and Bicol Region,284,193,6,6,0,52,27,0.059,0.278,3471,6,1,0,6064426.0,0.9956,1996,5025,1.16
-PH06,Region VI (Western Visayas),Visayas,352,312,5,11,2,8,14,0.055,0.062,4051,8,2,1,8167175.0,0.9976,7986,9470,2.14
-PH07,Region VII (Central Visayas),Visayas,485,465,4,5,1,6,4,0.021,0.021,3003,0,6,0,8240555.0,0.9973,7579,14707,2.7
+PH06,Region VI (Western Visayas),Visayas,352,312,5,11,2,8,14,0.055,0.062,4051,8,2,1,8167175.0,0.9976,7989,9470,2.14
+PH07,Region VII (Central Visayas),Visayas,485,465,4,5,1,6,4,0.021,0.021,3003,0,6,0,8240555.0,0.9973,7582,14707,2.7
 PH08,Region VIII (Eastern Visayas),Visayas,539,491,4,1,0,23,20,0.01,0.08,4365,2,24,6,4625929.0,0.9894,4291,3380,1.66
 PH09,Region IX (Zamboanga Peninsula),Mindanao,232,215,2,10,0,2,3,0.053,0.022,1907,4,1,2,3943837.0,0.9939,1954,2802,1.21
 PH10,Region X (Northern Mindanao),Mindanao,171,160,4,3,1,2,1,0.048,0.018,2024,10,6,1,5178326.0,0.992,3585,6011,1.85
-PH11,Region XI (Davao Region),Mindanao,232,218,2,0,1,8,3,0.014,0.047,1163,3,1,0,5389422.0,0.9891,7959,8702,3.09
+PH11,Region XI (Davao Region),Mindanao,232,218,2,0,1,8,3,0.014,0.047,1163,3,1,0,5389422.0,0.9891,8015,8702,3.1
 PH12,Region XII (Soccsksargen),Mindanao,101,96,1,0,0,2,2,0.01,0.04,1098,2,2,1,4462131.0,0.9944,1441,3766,1.17
-PH13,National Capital Region (NCR),National Capital Region,2000,1874,76,5,1,24,20,0.042,0.022,1712,2,0,20,14016187.0,1.0,21133,63606,6.05
-PH14,Cordillera Administrative Region (CAR),Northern and Central Luzon,88,81,0,0,0,3,4,0.0,0.08,1178,0,1,0,1808985.0,0.9875,2595,2607,2.88
+PH13,National Capital Region (NCR),National Capital Region,2000,1874,76,5,1,24,20,0.042,0.022,1712,2,0,20,14016187.0,1.0,21134,63606,6.05
+PH14,Cordillera Administrative Region (CAR),Northern and Central Luzon,88,81,0,0,0,3,4,0.0,0.08,1178,0,1,0,1808985.0,0.9875,2592,2607,2.87
 PH16,Region XIII (Caraga),Mindanao,90,64,0,5,1,11,9,0.086,0.222,1311,0,1,0,2863696.0,0.9833,1810,2157,1.39
 PH17,Mimaropa Region,Southern Luzon and Bicol Region,208,189,2,2,0,13,2,0.021,0.072,1470,10,13,0,3246354.0,0.9814,2097,2672,1.47
 PH19,Bangsamoro Autonomous Region In Muslim Mindanao (BARMM),Mindanao,15,15,0,0,0,0,0,0.0,0.0,2592,3,41,11,5685338.0,0.9657,381,663,0.18
