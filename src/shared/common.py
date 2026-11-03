@@ -47,17 +47,35 @@ POPCEN_FILES = {"ncr": ["PH13"], "car": ["PH14"], "region_01": ["PH01"], "region
                 "region_10": ["PH10"], "region_11": ["PH11"], "region_12": ["PH12"],
                 "caraga": ["PH16"], "barmm": ["PH19"]}
 
-METRO_CEBU = ["Cebu City (Capital)", "Lapu-Lapu City (Opon)", "Mandaue City", "City of Talisay",
-              "Danao City", "City of Carcar", "City of Naga", "Compostela", "Consolacion",
-              "Cordova", "Liloan", "Minglanilla", "San Fernando"]  # the 13 LGUs of Metro Cebu
+# The three city areas of RQ3, as COD-AB province (adm2) -> city and municipality (adm3) names.
+# Metro Manila is the National Capital Region (region PH13).
+# Metro Cebu: the 13 LGUs of the Metro Cebu Development and Coordinating Board (MCDCB, set up by
+# a memorandum of agreement of 1 April 2011), as listed for the JICA-MCDCB "Roadmap Study for
+# Sustainable Urban Development in Metro Cebu" (final report, June 2015). No statute defines
+# Metro Cebu.
+# Metro Davao: the 15 LGUs of Republic Act No. 11708 (Metropolitan Davao Development Authority
+# Act, approved 13 April 2022), Section 4.
+METROS = {
+    "Metro Cebu": {"Cebu": ["Cebu City (Capital)", "Lapu-Lapu City (Opon)", "Mandaue City", "City of Talisay",
+                            "Danao City", "City of Carcar", "City of Naga", "Compostela", "Consolacion",
+                            "Cordova", "Liloan", "Minglanilla", "San Fernando"]},
+    "Metro Davao": {"Davao del Sur": ["Davao City", "City of Digos (Capital)", "Santa Cruz", "Hagonoy", "Padada",
+                                      "Malalag", "Sulop"],
+                    "Davao del Norte": ["City of Panabo", "City of Tagum (Capital)", "Island Garden City of Samal",
+                                        "Carmen"],
+                    "Davao Oriental": ["City of Mati (Capital)"],
+                    "Davao de Oro (Compostela Valley)": ["Maco"],
+                    "Davao Occidental": ["Malita", "Santa Maria"]},
+}
 
 
 def metro_of(adm1_pcode, adm2_name, adm3_name):
     """The three city areas the study looks inside, or "Rest of the country"."""
     metro = pd.Series("Rest of the country", index=adm1_pcode.index)
     metro[adm1_pcode == "PH13"] = "Metro Manila"
-    metro[(adm2_name == "Cebu") & adm3_name.isin(METRO_CEBU)] = "Metro Cebu"
-    metro[adm3_name == "Davao City"] = "Davao City"
+    for name, lgus in METROS.items():
+        for province, towns in lgus.items():
+            metro[(adm2_name == province) & adm3_name.isin(towns)] = name
     return metro
 
 

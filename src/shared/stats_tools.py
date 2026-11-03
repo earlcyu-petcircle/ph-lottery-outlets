@@ -186,7 +186,7 @@ def local_morans(values, w, permutations=999, alpha=0.05, seed=SEED):
     return pd.DataFrame({"local_i": local, "p_value": p, "cluster": label})
 
 
-def eigenvector_filter(w, k=100, min_moran=0.25):
+def eigenvector_filter(w, k=100, min_moran=0.25, seed=SEED):
     """
     Moran eigenvectors of M W M (M centres a vector, W symmetric binary): the spatial patterns
     the map can hold, ordered by their Moran's I. The ones with I above `min_moran` (Griffith's
@@ -202,7 +202,10 @@ def eigenvector_filter(w, k=100, min_moran=0.25):
         return u - u.mean()
 
     op = LinearOperator((n, n), matvec=mwm, dtype=float)
-    vals, vecs = eigsh(op, k=min(k, n - 2), which="LA", tol=1e-6, maxiter=n * 10)
+    # A seeded start vector: ARPACK's own random start makes the eigenvectors, and so the refit's
+    # last digits, differ from run to run.
+    v0 = np.random.default_rng(seed).standard_normal(n)
+    vals, vecs = eigsh(op, k=min(k, n - 2), which="LA", tol=1e-6, maxiter=n * 10, v0=v0)
     order = np.argsort(vals)[::-1]
     vals, vecs = vals[order], vecs[:, order]
     moran = vals * n / w.sum()

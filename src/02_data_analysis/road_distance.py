@@ -10,7 +10,8 @@ network with no outlet (mostly small islands) have no road distance and are coun
 Straight-line distance to the nearest outlet is reported alongside for everyone.
 
 Wealth groups are the same population-weighted RWI quintiles as the descriptive tables:
-nationally by the pixel's RWI tile, in NCR by the pixel's barangay among NCR barangays.
+nationally by the pixel's RWI tile, and in each city (NCR, Metro Cebu, Metro Davao) by the
+pixel's barangay among that city's barangays.
 
 Used by notebooks/04_road_distance.ipynb: people_distances() then distance_by_quintile().
 """
@@ -20,7 +21,7 @@ from scipy import sparse
 from scipy.sparse.csgraph import dijkstra
 from scipy.spatial import cKDTree
 
-from analysis_samples import BARANGAYS, NCR, TILES, weighted_quintile
+from analysis_samples import BARANGAYS, CITIES, TILES, city, weighted_quintile
 from common import DERIVED, ROAD_CLASSES, WORK
 
 KM_PER_DEG_LAT = 110.574
@@ -91,23 +92,27 @@ def people_distances(verbose=True):
     pix["line_km"] = cKDTree(xy(o.lon.to_numpy(), o.lat.to_numpy())).query(
         xy(pix.lon.to_numpy(), pix.lat.to_numpy()))[0]
 
-    # Wealth groups: national by tile, NCR by barangay (as in the descriptive tables)
+    # Wealth groups: national by tile, each city by barangay (as in the descriptive tables)
     tq = TILES.assign(quintile=weighted_quintile(TILES.rwi.to_numpy(), TILES["pop"].to_numpy()))
     pix["tile_quintile"] = pd.Series(tq.quintile.to_numpy(), index=tq.tx * 100000 + tq.ty) \
         .reindex(pix.tx * 100000 + pix.ty).to_numpy()
-    b_all = pd.read_csv(DERIVED / "barangays.csv", usecols=["adm4_pcode", "region_pcode"])
-    nb = BARANGAYS[BARANGAYS.region_pcode == NCR]
-    nq = pd.Series(weighted_quintile(nb.rwi.to_numpy(), nb["pop"].to_numpy()), index=nb.adm4_pcode)
-    pix["ncr_quintile"] = nq.reindex(b_all.adm4_pcode.to_numpy()[pix.b]).to_numpy()
-    pix["in_ncr"] = b_all.region_pcode.to_numpy()[pix.b] == NCR
+    b_all = pd.read_csv(DERIVED / "barangays.csv", usecols=["adm4_pcode", "metro"])
+    pix["metro"] = b_all.metro.to_numpy()[pix.b]
+    pix["city_quintile"] = np.nan
+    for scope, metro in CITIES.items():
+        cb = city(BARANGAYS, scope)
+        cq = pd.Series(weighted_quintile(cb.rwi.to_numpy(), cb["pop"].to_numpy()), index=cb.adm4_pcode)
+        sel = (pix.metro == metro).to_numpy()
+        pix.loc[sel, "city_quintile"] = cq.reindex(b_all.adm4_pcode.to_numpy()[pix.b[sel]]).to_numpy()
     return pix
 
 
 def distance_by_quintile(pix):
-    """People-weighted road and straight-line distances by wealth quintile, national and NCR."""
+    """People-weighted road and straight-line distances by wealth quintile, national and per city."""
     rows = []
-    for scope, sel, qcol in (("National", np.ones(len(pix), bool), "tile_quintile"),
-                             ("NCR", pix.in_ncr.to_numpy(), "ncr_quintile")):
+    groups = [("National", np.ones(len(pix), bool), "tile_quintile")]
+    groups += [(scope, (pix.metro == metro).to_numpy(), "city_quintile") for scope, metro in CITIES.items()]
+    for scope, sel, qcol in groups:
         d = pix[sel & pix[qcol].notna()]
         for q, g_ in [*d.groupby(qcol), ("All", d)]:
             w = g_.pop_census.to_numpy()

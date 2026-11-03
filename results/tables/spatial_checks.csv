@@ -24,3 +24,25 @@ NCR,tile,count,+ urban share,mid-quantile,0.0381355,-0.00833333,-0.00845657,0.04
 NCR,tile,count,+ urban share,deviance,0.0388074,-0.00833333,-0.00829299,0.0495907,0.949783,0.326,121,0
 NCR,tile,count,+ shops,mid-quantile,0.027539,-0.00833333,-0.0101462,0.0490885,0.767699,0.445,121,0
 NCR,tile,count,+ shops,deviance,0.0230186,-0.00833333,-0.0100244,0.0490649,0.673455,0.495,121,0
+Metro Cebu,barangay,count,+ urban share,mid-quantile,0.077412,-0.00288184,-0.00342487,0.0338902,2.38526,0.022,348,2
+Metro Cebu,barangay,count,+ urban share,deviance,0.0592323,-0.00288184,-0.00312841,0.0341309,1.8271,0.08,348,2
+Metro Cebu,barangay,"count, spatial refit",+ urban share,mid-quantile,-0.00483585,-0.00288184,-0.00304231,0.033877,-0.0529425,0.971,348,2
+Metro Cebu,barangay,count,+ shops,mid-quantile,0.0991336,-0.00288184,-0.0040069,0.034506,2.98906,0.007,348,2
+Metro Cebu,barangay,count,+ shops,deviance,0.0782514,-0.00288184,-0.00385714,0.0346734,2.36805,0.02,348,2
+Metro Cebu,barangay,"count, spatial refit",+ shops,mid-quantile,-0.018772,-0.00288184,-0.00338363,0.0334865,-0.459541,0.629,348,2
+Metro Cebu,barangay,presence,+ urban share,mid-quantile,-0.067602,-0.00288184,-0.00136302,0.0344684,-1.92173,0.056,348,2
+Metro Cebu,tile,count,+ urban share,mid-quantile,-0.0649699,-0.00462963,-0.0043582,0.0382272,-1.58556,0.106,217,0
+Metro Cebu,tile,count,+ urban share,deviance,-0.0312053,-0.00462963,-0.00495279,0.0388227,-0.676215,0.483,217,0
+Metro Cebu,tile,count,+ shops,mid-quantile,-0.0862752,-0.00462963,-0.003221,0.0385928,-2.15206,0.037,217,0
+Metro Cebu,tile,count,+ shops,deviance,-0.1035,-0.00462963,-0.00346515,0.0384836,-2.59941,0.013,217,0
+Metro Davao,barangay,count,+ urban share,mid-quantile,-0.022967,-0.00182815,-0.00178555,0.0268333,-0.789371,0.419,548,0
+Metro Davao,barangay,count,+ urban share,deviance,-0.0157608,-0.00182815,-0.00224446,0.0267967,-0.504402,0.617,548,0
+Metro Davao,barangay,count,+ shops,mid-quantile,0.0191733,-0.00182815,-0.00134603,0.0265526,0.772782,0.425,548,0
+Metro Davao,barangay,count,+ shops,deviance,0.0166073,-0.00182815,-0.00176175,0.0268812,0.68334,0.495,548,0
+Metro Davao,barangay,presence,+ urban share,mid-quantile,-0.00157744,-0.0020284,-0.00155392,0.0293724,-0.000800695,1,494,0
+Metro Davao,tile,count,+ urban share,mid-quantile,-0.0368383,-0.00109649,-0.000586017,0.0196624,-1.84374,0.063,913,3
+Metro Davao,tile,count,+ urban share,deviance,-0.023592,-0.00109649,-0.000539767,0.0204203,-1.12889,0.263,913,3
+Metro Davao,tile,count,+ shops,mid-quantile,0.0444981,-0.00109649,-0.000732271,0.0197319,2.29225,0.03,913,3
+Metro Davao,tile,count,+ shops,deviance,0.0176387,-0.00109649,-0.000670183,0.0200294,0.914099,0.345,913,3
+Metro Davao,tile,"count, spatial refit",+ shops,mid-quantile,-0.00534053,-0.00109649,-0.00028303,0.0195332,-0.258918,0.768,913,3
+Metro Davao,tile,presence,+ urban share,mid-quantile,-0.0262948,-0.00109649,-0.00133717,0.0197435,-1.26409,0.197,913,3

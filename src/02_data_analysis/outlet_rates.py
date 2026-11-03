@@ -1,27 +1,26 @@
 """
 Descriptive tables: outlets per 100,000 people by wealth quintile, and how outlets and people
-are spread over tiles and barangays, nationally and in the National Capital Region (NCR).
+are spread over tiles and barangays, nationally and in the three cities of RQ3 (Metro Manila,
+i.e. the National Capital Region or NCR, Metro Cebu and Metro Davao).
 
-Quintiles are population-weighted (each holds a fifth of the people in its scope), so NCR's
-quintiles split NCR's own people and say how its poorer and richer parts compare with each
-other. A quintile row describes where outlets are; it does not adjust for anything.
+Quintiles are population-weighted (each holds a fifth of the people in its scope), so a city's
+quintiles split that city's own people and say how its poorer and richer parts compare with
+each other. A quintile row describes where outlets are; it does not adjust for anything.
 
 Used by notebooks/01_descriptives.ipynb.
 """
 import numpy as np
 import pandas as pd
 
-from analysis_samples import BARANGAYS, NCR, TILES, weighted_quintile
+from analysis_samples import BARANGAYS, CITIES, TILES, city, weighted_quintile
 
 
 def scopes():
     """(scope, unit, rows) for every view the descriptive tables cover."""
-    return [
-        ("National", "tile", TILES),
-        ("National", "barangay", BARANGAYS),
-        ("NCR", "barangay", BARANGAYS[BARANGAYS.region_pcode == NCR]),
-        ("NCR", "tile", TILES[TILES.region_pcode == NCR]),
-    ]
+    out = [("National", "tile", TILES), ("National", "barangay", BARANGAYS)]
+    for scope in CITIES:
+        out += [(scope, "barangay", city(BARANGAYS, scope)), (scope, "tile", city(TILES, scope))]
+    return out
 
 
 def quintile_rates():

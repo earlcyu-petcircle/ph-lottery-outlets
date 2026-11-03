@@ -19,8 +19,11 @@ exp(wealth coefficient) is an odds ratio.
 Scopes (SCOPES):
   national_tiles      province intercepts, errors clustered by province          (main)
   national_barangays  province intercepts, errors clustered by RWI tile          (check)
-  ncr_barangays       city/municipality intercepts, errors clustered by RWI tile (NCR main)
+  ncr_barangays       city/municipality intercepts, errors clustered by RWI tile (city main)
   ncr_tiles           NCR district intercepts, robust errors; only ~120 tiles   (low-n check)
+  cebu_barangays, cebu_tiles, davao_barangays, davao_tiles
+                      the same two for Metro Cebu and Metro Davao (src/shared/common.py defines
+                      them); their tile checks have province intercepts (one province for Cebu)
 
 Spatial checks: Moran's I on the residuals of every main count model, on mid-quantile and
 deviance residuals. Where either clusters (p < 0.05) the model is refitted with Moran
@@ -28,9 +31,13 @@ eigenvector spatial filters (the spatial refit, a frequentist stand-in for BYM2)
 of 10, 25, 50 or up to 100 leading eigenvectors that leaves no significant positive residual
 clustering, else the set that leaves the least. That wealth rate ratio is reported too.
 A presence model is skipped where fewer than 20 units have, or lack, an outlet (NCR tiles).
+A count model is skipped where fewer than 20 units have an outlet, and a presence model where
+the controls separate units with and without an outlet so completely that the wealth error
+collapses (the Metro Cebu tiles); every skip is printed with its numbers rather than forced.
+Where separation is only partial, the presence row records how many units are fitted at 0 or 1.
 Local Moran (LISA) clusters of the main residuals feed the web map's hot-spot layer.
 
-Used by notebooks/02_count_and_presence_models.ipynb and notebooks/03_ncr_zoom_in.ipynb:
+Used by notebooks/02_count_and_presence_models.ipynb and notebooks/03_within_cities.ipynb:
 fit_scope() fits one scope, fit_sensitivities() the outcome-placement checks, and
 write_tables() writes results/tables/models.csv, coefficients.csv and spatial_checks.csv.
 """
@@ -38,7 +45,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-from analysis_samples import BARANGAYS, NCR, RWI_SD, TABLES, TILES
+from analysis_samples import BARANGAYS, RWI_SD, TABLES, TILES, city
 from common import WORK
 from stats_tools import (binary_mid_quantile_residuals, design, drop_constant_groups, eigenvector_filter,
                          fit_logit, fit_nb2, grid_weights, local_morans, morans_i, nb_mid_quantile_residuals,
@@ -55,17 +62,25 @@ PRESENCE = {"+ urban share": ["wealth", "log_pop", "urban_share"],
             "+ shops": ["wealth", "log_pop", "urban_share", "log_shops"]}
 EIGENVECTOR_STEPS = (10, 25, 50)  # spatial-refit sizes tried before the full set (at most 100)
 MIN_PRESENCE_CASES = 20  # a presence model needs at least this many units with and without an outlet
-LISA_SCOPES = ("national_tiles", "ncr_barangays")  # residual hot spots drawn on the web map
+MIN_COUNT_CASES = 20  # a count model needs at least this many units with an outlet
+SEPARATED_P = 1e-8  # a presence fit's units with a fitted probability this close to 0 or 1 are separated
+MIN_WEALTH_SE = 1e-3  # below this the presence fit's wealth error has collapsed: not estimable
+LISA_SCOPES = ("national_tiles", "ncr_barangays", "cebu_barangays", "davao_barangays")  # on the web map
 
-_ncr_b = BARANGAYS[BARANGAYS.region_pcode == NCR].reset_index(drop=True)
-_ncr_t = TILES[TILES.region_pcode == NCR].reset_index(drop=True)
-_ncr_t["tile_id"] = _ncr_t.quadkey
+
+def _city_tiles(scope):
+    t = city(TILES, scope)
+    t["tile_id"] = t.quadkey
+    return t
+
+
 SCOPES = {  # name -> (scope, unit, rows, intercepts, cluster column, role)
     "national_tiles": ("National", "tile", TILES, "province_pcode", "province_pcode", "main"),
     "national_barangays": ("National", "barangay", BARANGAYS, "province_pcode", "main_tile", "check"),
-    "ncr_barangays": ("NCR", "barangay", _ncr_b, "adm3_pcode", "main_tile", "NCR main"),
-    "ncr_tiles": ("NCR", "tile", _ncr_t, "province_pcode", "tile_id", "low-n check"),
 }
+for _key, _scope in (("ncr", "NCR"), ("cebu", "Metro Cebu"), ("davao", "Metro Davao")):
+    SCOPES[f"{_key}_barangays"] = (_scope, "barangay", city(BARANGAYS, _scope), "adm3_pcode", "main_tile", "city main")
+    SCOPES[f"{_key}_tiles"] = (_scope, "tile", _city_tiles(_scope), "province_pcode", "tile_id", "low-n check")
 
 
 def _new_part():
@@ -133,8 +148,12 @@ def fit_scope(key, verbose=True):
     """
     scope, unit, df, fe, cl, _ = SCOPES[key]
     say = print if verbose else (lambda *a, **k: None)
-    say(f"{scope} {unit}s: {len(df):,} units, {int(df.outlets.sum()):,} outlets")
+    with_outlet = int(df.any_outlet.sum())
+    say(f"{scope} {unit}s: {len(df):,} units, {int(df.outlets.sum()):,} outlets, {with_outlet:,} units with one")
     part, w, eigvecs, residuals = _new_part(), None, {}, None
+    if with_outlet < MIN_COUNT_CASES:
+        say(f"  count models not estimable: only {with_outlet} of {len(df)} units have an outlet")
+        return part
     for variant, terms in VARIANTS.items():
         X = design(df, terms, fe)
         res = fit_nb2(df.outlets, X, np.log(df["pop"]), df[cl])
@@ -161,10 +180,15 @@ def fit_scope(key, verbose=True):
         for variant, terms in PRESENCE.items():
             d = drop_constant_groups(df, fe, "any_outlet")
             res = fit_logit(d.any_outlet, design(d, terms, fe), d[cl])
+            separated = int(((res.mu < SEPARATED_P) | (res.mu > 1 - SEPARATED_P)).sum())
+            if not np.isfinite(res.bse["wealth"]) or res.bse["wealth"] < MIN_WEALTH_SE:
+                say(f"  presence {variant:15s} not estimable: complete or quasi-complete separation, "
+                    f"{separated} of {len(d)} units fitted at a probability of 0 or 1")
+                continue
             r = _record(part, key, "presence", variant, res, d, terms, outcome="any_outlet",
-                        extra={"units_dropped_constant_area": len(df) - len(d)})
+                        extra={"units_dropped_constant_area": len(df) - len(d), "units_fitted_0_or_1": separated})
             say(f"  presence {variant:15s} odds ratio {r['wealth_ratio']:.3f} ({r['ci_low']:.3f}-{r['ci_high']:.3f})"
-                f" [{len(df) - len(d)} units in areas with no variation dropped]")
+                f" [{len(df) - len(d)} units in areas with no variation dropped; {separated} fitted at 0 or 1]")
             if variant == "+ urban share":
                 part["spatial"].append({"scope": scope, "unit": unit, "model": "presence", "variant": variant,
                                         "residuals": "mid-quantile",

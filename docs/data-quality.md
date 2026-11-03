@@ -199,7 +199,7 @@ COD-AB v03 predates the Negros Island Region, so the NIR workbook is matched aga
 | `shops`, `shops_osm`, `shops_overture` | Shop points (OSM plus Overture, then each) |
 | `food_osm`, `food_overture` | Food and drink points (OSM also counts pharmacies and markets) |
 | `road_km` | OSM road length |
-| `province_pcode`, `province`, `region_pcode`, `region`, `pcso_area`, `metro` | From the barangay holding most of the tile's people; `metro` is Metro Manila, Metro Cebu (its 13 LGUs), Davao City or "Rest of the country" |
+| `province_pcode`, `province`, `region_pcode`, `region`, `pcso_area`, `metro` | From the barangay holding most of the tile's people; `metro` is Metro Manila (NCR), Metro Cebu (the 13 LGUs of the Metro Cebu Development and Coordinating Board), Metro Davao (the 15 LGUs of Republic Act No. 11708, Section 4) or "Rest of the country"; `src/shared/common.py` lists them |
 
 ### `data/derived/barangays.csv` (42,048 rows, one per COD-AB barangay)
 

@@ -7,6 +7,8 @@ Vector tiles for the interactive web map in docs/map/ (MapLibre GL JS reading PM
                                        main national count model's residual and LISA cluster
   docs/map/data/ncr_barangays.pmtiles  NCR barangays (simplified outlines): the same, with
                                        NCR's own quintiles and the NCR barangay model's residuals
+  docs/map/data/cebu_barangays.pmtiles, davao_barangays.pmtiles
+                                       the same for Metro Cebu and Metro Davao
   docs/map/data/summary.json           the headline rate ratios the map's panel shows
   docs/map/data/outlets_local.pmtiles  outlet points, built for local viewing only and
                                        gitignored: PCSO's outlet list is never committed (see
@@ -16,7 +18,7 @@ The wealth x outlet-rate class crosses wealth terciles (population-weighted, wit
 layer's scope) with three outlet levels: no outlet, an outlet rate at or below the scope's
 overall rate, and above it. The residual is the mid-quantile residual of the count model
 with urban share (no shops): positive where a unit has more outlets than wealth, urban share
-and its province (or city) alone account for.
+and its province (or, in the three cities, its city or municipality) alone account for.
 
 Needs tippecanoe 2.17 or later on the path (brew install tippecanoe).
 
@@ -33,7 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
-from analysis_samples import NCR, TABLES
+from analysis_samples import CITIES, TABLES
 from common import DERIVED, ROOT, WORK
 from map_layers import map_classes, tile_polygons
 
@@ -82,27 +84,29 @@ sizes["tiles.pmtiles"] = tippecanoe(write_geojson(tg, WORK / "map_tiles.geojsons
                                     "tiles", "-Z4", "-z11", "--detect-shared-borders",
                                     "--coalesce-densest-as-needed", "--extend-zooms-if-still-dropping")
 
-# --- NCR barangays ---------------------------------------------------------------------
-b = pd.read_csv(DERIVED / "barangays.csv")
-b = b[b.region_pcode == NCR].reset_index(drop=True)
-b, ncr_rate = map_classes(b)
-res = pd.read_parquet(WORK / "residuals_ncr_barangays.parquet")
-b = b.merge(res[["adm4_pcode", "quantile_residual", "cluster"]], on="adm4_pcode", how="left")
-b = b.rename(columns={"cluster": "lisa"})
-b["lisa"] = b.lisa.fillna("No people")
+# --- City barangays (NCR, Metro Cebu, Metro Davao) ---------------------------------------
 geoms = gpd.read_parquet(WORK / "barangay_geoms.parquet").set_index("adm4_pcode")
-bg = gpd.GeoDataFrame(b, geometry=geoms.geometry.reindex(b.adm4_pcode).to_numpy(), crs=4326)
-bg["geometry"] = bg.to_crs(32651).simplify(5, preserve_topology=True).to_crs(4326)
-cols = ["adm4_pcode", "adm4_name", "adm3_name", "pop", "outlets", "rate_per_100k", "rwi", "rwi_error", "quintile",
-        "bivariate", "shops", "urban_share", "main_tile", "quantile_residual", "lisa", "geometry"]
-bg = rounded(bg[cols].copy(), ["pop"], 0)
-bg = rounded(bg, ["rate_per_100k", "quantile_residual", "rwi", "rwi_error"], 2)
-bg = rounded(bg, ["urban_share"], 3)
-bg["quintile"] = bg.quintile.astype("Int64")
-sizes["ncr_barangays.pmtiles"] = tippecanoe(write_geojson(bg, WORK / "map_ncr_barangays.geojsons"),
-                                            MAP / "ncr_barangays.pmtiles", "barangays", "-Z8", "-z14",
-                                            "--detect-shared-borders", "--no-tiny-polygon-reduction",
-                                            "--no-feature-limit")
+city_rate = {}
+for key, scope in (("ncr", "NCR"), ("cebu", "Metro Cebu"), ("davao", "Metro Davao")):
+    b = pd.read_csv(DERIVED / "barangays.csv")
+    b = b[b.metro == CITIES[scope]].reset_index(drop=True)
+    b, city_rate[key] = map_classes(b)
+    res = pd.read_parquet(WORK / f"residuals_{key}_barangays.parquet")
+    b = b.merge(res[["adm4_pcode", "quantile_residual", "cluster"]], on="adm4_pcode", how="left")
+    b = b.rename(columns={"cluster": "lisa"})
+    b["lisa"] = b.lisa.fillna("No people")
+    bg = gpd.GeoDataFrame(b, geometry=geoms.geometry.reindex(b.adm4_pcode).to_numpy(), crs=4326)
+    bg["geometry"] = bg.to_crs(32651).simplify(5, preserve_topology=True).to_crs(4326)
+    cols = ["adm4_pcode", "adm4_name", "adm3_name", "pop", "outlets", "rate_per_100k", "rwi", "rwi_error",
+            "quintile", "bivariate", "shops", "urban_share", "main_tile", "quantile_residual", "lisa", "geometry"]
+    bg = rounded(bg[cols].copy(), ["pop"], 0)
+    bg = rounded(bg, ["rate_per_100k", "quantile_residual", "rwi", "rwi_error"], 2)
+    bg = rounded(bg, ["urban_share"], 3)
+    bg["quintile"] = bg.quintile.astype("Int64")
+    name = f"{key}_barangays.pmtiles"
+    sizes[name] = tippecanoe(write_geojson(bg, WORK / f"map_{key}_barangays.geojsons"), MAP / name, "barangays",
+                             "-Z8", "-z14", "--detect-shared-borders", "--no-tiny-polygon-reduction",
+                             "--no-feature-limit")
 
 # --- Outlet points, local only ---------------------------------------------------------
 o = pd.read_parquet(WORK / "pcso_outlets.parquet")
@@ -114,17 +118,20 @@ tippecanoe(write_geojson(og, WORK / "map_outlets.geojsons"), MAP / "outlets_loca
 # --- Panel numbers ---------------------------------------------------------------------
 m = pd.read_csv(TABLES / "models.csv")
 headline = []
-for scope, unit in (("National", "tile"), ("National", "barangay"), ("NCR", "barangay"), ("NCR", "tile")):
+scope_units = [("National", "tile"), ("National", "barangay")]
+scope_units += [(scope, unit) for scope in CITIES for unit in ("barangay", "tile")]
+for scope, unit in scope_units:
     for model in ("count", "presence"):
         for variant in ("+ urban share", "+ shops"):
             r = m[(m.scope == scope) & (m.unit == unit) & (m.model == model) & (m.variant == variant)]
-            if r.empty:  # e.g. no presence model for NCR tiles, where almost every tile has an outlet
+            if r.empty:  # not estimable, e.g. NCR tiles, where almost every tile has an outlet
                 continue
             r = r.iloc[0]
             headline.append({"scope": scope, "unit": unit, "model": model, "variant": variant,
                              "estimate": r.estimate, "ratio": round(r.wealth_ratio, 3),
                              "ci_low": round(r.ci_low, 3), "ci_high": round(r.ci_high, 3), "n": int(r.n)})
-summary = {"national_rate_per_100k": round(national_rate, 2), "ncr_rate_per_100k": round(ncr_rate, 2),
+summary = {"national_rate_per_100k": round(national_rate, 2),
+           **{f"{key}_rate_per_100k": round(rate, 2) for key, rate in city_rate.items()},
            "wealth_unit": m.wealth_unit.iloc[0], "models": headline}
 (MAP / "summary.json").write_text(json.dumps(summary, indent=1, allow_nan=False) + "\n")
 for k, v in sizes.items():
