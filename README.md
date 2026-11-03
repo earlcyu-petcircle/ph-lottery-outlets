@@ -12,7 +12,7 @@ The model, distance and descriptive tables are in [`results/`](results/) and the
 |---|---|---|
 | 1. Research design | Question, data sources, unit of analysis, models | Done (this README) |
 | 2. Data collection | Fetch every source; place PCSO outlets; build one table per wealth tile and one per barangay; data-quality note | Done ([Data](#5-data)) |
-| 3. Data analysis | Count and presence models, spatial checks, barangay check, NCR zoom-in, road distance, web map | Done ([`results/`](results/), [`docs/map/`](docs/map/)) |
+| 3. Data analysis | Count and presence models, spatial checks, barangay check, within-city analysis (Metro Manila, Metro Cebu, Metro Davao), road distance, web map | Done ([`results/`](results/), [`docs/map/`](docs/map/)) |
 | 4. Results and discussion | Findings, figures, maps, limitations | Next |
 | 5. Clean-up | README as the finished paper; repo tidy | To do |
 
@@ -26,12 +26,18 @@ The analysis notebooks are in [`notebooks/`](notebooks/) and the interactive map
 | [`map_ncr_bivariate.png`](results/figures/map_ncr_bivariate.png) | The same for Metro Manila's barangays |
 | [`map_national_rate_and_wealth.png`](results/figures/map_national_rate_and_wealth.png) | Outlets per 100,000 people beside the Relative Wealth Index, on the same tiles |
 | [`map_ncr_rate_and_wealth.png`](results/figures/map_ncr_rate_and_wealth.png) | The same pair for Metro Manila's barangays |
-| [`quintile_rates.png`](results/figures/quintile_rates.png) | Outlets per 100,000 people by wealth quintile, national against NCR |
-| [`rate_ratios.png`](results/figures/rate_ratios.png) | The wealth rate ratio of every model variant, national against NCR |
+| [`map_cebu_bivariate.png`](results/figures/map_cebu_bivariate.png), [`map_cebu_rate_and_wealth.png`](results/figures/map_cebu_rate_and_wealth.png) | The same two maps for Metro Cebu's barangays |
+| [`map_davao_bivariate.png`](results/figures/map_davao_bivariate.png), [`map_davao_rate_and_wealth.png`](results/figures/map_davao_rate_and_wealth.png) | The same two maps for Metro Davao's barangays |
+| [`quintile_rates.png`](results/figures/quintile_rates.png) | Outlets per 100,000 people by wealth quintile: national tiles against the barangays of the three cities |
+| [`rate_ratios.png`](results/figures/rate_ratios.png) | The wealth rate ratio of every model variant, one panel each for the country and the three cities |
 
 ![Wealth and outlet density together, Philippines](results/figures/map_national_bivariate.png)
 
 ![Wealth and outlet density together, Metro Manila](results/figures/map_ncr_bivariate.png)
+
+![Wealth and outlet density together, Metro Cebu](results/figures/map_cebu_bivariate.png)
+
+![Wealth and outlet density together, Metro Davao](results/figures/map_davao_bivariate.png)
 
 ## Contents
 
@@ -90,7 +96,7 @@ No peer-reviewed lottery-outlet location study was found for the Philippines or 
    The access version of "a tax on the poor" predicts more outlets per person where people are poorer.
 2. **RQ2 Commerce.** Does any wealth gradient hold among places with the same amount of shopping?
    Without a shops measure the model asks whether poorer Filipinos live with more or fewer outlets around them; with it, whether lotto leans towards poorer or richer places among places with the same retail.
-3. **RQ3 Within cities.** Does the gradient hold inside Metro Manila, Metro Cebu and Davao City, where rich and poor neighbourhoods sit side by side?
+3. **RQ3 Within cities.** Does the gradient hold inside Metro Manila, Metro Cebu and Metro Davao, where rich and poor neighbourhoods sit side by side?
 4. **RQ4 Distance.** How far do people in poorer and richer neighbourhoods live from their nearest outlet, by road?
 
 The spending claim is out of scope; it needs household spending on lotto by income, which the open data do not hold.
@@ -143,7 +149,12 @@ The design picks one unit and moves every layer onto it, which is the change-of-
   Commerce may be a mediator as much as a confounder, which is why both are shown.
 - **Presence model.** Logistic regression on whether a tile has any outlet.
 - **Spatial checks.** Moran's I on the residuals; a BYM2 spatial model [23] if they cluster.
-- **Within cities.** The same models inside Metro Manila, Metro Cebu and Davao City (RQ3).
+- **Within cities.** The same models inside Metro Manila, Metro Cebu and Metro Davao (RQ3), by barangay with city and municipality intercepts, and on RWI tiles as a low-n check.
+  Each city is defined from an official source:
+  Metro Manila is the National Capital Region;
+  Metro Cebu is the 13 cities and municipalities of the Metro Cebu Development and Coordinating Board, as listed in its 2015 roadmap study with JICA [24] (no statute defines Metro Cebu);
+  Metro Davao is the 15 cities and municipalities of Republic Act No. 11708 (2022), Section 4 [25].
+  `src/shared/common.py` lists them.
 - **Barangay check.** The same models per barangay, with tile-clustered errors.
 - **Distance (RQ4).** Road distance from where people live to the nearest outlet, by wealth group.
 - **Sensitivities.** Dropping GPS points that disagree with their address, adding outlets placed only at a town centre, and carrying the RWI's per-tile error through.
@@ -175,7 +186,7 @@ PCSO's outlet addresses can carry owners' names, so the outlet list itself is ne
 
 The code sits in one folder per phase, run by one script per phase at the repo root (section 6).
 The analysis is five narrative notebooks in [`notebooks/`](notebooks/), committed with their outputs; their logic lives as functions in [`src/02_data_analysis/`](src/02_data_analysis/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`, `maps.py`), which the notebooks import.
-Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers); each script adds that folder to Python's import path itself, so any script also runs on its own.
+Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers, `run_notebook.py` the notebook runner `03_analyse.sh` uses); each script adds that folder to Python's import path itself, so any script also runs on its own.
 
 | Phase script | Step | Script | Writes |
 |---|---|---|---|
@@ -187,7 +198,7 @@ Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid h
 | | Tile and barangay tables, quality tables | [`build_tables.py`](src/01_data_collection/build_tables.py) | `data/derived/` |
 | `03_analyse.sh` | Outlets per 100,000 by wealth quintile, distributions, the PCSO CY2023 check | [`notebooks/01_descriptives.ipynb`](notebooks/01_descriptives.ipynb) | `results/tables/`, `results/figures/` |
 | | National count and presence models, spatial checks, sensitivities | [`notebooks/02_count_and_presence_models.ipynb`](notebooks/02_count_and_presence_models.ipynb) | `data/work/` (model rows, residuals) |
-| | NCR zoom-in, side by side with the national results | [`notebooks/03_ncr_zoom_in.ipynb`](notebooks/03_ncr_zoom_in.ipynb) | `results/tables/`, `results/figures/` |
+| | Within cities: Metro Manila, Metro Cebu and Metro Davao, side by side with the national results | [`notebooks/03_within_cities.ipynb`](notebooks/03_within_cities.ipynb) | `results/tables/`, `results/figures/` |
 | | Road distance to the nearest outlet by wealth quintile | [`notebooks/04_road_distance.ipynb`](notebooks/04_road_distance.ipynb) | `results/tables/` |
 | | Static choropleth maps of outlet density beside wealth | [`notebooks/05_maps.ipynb`](notebooks/05_maps.ipynb) | `results/figures/` |
 | `04_build_map.sh` | Web map vector tiles | [`build_map_tiles.py`](src/03_web_map/build_map_tiles.py) | `docs/map/data/` |
@@ -248,5 +259,7 @@ Code is MIT licensed (see [LICENSE](LICENSE)); the data keep their own licences,
 21. Gotway, C. A. and Young, L. J. "Combining incompatible spatial data." *Journal of the American Statistical Association* 97 (458), 632-648, 2002. <https://doi.org/10.1198/016214502760047140>
 22. Mennis, J. "Generating surface models of population using dasymetric mapping." *The Professional Geographer* 55 (1), 31-42, 2003. <https://doi.org/10.1111/0033-0124.10042>
 23. Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." *Statistical Methods in Medical Research*, 2016. <https://doi.org/10.1177/0962280216660421>
+24. JICA and Metro Cebu Development and Coordinating Board. *The Roadmap Study for Sustainable Urban Development in Metro Cebu*, final report, summary. June 2015. <https://openjicareport.jica.go.jp/pdf/12235529.pdf>
+25. Republic Act No. 11708 (2022), Metropolitan Davao Development Authority Act, Section 4. LawPhil. <https://lawphil.net/statutes/repacts/ra2022/pdf/ra_11708_2022.pdf>
 
 Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); PSA 2024 Census of Population; JRC GHSL Degree of Urbanisation (CC BY 4.0); OCHA COD-AB Philippines (CC BY-IGO); © OpenStreetMap contributors (ODbL); Overture Maps places (CDLA Permissive 2.0 and per-source terms).

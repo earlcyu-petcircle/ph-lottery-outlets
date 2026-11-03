@@ -3,8 +3,11 @@ The analysis samples shared by every step 3 script, read from the committed step
 
 Wealth enters every model as the Relative Wealth Index (RWI) in units of one national
 standard deviation (SD) of tile RWI, measured over populated tiles. The same unit is used for
-tiles and barangays, nationally and in NCR, so every wealth rate ratio is per the same change
-in wealth and the columns of a results table can be read side by side.
+tiles and barangays, nationally and in each city, so every wealth rate ratio is per the same
+change in wealth and the columns of a results table can be read side by side.
+
+The three cities of RQ3 (CITIES) are the `metro` areas of the step 2 tables, defined in
+src/shared/common.py: Metro Manila (NCR), Metro Cebu and Metro Davao.
 """
 import numpy as np
 import pandas as pd
@@ -18,6 +21,7 @@ for _d in (TABLES, FIGURES):
     _d.mkdir(parents=True, exist_ok=True)
 
 NCR = "PH13"
+CITIES = {"NCR": "Metro Manila", "Metro Cebu": "Metro Cebu", "Metro Davao": "Metro Davao"}  # scope -> metro
 
 
 def _controls(df):
@@ -59,6 +63,11 @@ def load_barangays():
 
 
 BARANGAYS = load_barangays()
+
+
+def city(df, scope):
+    """The rows of one city scope ("NCR", "Metro Cebu" or "Metro Davao")."""
+    return df[df.metro == CITIES[scope]].reset_index(drop=True)
 
 
 def weighted_quintile(values, weights):

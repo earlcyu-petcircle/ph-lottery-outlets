@@ -1,6 +1,8 @@
 {
  "national_rate_per_100k": 6.49,
  "ncr_rate_per_100k": 14.12,
+ "cebu_rate_per_100k": 7.46,
+ "davao_rate_per_100k": 5.46,
  "wealth_unit": "1 national tile SD of RWI = 0.4937",
  "models": [
   {
@@ -156,6 +158,160 @@
    "ci_low": 0.818,
    "ci_high": 1.037,
    "n": 121
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 2.341,
+   "ci_low": 1.391,
+   "ci_high": 3.939,
+   "n": 348
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 1.23,
+   "ci_low": 0.648,
+   "ci_high": 2.335,
+   "n": 348
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 3.51,
+   "ci_low": 1.709,
+   "ci_high": 7.212,
+   "n": 348
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 1.065,
+   "ci_low": 0.432,
+   "ci_high": 2.629,
+   "n": 348
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 1.743,
+   "ci_low": 1.368,
+   "ci_high": 2.222,
+   "n": 217
+  },
+  {
+   "scope": "Metro Cebu",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 0.911,
+   "ci_low": 0.737,
+   "ci_high": 1.126,
+   "n": 217
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 4.552,
+   "ci_low": 2.59,
+   "ci_high": 8.0,
+   "n": 548
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 3.475,
+   "ci_low": 1.675,
+   "ci_high": 7.209,
+   "n": 548
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 7.095,
+   "ci_low": 3.712,
+   "ci_high": 13.56,
+   "n": 494
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 3.348,
+   "ci_low": 1.442,
+   "ci_high": 7.776,
+   "n": 494
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 2.685,
+   "ci_low": 1.977,
+   "ci_high": 3.647,
+   "n": 913
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 1.7,
+   "ci_low": 1.281,
+   "ci_high": 2.255,
+   "n": 913
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "tile",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 1.572,
+   "ci_low": 0.634,
+   "ci_high": 3.9,
+   "n": 913
+  },
+  {
+   "scope": "Metro Davao",
+   "unit": "tile",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 1.51,
+   "ci_low": 0.683,
+   "ci_high": 3.338,
+   "n": 913
   }
  ]
 }

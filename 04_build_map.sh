@@ -8,6 +8,7 @@ require_tippecanoe
 require_inputs ./02_build_tables.sh data/derived/tiles.csv data/derived/barangays.csv \
   data/work/pcso_outlets.parquet data/work/barangay_geoms.parquet
 require_inputs ./03_analyse.sh results/tables/models.csv data/work/residuals_national_tiles.parquet \
-  data/work/residuals_ncr_barangays.parquet
+  data/work/residuals_ncr_barangays.parquet data/work/residuals_cebu_barangays.parquet \
+  data/work/residuals_davao_barangays.parquet
 
 run_python src/03_web_map/build_map_tiles.py

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PH Lotto Outlets Map</title>
-<meta name="description" content="PCSO lotto outlets per person against the Relative Wealth Index, nationally on 2.4 km wealth tiles and in Metro Manila by barangay.">
+<meta name="description" content="PCSO lotto outlets per person against the Relative Wealth Index, nationally on 2.4 km wealth tiles and by barangay in Metro Manila, Metro Cebu and Metro Davao.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%276%27 fill=%27%2396700F%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400&display=swap">
@@ -29,7 +29,7 @@ p{margin:.4rem 0}
 fieldset{border:0;margin:0;padding:0}
 label{display:flex;gap:.5rem;align-items:center;padding:.15rem 0;cursor:pointer}
 input{accent-color:var(--accent)}
-.buttons{display:flex;gap:.5rem;margin:.6rem 0 0}
+.buttons{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 0}
 button{font:500 .85rem "Karla",sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--rule-strong);
   border-radius:3px;padding:.35rem .7rem;cursor:pointer}
 button:hover{background:var(--accent-tint)}
@@ -62,7 +62,7 @@ footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-stro
 <aside id="panel">
   <p class="kicker">PH lottery outlets &middot; step 3</p>
   <h1>Lotto outlets and neighbourhood wealth</h1>
-  <p class="lead">PCSO lotto outlets per person against Meta's Relative Wealth Index: every 2.4 km wealth tile in the country, and every Metro Manila barangay.</p>
+  <p class="lead">PCSO lotto outlets per person against Meta's Relative Wealth Index: every 2.4 km wealth tile in the country, and every barangay of Metro Manila, Metro Cebu and Metro Davao.</p>
 
   <h2>Show</h2>
   <fieldset id="measure">
@@ -75,16 +75,18 @@ footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-stro
   <fieldset>
     <label><input type="checkbox" id="show-tiles" checked> National: RWI tiles (2.4 km)</label>
     <label><input type="checkbox" id="show-ncr" checked> NCR: barangays</label>
+    <label><input type="checkbox" id="show-cebu" checked> Metro Cebu: barangays</label>
+    <label><input type="checkbox" id="show-davao" checked> Metro Davao: barangays</label>
     <label id="outlets-row"><input type="checkbox" id="show-outlets"> Outlet points (local copy only)</label>
   </fieldset>
   <p class="note" id="hidden-note">Outlet points are not published: PCSO's outlet list stays out of the repository, so the public map shows counts only. Run the map locally after <code>./04_build_map.sh</code> to see them.</p>
-  <div class="buttons"><button id="go-ph">Philippines</button><button id="go-ncr">Metro Manila</button></div>
+  <div class="buttons"><button id="go-ph">Philippines</button><button id="go-ncr">Metro Manila</button><button id="go-cebu">Metro Cebu</button><button id="go-davao">Metro Davao</button></div>
 
   <h2>Legend</h2>
   <div id="legend"></div>
 
   <h2>What the models estimate</h2>
-  <p class="note">Wealth rate ratio: how many times as many outlets per person a place one standard deviation richer has, with province (national) or city (NCR) intercepts. Above 1 means richer places have more outlets per person. An association, not a cause.</p>
+  <p class="note">Wealth rate ratio: how many times as many outlets per person a place one standard deviation richer has, with province (national) or city and municipality (in each of the three cities) intercepts. Above 1 means richer places have more outlets per person. An association, not a cause.</p>
   <table id="ratios"><thead><tr><th>Scope</th><th>Without shops</th><th>With shops</th></tr></thead><tbody></tbody></table>
   <p class="caption" id="ratio-caption"></p>
 
@@ -139,7 +141,7 @@ function legend(measure) {
   if (measure === "rate") {
     el.innerHTML = row(RATE[0], "No outlet") + row(RATE[1], "under 5") + row(RATE[2], "5 to 10") +
       row(RATE[3], "10 to 20") + row(RATE[4], "20 to 40") + row(RATE[5], "40 or more") +
-      `<p class="caption">Outlets per 100,000 people. National rate ${S.national_rate_per_100k}, NCR ${S.ncr_rate_per_100k}.</p>`;
+      `<p class="caption">Outlets per 100,000 people. National rate ${S.national_rate_per_100k}, NCR ${S.ncr_rate_per_100k}, Metro Cebu ${S.cebu_rate_per_100k}, Metro Davao ${S.davao_rate_per_100k}.</p>`;
   } else if (measure === "rwi") {
     const labels = ["under -0.75 (poorer)", "-0.75 to -0.35", "-0.35 to -0.1", "-0.1 to 0.1",
                     "0.1 to 0.35", "0.35 to 0.75", "0.75 or more (richer)"];
@@ -152,7 +154,7 @@ function legend(measure) {
       ["w1", "w2", "w3"].forEach(w => g += `<span class="cell" style="background:${BIV[w + o]}"></span>`);
     });
     g += '<span></span><span>Poorer</span><span></span><span>Richer</span></div>';
-    el.innerHTML = g + `<p class="caption">Rows: outlet rate against the layer's overall rate. Columns: wealth terciles of people, within the country (tiles) or within NCR (barangays).</p>`;
+    el.innerHTML = g + `<p class="caption">Rows: outlet rate against the layer's overall rate. Columns: wealth terciles of people, within the country (tiles) or within each city (barangays).</p>`;
   } else {
     el.innerHTML = row(LISA["High-High"], "More outlets than modelled, among similar neighbours") +
       row(LISA["Low-Low"], "Fewer outlets than modelled, among similar neighbours") +
@@ -172,7 +174,11 @@ function tooltip(p, kind) {
   return `<div class="tt-title">${title}</div><table class="tt">${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`;
 }
 
-let S = {national_rate_per_100k: "-", ncr_rate_per_100k: "-", models: []};
+let S = {national_rate_per_100k: "-", ncr_rate_per_100k: "-", cebu_rate_per_100k: "-", davao_rate_per_100k: "-", models: []};
+// The three cities' barangay layers, drawn over the national tiles
+const CITIES = {ncr: [[120.90, 14.35], [121.14, 14.79]], cebu: [[123.57, 10.06], [124.18, 10.61]],
+                davao: [[125.22, 6.11], [126.38, 7.57]]};
+const CITY_FILLS = Object.keys(CITIES).map(c => `${c}-fill`);
 const map = new maplibregl.Map({
   container: "map", style: "https://tiles.openfreemap.org/styles/positron",
   bounds: [[116.8, 4.5], [126.8, 21.2]], attributionControl: {compact: true}, maxZoom: 16
@@ -183,15 +189,17 @@ map.on("load", async () => {
   S = await fetch("data/summary.json").then(r => r.json()).catch(() => S);
   renderRatios();
   map.addSource("tiles", {type: "vector", url: here("data/tiles.pmtiles")});
-  map.addSource("ncr", {type: "vector", url: here("data/ncr_barangays.pmtiles")});
   // data layers go under the basemap's labels
   const labels = map.getStyle().layers.find(l => l.type === "symbol")?.id;
   map.addLayer({id: "tiles-fill", type: "fill", source: "tiles", "source-layer": "tiles",
     paint: {"fill-color": fill("rate"), "fill-opacity": 0.78}}, labels);
-  map.addLayer({id: "ncr-fill", type: "fill", source: "ncr", "source-layer": "barangays",
-    paint: {"fill-color": fill("rate"), "fill-opacity": 0.85}}, labels);
-  map.addLayer({id: "ncr-line", type: "line", source: "ncr", "source-layer": "barangays", minzoom: 10,
-    paint: {"line-color": "#665B45", "line-width": 0.4, "line-opacity": 0.6}}, labels);
+  Object.keys(CITIES).forEach(c => {
+    map.addSource(c, {type: "vector", url: here(`data/${c}_barangays.pmtiles`)});
+    map.addLayer({id: `${c}-fill`, type: "fill", source: c, "source-layer": "barangays",
+      paint: {"fill-color": fill("rate"), "fill-opacity": 0.85}}, labels);
+    map.addLayer({id: `${c}-line`, type: "line", source: c, "source-layer": "barangays", minzoom: 10,
+      paint: {"line-color": "#665B45", "line-width": 0.4, "line-opacity": 0.6}}, labels);
+  });
 
   // Outlet points exist only in a local build (never committed)
   const local = await fetch("data/outlets_local.pmtiles", {method: "HEAD"}).then(r => r.ok).catch(() => false);
@@ -212,11 +220,11 @@ map.on("load", async () => {
       popup.setLngLat(e.lngLat).setHTML(tooltip(e.features[0].properties, kind)).addTo(map); });
     map.on("mouseleave", layer, () => { map.getCanvas().style.cursor = ""; popup.remove(); });
   };
-  hover("ncr-fill", "ncr");
-  // a tile tooltip only where no NCR barangay is on top
+  CITY_FILLS.forEach(l => hover(l, "barangays"));
+  // a tile tooltip only where no city barangay is on top
   map.on("mousemove", "tiles-fill", e => {
-    if (map.getLayoutProperty("ncr-fill", "visibility") !== "none" &&
-        map.queryRenderedFeatures(e.point, {layers: ["ncr-fill"]}).length) return;
+    const shown = CITY_FILLS.filter(l => map.getLayoutProperty(l, "visibility") !== "none");
+    if (shown.length && map.queryRenderedFeatures(e.point, {layers: shown}).length) return;
     map.getCanvas().style.cursor = "pointer";
     popup.setLngLat(e.lngLat).setHTML(tooltip(e.features[0].properties, "tiles")).addTo(map);
   });
@@ -224,26 +232,28 @@ map.on("load", async () => {
 
   document.querySelectorAll("input[name=measure]").forEach(r => r.addEventListener("change", e => {
     map.setPaintProperty("tiles-fill", "fill-color", fill(e.target.value));
-    map.setPaintProperty("ncr-fill", "fill-color", fill(e.target.value));
+    CITY_FILLS.forEach(l => map.setPaintProperty(l, "fill-color", fill(e.target.value)));
     legend(e.target.value);
   }));
   const toggle = (box, layers) => document.getElementById(box).addEventListener("change", e =>
     layers.forEach(l => map.getLayer(l) && map.setLayoutProperty(l, "visibility", e.target.checked ? "visible" : "none")));
   toggle("show-tiles", ["tiles-fill"]);
-  toggle("show-ncr", ["ncr-fill", "ncr-line"]);
+  Object.keys(CITIES).forEach(c => toggle(`show-${c}`, [`${c}-fill`, `${c}-line`]));
   toggle("show-outlets", ["outlets"]);
   legend("rate");
 });
 
 document.getElementById("go-ph").onclick = () => map.fitBounds([[116.8, 4.5], [126.8, 21.2]]);
-document.getElementById("go-ncr").onclick = () => map.fitBounds([[120.90, 14.35], [121.14, 14.79]]);
+Object.entries(CITIES).forEach(([c, bounds]) => document.getElementById(`go-${c}`).onclick = () => map.fitBounds(bounds));
 
 function renderRatios() {
   const pick = (scope, unit, variant) => S.models.find(m => m.scope === scope && m.unit === unit &&
     m.model === "count" && m.variant === variant);
   const cell = m => m ? `${fmt(m.ratio, 2)} <span style="color:var(--faint)">(${fmt(m.ci_low, 2)}-${fmt(m.ci_high, 2)})</span>` : "-";
   const rows = [["National, tiles", "National", "tile"], ["National, barangays", "National", "barangay"],
-                ["NCR, barangays", "NCR", "barangay"], ["NCR, tiles (low n)", "NCR", "tile"]];
+                ["NCR, barangays", "NCR", "barangay"], ["NCR, tiles (low n)", "NCR", "tile"],
+                ["Metro Cebu, barangays", "Metro Cebu", "barangay"], ["Metro Cebu, tiles (low n)", "Metro Cebu", "tile"],
+                ["Metro Davao, barangays", "Metro Davao", "barangay"], ["Metro Davao, tiles (low n)", "Metro Davao", "tile"]];
   document.querySelector("#ratios tbody").innerHTML = rows.map(([label, s, u]) =>
     `<tr><td>${label}</td><td class="num">${cell(pick(s, u, "+ urban share"))}</td><td class="num">${cell(pick(s, u, "+ shops"))}</td></tr>`).join("");
   document.getElementById("ratio-caption").textContent =
