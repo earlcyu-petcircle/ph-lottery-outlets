@@ -4,16 +4,16 @@ Earl Yu.
 Open and published data only.
 
 **Status.**
-The research design was settled on 31 October 2026 and the data are collected (step 2 of 5).
+The research design was settled on 31 October 2026, the data are collected, and the analysis has run (step 3 of 5).
 This README sets out the question, the data and the planned analysis.
-It holds no results yet: the models, findings and discussion come in steps 3 and 4.
+The model, distance and descriptive tables are in [`results/`](results/) and the interactive map in [`docs/map/`](docs/map/); the findings and discussion come in step 4.
 
 | Step | Scope | Status |
 |---|---|---|
 | 1. Research design | Question, data sources, unit of analysis, models | Done (this README) |
 | 2. Data collection | Fetch every source; place PCSO outlets; build one table per wealth tile and one per barangay; data-quality note | Done ([Data](#5-data)) |
-| 3. Data analysis | Count and presence models, spatial checks, barangay check, road distance | Next |
-| 4. Results and discussion | Findings, figures, maps, limitations | To do |
+| 3. Data analysis | Count and presence models, spatial checks, barangay check, NCR zoom-in, road distance, web map | Done ([`results/`](results/), [`docs/map/`](docs/map/)) |
+| 4. Results and discussion | Findings, figures, maps, limitations | Next |
 | 5. Clean-up | README as the finished paper; repo tidy | To do |
 
 ## Contents
@@ -167,8 +167,8 @@ PCSO's outlet addresses can carry owners' names, so the outlet list itself is ne
 
 ## 6. How to reproduce
 
-Needs Python 3.12, `curl`, about 1.2 GB of downloads and 5 GB of memory.
-Nothing is installed globally.
+Needs Python 3.12, `curl`, [tippecanoe](https://github.com/felt/tippecanoe) for the web map (`brew install tippecanoe`), about 1.2 GB of downloads and 5 GB of memory.
+Nothing else is installed globally.
 The 2024 census workbooks cannot be downloaded by script: fetch the 18 files by hand into `data/manual/popcen2024/` first, as [`docs/data-quality.md`](docs/data-quality.md#getting-the-files) describes.
 
 ```bash
@@ -176,10 +176,16 @@ git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
 cd ph-lottery-outlets
 ./run_all.sh              # venv, pinned packages, downloads, then every table in data/derived/
 ./run_all.sh --refresh    # same, but pull fresh PCSO, OpenStreetMap and Overture snapshots
+./run_all.sh --analysis-only   # rerun only step 3 (models, distances, charts, web map)
+.venv/bin/python src/serve_map.py   # open the web map at http://localhost:8000/
 ```
 
+The web map reads PMTiles files by HTTP range requests, so it does not open from `file://`; `src/serve_map.py` is a small range-aware server.
+On GitHub Pages (Settings, Pages, deploy from the `main` branch and the `/docs` folder) the map is at `<pages URL>/map/`.
+Outlet points appear only in a local build: PCSO's outlet list is never committed.
+
 Set `PYTHON=/path/to/python3.12` if `python3.12` is not on your path.
-A run reuses anything already in `data/raw/`, so on the same downloads it reproduces the committed tables byte for byte; the table build takes about 2 minutes.
+A run reuses anything already in `data/raw/`, so on the same downloads it reproduces the committed tables byte for byte; the table build takes about 2 minutes and the analysis about 10 minutes.
 A `--refresh` run picks up a newer PCSO map, OpenStreetMap and Overture, so expect the counts to move.
 
 Code is MIT licensed (see [LICENSE](LICENSE)); the data keep their own licences, listed above.

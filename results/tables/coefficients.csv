@@ -1,0 +1,87 @@
+scope,unit,model,variant,outcome,term,coef,se,ci_low,ci_high,exp_coef,p_value
+National,tile,count,wealth only,outlets,wealth,0.896085,0.0472798,0.803418,0.988752,2.44999,4.18695e-80
+National,tile,count,+ urban share,outlets,wealth,0.757227,0.0422703,0.674378,0.840075,2.13235,9.18659e-72
+National,tile,count,+ urban share,outlets,urban_share,1.21349,0.245189,0.732932,1.69406,3.36522,7.45155e-07
+National,tile,"count, spatial refit",+ urban share,outlets,wealth,0.760287,0.0421772,0.677621,0.842953,2.13889,1.21712e-72
+National,tile,"count, spatial refit",+ urban share,outlets,urban_share,1.23144,0.243378,0.754431,1.70846,3.42617,4.19713e-07
+National,tile,count,+ shops,outlets,wealth,0.159562,0.0469891,0.0674655,0.251659,1.173,0.000684448
+National,tile,count,+ shops,outlets,urban_share,1.00785,0.225461,0.56595,1.44974,2.73969,7.81614e-06
+National,tile,count,+ shops,outlets,log_shops,0.434637,0.0287277,0.378332,0.490942,1.5444,1.03392e-51
+National,tile,"count, spatial refit",+ shops,outlets,wealth,0.161947,0.0471051,0.069623,0.254271,1.1758,0.000586027
+National,tile,"count, spatial refit",+ shops,outlets,urban_share,1.02796,0.222795,0.591291,1.46463,2.79536,3.95118e-06
+National,tile,"count, spatial refit",+ shops,outlets,log_shops,0.43419,0.0291016,0.377152,0.491228,1.54371,2.45015e-50
+National,tile,count,+ shops and roads,outlets,wealth,0.215086,0.0463889,0.124166,0.306007,1.23997,3.54197e-06
+National,tile,count,+ shops and roads,outlets,urban_share,1.05008,0.221808,0.615343,1.48481,2.85787,2.19938e-06
+National,tile,count,+ shops and roads,outlets,log_shops,0.498109,0.0318205,0.435742,0.560476,1.64561,3.13347e-55
+National,tile,count,+ shops and roads,outlets,log_road_km,-0.261764,0.0593587,-0.378105,-0.145423,0.769693,1.03433e-05
+National,tile,presence,+ urban share,any_outlet,wealth,0.777507,0.0635441,0.652963,0.902051,2.17604,2.0035e-34
+National,tile,presence,+ urban share,any_outlet,log_pop,1.7244,0.135222,1.45937,1.98943,5.60916,3.02387e-37
+National,tile,presence,+ urban share,any_outlet,urban_share,0.546479,0.199547,0.155373,0.937585,1.72716,0.00617032
+National,tile,presence,+ shops,any_outlet,wealth,0.464634,0.0730611,0.321436,0.607831,1.59143,2.02385e-10
+National,tile,presence,+ shops,any_outlet,log_pop,0.839346,0.117341,0.609361,1.06933,2.31485,8.48864e-13
+National,tile,presence,+ shops,any_outlet,urban_share,0.76261,0.202092,0.366516,1.1587,2.14386,0.000160924
+National,tile,presence,+ shops,any_outlet,log_shops,0.905553,0.0640026,0.78011,1.031,2.4733,1.90245e-45
+National,barangay,count,wealth only,outlets,wealth,1.03681,0.0276016,0.982715,1.09091,2.82022,8.48243e-309
+National,barangay,count,+ urban share,outlets,wealth,0.859562,0.0325901,0.795687,0.923438,2.36213,2.65715e-153
+National,barangay,count,+ urban share,outlets,urban_share,1.65876,0.190444,1.2855,2.03203,5.25282,3.0393e-18
+National,barangay,"count, spatial refit",+ urban share,outlets,wealth,0.882159,0.031562,0.820298,0.944019,2.41611,6.58661e-172
+National,barangay,"count, spatial refit",+ urban share,outlets,urban_share,1.70383,0.189457,1.3325,2.07516,5.49495,2.40084e-19
+National,barangay,count,+ shops,outlets,wealth,0.402753,0.0363961,0.331418,0.474088,1.49594,1.83798e-28
+National,barangay,count,+ shops,outlets,urban_share,1.40982,0.181382,1.05432,1.76532,4.09522,7.68493e-15
+National,barangay,count,+ shops,outlets,log_shops,0.548998,0.023298,0.503335,0.594661,1.73152,8.98831e-123
+National,barangay,"count, spatial refit",+ shops,outlets,wealth,0.410614,0.0360549,0.339947,0.48128,1.50774,4.76766e-30
+National,barangay,"count, spatial refit",+ shops,outlets,urban_share,1.40555,0.180674,1.05144,1.75967,4.07778,7.28259e-15
+National,barangay,"count, spatial refit",+ shops,outlets,log_shops,0.572664,0.0236417,0.526328,0.619001,1.77298,1.28581e-129
+National,barangay,count,+ shops and roads,outlets,wealth,0.199805,0.0336706,0.133812,0.265798,1.22116,2.95424e-09
+National,barangay,count,+ shops and roads,outlets,urban_share,1.12679,0.15696,0.819154,1.43443,3.08573,7.03067e-13
+National,barangay,count,+ shops and roads,outlets,log_shops,0.773315,0.0280289,0.718379,0.828251,2.16694,1.47103e-167
+National,barangay,count,+ shops and roads,outlets,log_road_km,-0.634982,0.0303131,-0.694395,-0.575569,0.529945,1.98026e-97
+National,barangay,presence,+ urban share,any_outlet,wealth,0.96829,0.0336286,0.902379,1.0342,2.63344,2.57683e-182
+National,barangay,presence,+ urban share,any_outlet,log_pop,0.797608,0.0338852,0.731194,0.864022,2.22022,1.64597e-122
+National,barangay,presence,+ urban share,any_outlet,urban_share,1.79903,0.184053,1.43829,2.15977,6.04378,1.44836e-22
+National,barangay,presence,+ shops,any_outlet,wealth,0.344553,0.0332635,0.279358,0.409748,1.41136,3.83749e-25
+National,barangay,presence,+ shops,any_outlet,log_pop,0.376186,0.027624,0.322044,0.430328,1.45672,3.12699e-42
+National,barangay,presence,+ shops,any_outlet,urban_share,1.50386,0.166658,1.17721,1.8305,4.499,1.81969e-19
+National,barangay,presence,+ shops,any_outlet,log_shops,0.998502,0.0247061,0.950079,1.04693,2.71421,0
+NCR,barangay,count,wealth only,outlets,wealth,-0.0536594,0.0721964,-0.195162,0.087843,0.947755,0.457335
+NCR,barangay,count,+ urban share,outlets,wealth,-0.0544261,0.0719578,-0.195461,0.0866086,0.947028,0.449432
+NCR,barangay,count,+ urban share,outlets,urban_share,54.5027,16.3304,22.4957,86.5098,4.67981e+23,0.000845375
+NCR,barangay,"count, spatial refit",+ urban share,outlets,wealth,0.0413029,0.0875361,-0.130265,0.21287,1.04217,0.637042
+NCR,barangay,"count, spatial refit",+ urban share,outlets,urban_share,52.6289,15.0909,23.0512,82.2065,7.18496e+22,0.000487637
+NCR,barangay,count,+ shops,outlets,wealth,-0.120451,0.0833286,-0.283772,0.0428703,0.886521,0.14832
+NCR,barangay,count,+ shops,outlets,urban_share,42.8753,18.5655,6.48754,79.2631,4.17373e+18,0.0209212
+NCR,barangay,count,+ shops,outlets,log_shops,0.268056,0.0432251,0.183336,0.352776,1.30742,5.59649e-10
+NCR,barangay,"count, spatial refit",+ shops,outlets,wealth,-0.0856688,0.1005,-0.282646,0.111308,0.917898,0.393979
+NCR,barangay,"count, spatial refit",+ shops,outlets,urban_share,39.4701,18.2585,3.684,75.2561,1.38559e+17,0.0306388
+NCR,barangay,"count, spatial refit",+ shops,outlets,log_shops,0.30955,0.0436222,0.224052,0.395048,1.36281,1.28265e-12
+NCR,barangay,count,+ shops and roads,outlets,wealth,-0.0681192,0.0627457,-0.191099,0.0548602,0.934149,0.277639
+NCR,barangay,count,+ shops and roads,outlets,urban_share,36.4307,15.6673,5.72339,67.138,6.63198e+15,0.0200574
+NCR,barangay,count,+ shops and roads,outlets,log_shops,0.592825,0.049198,0.496399,0.689251,1.80909,1.94503e-33
+NCR,barangay,count,+ shops and roads,outlets,log_road_km,-0.517686,0.0538123,-0.623156,-0.412216,0.595898,6.56945e-22
+NCR,barangay,presence,+ urban share,any_outlet,wealth,0.18415,0.149802,-0.109455,0.477756,1.2022,0.218961
+NCR,barangay,presence,+ urban share,any_outlet,log_pop,0.642115,0.0844401,0.476615,0.807614,1.9005,2.86279e-14
+NCR,barangay,presence,+ urban share,any_outlet,urban_share,44.1062,23.6155,-2.17942,90.3918,1.42915e+19,0.0618072
+NCR,barangay,presence,+ shops,any_outlet,wealth,0.2027,0.188176,-0.166118,0.571517,1.2247,0.281398
+NCR,barangay,presence,+ shops,any_outlet,log_pop,0.33934,0.0762546,0.189884,0.488796,1.40402,8.58337e-06
+NCR,barangay,presence,+ shops,any_outlet,urban_share,40.461,22.7682,-4.1639,85.0858,3.73226e+17,0.0755548
+NCR,barangay,presence,+ shops,any_outlet,log_shops,0.868587,0.0810063,0.709818,1.02736,2.38354,7.98411e-27
+NCR,tile,count,wealth only,outlets,wealth,-0.0354296,0.0717478,-0.176053,0.105194,0.965191,0.621442
+NCR,tile,count,+ urban share,outlets,wealth,-0.0512827,0.0712082,-0.190848,0.0882829,0.95001,0.471415
+NCR,tile,count,+ urban share,outlets,urban_share,63.3763,30.1691,4.24595,122.507,3.34168e+27,0.0356671
+NCR,tile,count,+ shops,outlets,wealth,-0.0826838,0.0605284,-0.201317,0.0359497,0.920642,0.171929
+NCR,tile,count,+ shops,outlets,urban_share,22.1508,30.9548,-38.5196,82.8211,4.1682e+09,0.474249
+NCR,tile,count,+ shops,outlets,log_shops,0.268007,0.0532652,0.163609,0.372405,1.30736,4.86504e-07
+NCR,tile,count,+ shops and roads,outlets,wealth,-0.0610408,0.057333,-0.173412,0.0513298,0.940785,0.287025
+NCR,tile,count,+ shops and roads,outlets,urban_share,29.1231,30.1357,-29.9419,88.1881,4.44634e+12,0.333845
+NCR,tile,count,+ shops and roads,outlets,log_shops,0.32573,0.0672879,0.193849,0.457612,1.38504,1.29286e-06
+NCR,tile,count,+ shops and roads,outlets,log_road_km,-0.206213,0.208489,-0.614844,0.202417,0.813659,0.322621
+National,tile,"count, sensitivity: GPS points consistent with their address only",+ urban share,outlets_gps_consistent,wealth,0.752461,0.0448774,0.664503,0.84042,2.12222,4.25108e-63
+National,tile,"count, sensitivity: GPS points consistent with their address only",+ urban share,outlets_gps_consistent,urban_share,1.35944,0.290878,0.789326,1.92955,3.894,2.96015e-06
+National,tile,"count, sensitivity: GPS points consistent with their address only",+ shops,outlets_gps_consistent,wealth,0.144332,0.0473433,0.0515404,0.237123,1.15527,0.00229898
+National,tile,"count, sensitivity: GPS points consistent with their address only",+ shops,outlets_gps_consistent,urban_share,1.1267,0.258045,0.620938,1.63245,3.08545,1.26377e-05
+National,tile,"count, sensitivity: GPS points consistent with their address only",+ shops,outlets_gps_consistent,log_shops,0.443794,0.0301827,0.384637,0.502951,1.55861,6.11151e-49
+National,tile,"count, sensitivity: adding outlets placed only at a town centre",+ urban share,outlets_plus_town,wealth,0.746795,0.0411797,0.666085,0.827506,2.11023,1.68559e-73
+National,tile,"count, sensitivity: adding outlets placed only at a town centre",+ urban share,outlets_plus_town,urban_share,1.10502,0.226116,0.661843,1.5482,3.01929,1.02399e-06
+National,tile,"count, sensitivity: adding outlets placed only at a town centre",+ shops,outlets_plus_town,wealth,0.153264,0.0456662,0.0637605,0.242768,1.16563,0.000790231
+National,tile,"count, sensitivity: adding outlets placed only at a town centre",+ shops,outlets_plus_town,urban_share,0.910482,0.209478,0.499912,1.32105,2.48552,1.38374e-05
+National,tile,"count, sensitivity: adding outlets placed only at a town centre",+ shops,outlets_plus_town,log_shops,0.435891,0.0287405,0.37956,0.492221,1.54634,5.90212e-52

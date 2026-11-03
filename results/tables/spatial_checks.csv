@@ -1,0 +1,26 @@
+scope,unit,model,variant,residuals,morans_i,expected,perm_mean,perm_sd,z,p_value,n,n_without_neighbours
+National,tile,count,+ urban share,mid-quantile,-0.0117202,-2.45483e-05,3.94638e-06,0.00281765,-4.16096,0.001,40737,204
+National,tile,count,+ urban share,deviance,0.0211898,-2.45483e-05,3.80915e-05,0.0028106,7.52569,0.001,40737,204
+National,tile,"count, spatial refit",+ urban share,mid-quantile,-0.0130649,-2.45483e-05,1.18943e-06,0.00282348,-4.62765,0.001,40737,204
+National,tile,count,+ shops,mid-quantile,0.00240366,-2.45483e-05,3.59028e-05,0.0028451,0.832221,0.424,40737,204
+National,tile,count,+ shops,deviance,0.0218013,-2.45483e-05,4.24987e-05,0.00281297,7.73519,0.001,40737,204
+National,tile,"count, spatial refit",+ shops,mid-quantile,0.000840733,-2.45483e-05,3.12971e-05,0.00285129,0.283885,0.776,40737,204
+National,tile,presence,+ urban share,mid-quantile,-0.00945333,-2.48515e-05,-8.44572e-05,0.00298426,-3.13943,0.003,40240,204
+National,barangay,count,+ urban share,mid-quantile,0.0391467,-2.38538e-05,-2.31492e-05,0.00297519,13.1655,0.001,41923,227
+National,barangay,count,+ urban share,deviance,0.0630808,-2.38538e-05,-5.9413e-05,0.0030136,20.9517,0.001,41923,227
+National,barangay,"count, spatial refit",+ urban share,mid-quantile,0.0343227,-2.38538e-05,-2.2439e-05,0.0029736,11.55,0.001,41923,227
+National,barangay,count,+ shops,mid-quantile,0.0419209,-2.38538e-05,-1.40277e-05,0.00299221,14.0147,0.001,41923,227
+National,barangay,count,+ shops,deviance,0.0641949,-2.38538e-05,-4.50019e-05,0.00303342,21.1774,0.001,41923,227
+National,barangay,"count, spatial refit",+ shops,mid-quantile,0.0374774,-2.38538e-05,-6.65026e-06,0.00298767,12.5462,0.001,41923,227
+National,barangay,presence,+ urban share,mid-quantile,0.0212413,-2.41034e-05,1.80749e-05,0.00306672,6.92049,0.001,41489,227
+NCR,barangay,count,+ urban share,mid-quantile,0.0489578,-0.000584795,-0.000448316,0.0139198,3.54933,0.001,1711,0
+NCR,barangay,count,+ urban share,deviance,0.0418362,-0.000584795,-0.000394239,0.0138722,3.04424,0.004,1711,0
+NCR,barangay,"count, spatial refit",+ urban share,mid-quantile,0.0235948,-0.000584795,-0.00053134,0.0139503,1.72944,0.072,1711,0
+NCR,barangay,count,+ shops,mid-quantile,0.0467336,-0.000584795,-0.000160784,0.0139655,3.35787,0.002,1711,0
+NCR,barangay,count,+ shops,deviance,0.0340365,-0.000584795,-0.000140558,0.0139471,2.45047,0.014,1711,0
+NCR,barangay,"count, spatial refit",+ shops,mid-quantile,0.0231366,-0.000584795,-0.000284025,0.0140127,1.67138,0.091,1711,0
+NCR,barangay,presence,+ urban share,mid-quantile,0.00378694,-0.000587889,-0.000796111,0.0137484,0.333351,0.707,1702,0
+NCR,tile,count,+ urban share,mid-quantile,0.0381355,-0.00833333,-0.00845657,0.0498042,0.935505,0.327,121,0
+NCR,tile,count,+ urban share,deviance,0.0388074,-0.00833333,-0.00829299,0.0495907,0.949783,0.326,121,0
+NCR,tile,count,+ shops,mid-quantile,0.027539,-0.00833333,-0.0101462,0.0490885,0.767699,0.445,121,0
+NCR,tile,count,+ shops,deviance,0.0230186,-0.00833333,-0.0100244,0.0490649,0.673455,0.495,121,0
