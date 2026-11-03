@@ -11,13 +11,18 @@ province, region, PCSO area and the three city areas. No outlet-level rows are w
 
 Also writes data/derived/quality_by_area.csv, quality_by_region.csv and data_quality.json.
 
-Run after pcso.py:  python src/tables.py
+Run after place_pcso_outlets.py:  python src/01_data_collection/build_tables.py
 """
 import json
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
 from common import DERIVED, RAW, REGION_TO_AREA, WORK, Z, lonlat_to_tile, metro_of, quadkey, read_rwi
 

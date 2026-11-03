@@ -11,8 +11,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RAW = ROOT / "data" / "raw"          # downloads from fetch_data.sh (gitignored)
+ROOT = Path(__file__).resolve().parents[2]
+RAW = ROOT / "data" / "raw"          # downloads from download_sources.sh (gitignored)
 WORK = ROOT / "data" / "work"        # large intermediates (gitignored)
 DERIVED = ROOT / "data" / "derived"  # small tables the paper cites (committed)
 for _d in (WORK, DERIVED):

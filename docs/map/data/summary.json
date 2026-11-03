@@ -1,0 +1,161 @@
+{
+ "national_rate_per_100k": 6.49,
+ "ncr_rate_per_100k": 14.12,
+ "wealth_unit": "1 national tile SD of RWI = 0.4937",
+ "models": [
+  {
+   "scope": "National",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 2.132,
+   "ci_low": 1.963,
+   "ci_high": 2.317,
+   "n": 40737
+  },
+  {
+   "scope": "National",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 1.173,
+   "ci_low": 1.07,
+   "ci_high": 1.286,
+   "n": 40737
+  },
+  {
+   "scope": "National",
+   "unit": "tile",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 2.176,
+   "ci_low": 1.921,
+   "ci_high": 2.465,
+   "n": 40240
+  },
+  {
+   "scope": "National",
+   "unit": "tile",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 1.591,
+   "ci_low": 1.379,
+   "ci_high": 1.836,
+   "n": 40240
+  },
+  {
+   "scope": "National",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 2.362,
+   "ci_low": 2.216,
+   "ci_high": 2.518,
+   "n": 41923
+  },
+  {
+   "scope": "National",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 1.496,
+   "ci_low": 1.393,
+   "ci_high": 1.607,
+   "n": 41923
+  },
+  {
+   "scope": "National",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 2.633,
+   "ci_low": 2.465,
+   "ci_high": 2.813,
+   "n": 41489
+  },
+  {
+   "scope": "National",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 1.411,
+   "ci_low": 1.322,
+   "ci_high": 1.506,
+   "n": 41489
+  },
+  {
+   "scope": "NCR",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 0.947,
+   "ci_low": 0.822,
+   "ci_high": 1.09,
+   "n": 1711
+  },
+  {
+   "scope": "NCR",
+   "unit": "barangay",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 0.887,
+   "ci_low": 0.753,
+   "ci_high": 1.044,
+   "n": 1711
+  },
+  {
+   "scope": "NCR",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ urban share",
+   "estimate": "odds ratio",
+   "ratio": 1.202,
+   "ci_low": 0.896,
+   "ci_high": 1.612,
+   "n": 1702
+  },
+  {
+   "scope": "NCR",
+   "unit": "barangay",
+   "model": "presence",
+   "variant": "+ shops",
+   "estimate": "odds ratio",
+   "ratio": 1.225,
+   "ci_low": 0.847,
+   "ci_high": 1.771,
+   "n": 1702
+  },
+  {
+   "scope": "NCR",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ urban share",
+   "estimate": "rate ratio",
+   "ratio": 0.95,
+   "ci_low": 0.826,
+   "ci_high": 1.092,
+   "n": 121
+  },
+  {
+   "scope": "NCR",
+   "unit": "tile",
+   "model": "count",
+   "variant": "+ shops",
+   "estimate": "rate ratio",
+   "ratio": 0.921,
+   "ci_low": 0.818,
+   "ci_high": 1.037,
+   "n": 121
+  }
+ ]
+}

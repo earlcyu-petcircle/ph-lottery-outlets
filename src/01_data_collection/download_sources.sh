@@ -33,8 +33,8 @@ stamp() {  # stamp <file>: record the UTC date a moving source was pulled
 
 # 1. PCSO "Traditional Lotto Outlets": the Google My Maps layer embedded in
 #    https://www.pcso.gov.ph/Maps/Outlets.aspx, exported as KML. Every outlet's address,
-#    PCSO area and free-text GPS field; parsed by src/pcso.py. The addresses can carry
-#    owners' names, so this file is never committed.
+#    PCSO area and free-text GPS field; parsed by place_pcso_outlets.py. The addresses can
+#    carry owners' names, so this file is never committed.
 fetch pcso_outlets.kml --max-time 300 \
   "https://www.google.com/maps/d/kml?mid=1dCEzj5MVaZkS5OPjPhaaQXVl-uSDAG0&forcekml=1"
 stamp pcso_pull_date.txt
@@ -55,7 +55,7 @@ fetch phl_pop_2024_100m.tif --max-time 900 \
 # 4. Census population by barangay: PSA 2024 Census of Population (POPCEN), official under
 #    Proclamation No. 973. psa.gov.ph answers scripts with a bot check, so the 18 regional
 #    "Table C - Population by Barangay" workbooks are downloaded by hand into
-#    data/manual/popcen2024/ (gitignored); src/popcen2024.py reads them and names any missing.
+#    data/manual/popcen2024/ (gitignored); read_census_2024.py reads them and names any missing.
 
 # 5. GHSL Degree of Urbanisation (JRC GHS-SMOD R2023A, 2025 epoch, 1 km, Mollweide), for the
 #    share of people living in urban centres and urban clusters.
@@ -71,15 +71,16 @@ fetch phl_admin_boundaries.gdb.zip --max-time 1800 \
 # --- Commerce and roads ---------------------------------------------------------------
 
 # 7. Every OpenStreetMap feature: Geofabrik Philippines extract (about 600 MB), for shop
-#    points and roads. Geofabrik replaces it daily; src/osm_extract.py records its snapshot.
+#    points and roads. Geofabrik replaces it daily; extract_osm_shops_and_roads.py records
+#    its snapshot.
 fetch philippines-latest.osm.pbf --max-time 3600 \
   "https://download.geofabrik.de/asia/philippines-latest.osm.pbf"
 
 # 8. Overture Maps places in the Philippine bounding box (slim columns), read from the
-#    public S3 release with DuckDB; see src/fetch_overture.py.
+#    public S3 release with DuckDB; see download_overture_places.py.
 if [ ! -s "$RAW/overture_places_ph.parquet" ] || [ "$REFRESH" = 1 ]; then
   echo "download $RAW/overture_places_ph.parquet"
-  "${VENV_PYTHON:-.venv/bin/python}" src/fetch_overture.py "$RAW/overture_places_ph.parquet"
+  "${VENV_PYTHON:-.venv/bin/python}" src/01_data_collection/download_overture_places.py "$RAW/overture_places_ph.parquet"
 else
   echo "keep     $RAW/overture_places_ph.parquet"
 fi

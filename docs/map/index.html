@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PH Lotto Outlets Map</title>
+<meta name="description" content="PCSO lotto outlets per person against the Relative Wealth Index, nationally on 2.4 km wealth tiles and in Metro Manila by barangay.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%276%27 fill=%27%2396700F%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400&display=swap">
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#F1EBDD; --surface:#F8F3E8; --ink:#292216; --muted:#665B45; --faint:#8B8069;
+  --rule:#D9CFBA; --rule-strong:#C2B597; --accent:#96700F; --accent-tint:#EADFC5;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.55 "Karla",system-ui,sans-serif}
+#map{position:absolute;inset:0 0 0 360px}
+#panel{position:absolute;top:0;left:0;bottom:0;width:360px;overflow-y:auto;padding:1.4rem 1.3rem 2rem;
+  background:var(--surface);border-right:1px solid var(--rule-strong)}
+.kicker{font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
+h1{font:500 1.7rem/1.12 "Newsreader",Georgia,serif;margin:0 0 .6rem;text-wrap:balance}
+h2{font:600 1.05rem/1.3 "Newsreader",Georgia,serif;margin:1.3rem 0 .5rem;padding-bottom:.25rem;border-bottom:3px double var(--rule-strong)}
+p{margin:.4rem 0}
+.lead{font:400 1.02rem/1.5 "Newsreader",Georgia,serif;font-style:italic;color:var(--muted)}
+fieldset{border:0;margin:0;padding:0}
+label{display:flex;gap:.5rem;align-items:center;padding:.15rem 0;cursor:pointer}
+input{accent-color:var(--accent)}
+.buttons{display:flex;gap:.5rem;margin:.6rem 0 0}
+button{font:500 .85rem "Karla",sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--rule-strong);
+  border-radius:3px;padding:.35rem .7rem;cursor:pointer}
+button:hover{background:var(--accent-tint)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.82rem}
+th{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;
+  border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:.3rem .25rem}
+td{padding:.28rem .25rem;border-bottom:1px solid var(--rule)}
+tr:last-child td{border-bottom:1.5px solid var(--ink)}
+td.num{text-align:right;white-space:nowrap}
+.caption{font-size:.76rem;color:var(--faint);font-style:italic;margin-top:.35rem}
+#legend .row{display:flex;align-items:center;gap:.45rem;font-size:.8rem;padding:.08rem 0}
+.sw{width:16px;height:12px;border:1px solid rgba(41,34,22,.25);flex:none}
+.bigrid{display:grid;grid-template-columns:auto repeat(3,28px);grid-template-rows:repeat(3,22px) auto;gap:2px;align-items:center;font-size:.7rem;color:var(--muted)}
+.bigrid .cell{width:28px;height:22px}
+.note{font-size:.78rem;color:var(--muted)}
+#hidden-note{display:none}
+footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-strong);font-size:.72rem;color:var(--faint)}
+.maplibregl-popup-content{font:13px/1.45 "Karla",sans-serif;color:var(--ink);background:var(--surface);border:1px solid var(--rule-strong);border-radius:3px;padding:.55rem .7rem}
+.maplibregl-popup-tip{display:none}
+.tt-title{font:600 .95rem "Newsreader",serif;margin-bottom:.2rem}
+.tt td{border:0;padding:.05rem .4rem .05rem 0;font-size:.78rem}
+.tt td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:760px){
+  #panel{position:absolute;top:auto;left:0;right:0;bottom:0;width:auto;height:45%;border-right:0;border-top:1px solid var(--rule-strong);padding:1rem 16px}
+  #map{inset:0 0 45% 0}
+}
+</style>
+</head>
+<body>
+<aside id="panel">
+  <p class="kicker">PH lottery outlets &middot; step 3</p>
+  <h1>Lotto outlets and neighbourhood wealth</h1>
+  <p class="lead">PCSO lotto outlets per person against Meta's Relative Wealth Index: every 2.4 km wealth tile in the country, and every Metro Manila barangay.</p>
+
+  <h2>Show</h2>
+  <fieldset id="measure">
+    <label><input type="radio" name="measure" value="rate" checked> Outlets per 100,000 people</label>
+    <label><input type="radio" name="measure" value="rwi"> Relative Wealth Index</label>
+    <label><input type="radio" name="measure" value="bivariate"> Wealth &times; outlet rate</label>
+    <label><input type="radio" name="measure" value="lisa"> Residual hot spots (LISA)</label>
+  </fieldset>
+  <h2>Layers</h2>
+  <fieldset>
+    <label><input type="checkbox" id="show-tiles" checked> National: RWI tiles (2.4 km)</label>
+    <label><input type="checkbox" id="show-ncr" checked> NCR: barangays</label>
+    <label id="outlets-row"><input type="checkbox" id="show-outlets"> Outlet points (local copy only)</label>
+  </fieldset>
+  <p class="note" id="hidden-note">Outlet points are not published: PCSO's outlet list stays out of the repository, so the public map shows counts only. Run the map locally after <code>./04_build_map.sh</code> to see them.</p>
+  <div class="buttons"><button id="go-ph">Philippines</button><button id="go-ncr">Metro Manila</button></div>
+
+  <h2>Legend</h2>
+  <div id="legend"></div>
+
+  <h2>What the models estimate</h2>
+  <p class="note">Wealth rate ratio: how many times as many outlets per person a place one standard deviation richer has, with province (national) or city (NCR) intercepts. Above 1 means richer places have more outlets per person. An association, not a cause.</p>
+  <table id="ratios"><thead><tr><th>Scope</th><th>Without shops</th><th>With shops</th></tr></thead><tbody></tbody></table>
+  <p class="caption" id="ratio-caption"></p>
+
+  <footer>
+    Outlets: PCSO "Lotto Outlets" map, pulled 2 Nov 2026. Wealth: Meta / Data for Good RWI (CC BY-NC 4.0). People: PSA 2024 census on WorldPop 2024. Boundaries: OCHA COD-AB. Basemap: OpenFreeMap, &copy; OpenStreetMap contributors.
+  </footer>
+</aside>
+<div id="map"></div>
+
+<script>
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", protocol.tile);
+const here = (p) => "pmtiles://" + new URL(p, location.href).href;
+
+const RATE = ["#e7e1d3", "#cde2fb", "#9ec5f4", "#5598e7", "#256abf", "#104281"];
+const RATE_BREAKS = [5, 10, 20, 40];
+const RWI = ["#8c510a", "#d8b365", "#f6e8c3", "#f0efec", "#c7eae5", "#5ab4ac", "#01665e"];
+const RWI_BREAKS = [-0.75, -0.35, -0.1, 0.1, 0.35, 0.75];
+// Wealth tercile (w1 poorest .. w3 richest) x outlet level (o0 none, o1 at or below the
+// scope's overall rate, o2 above it)
+const BIV = {w1o0:"#e8e8e8", w2o0:"#ace4e4", w3o0:"#5ac8c8", w1o1:"#dfb0d6", w2o1:"#a5add3",
+             w3o1:"#5698b9", w1o2:"#be64ac", w2o2:"#8c62aa", w3o2:"#3b4994"};
+const LISA = {"High-High":"#d7191c", "Low-Low":"#2c7bb6", "High-Low":"#fdae61", "Low-High":"#abd9e9"};
+
+function fill(measure) {
+  if (measure === "rate") {
+    const steps = ["step", ["get", "rate_per_100k"], RATE[1]];
+    RATE_BREAKS.forEach((b, i) => steps.push(b, RATE[i + 2]));
+    return ["case", ["!", ["has", "rate_per_100k"]], "rgba(0,0,0,0)",
+            ["==", ["get", "outlets"], 0], RATE[0], steps];
+  }
+  if (measure === "rwi") {
+    const steps = ["step", ["get", "rwi"], RWI[0]];
+    RWI_BREAKS.forEach((b, i) => steps.push(b, RWI[i + 1]));
+    return ["case", ["!", ["has", "rwi"]], "rgba(0,0,0,0)", steps];
+  }
+  if (measure === "bivariate") {
+    const m = ["match", ["get", "bivariate"]];
+    Object.entries(BIV).forEach(([k, v]) => m.push(k, v));
+    m.push("rgba(0,0,0,0)");
+    return m;
+  }
+  const m = ["match", ["get", "lisa"]];
+  Object.entries(LISA).forEach(([k, v]) => m.push(k, v));
+  m.push("rgba(0,0,0,0)");
+  return m;
+}
+
+function legend(measure) {
+  const el = document.getElementById("legend");
+  const row = (c, t) => `<div class="row"><span class="sw" style="background:${c}"></span>${t}</div>`;
+  if (measure === "rate") {
+    el.innerHTML = row(RATE[0], "No outlet") + row(RATE[1], "under 5") + row(RATE[2], "5 to 10") +
+      row(RATE[3], "10 to 20") + row(RATE[4], "20 to 40") + row(RATE[5], "40 or more") +
+      `<p class="caption">Outlets per 100,000 people. National rate ${S.national_rate_per_100k}, NCR ${S.ncr_rate_per_100k}.</p>`;
+  } else if (measure === "rwi") {
+    const labels = ["under -0.75 (poorer)", "-0.75 to -0.35", "-0.35 to -0.1", "-0.1 to 0.1",
+                    "0.1 to 0.35", "0.35 to 0.75", "0.75 or more (richer)"];
+    el.innerHTML = RWI.map((c, i) => row(c, labels[i])).join("") +
+      `<p class="caption">Relative Wealth Index (2021). A relative score, not income; its per-tile error is about 0.5.</p>`;
+  } else if (measure === "bivariate") {
+    let g = '<div class="bigrid">';
+    ["o2", "o1", "o0"].forEach((o, r) => {
+      g += `<span>${["Above avg", "At/below avg", "No outlet"][r]}</span>`;
+      ["w1", "w2", "w3"].forEach(w => g += `<span class="cell" style="background:${BIV[w + o]}"></span>`);
+    });
+    g += '<span></span><span>Poorer</span><span></span><span>Richer</span></div>';
+    el.innerHTML = g + `<p class="caption">Rows: outlet rate against the layer's overall rate. Columns: wealth terciles of people, within the country (tiles) or within NCR (barangays).</p>`;
+  } else {
+    el.innerHTML = row(LISA["High-High"], "More outlets than modelled, among similar neighbours") +
+      row(LISA["Low-Low"], "Fewer outlets than modelled, among similar neighbours") +
+      row(LISA["High-Low"], "More than modelled, neighbours fewer") +
+      row(LISA["Low-High"], "Fewer than modelled, neighbours more") +
+      `<p class="caption">Local Moran's I of the count model's residuals (with urban share, no shops), p &lt; 0.05 by 999 permutations. Unshaded: no significant local cluster.</p>`;
+  }
+}
+
+const fmt = (v, d = 0) => v === undefined || v === null ? "-" : Number(v).toLocaleString("en-AU", {maximumFractionDigits: d, minimumFractionDigits: d});
+function tooltip(p, kind) {
+  const title = kind === "tiles" ? `${p.province} &middot; tile ${p.quadkey}` : `${p.adm4_name}, ${p.adm3_name}`;
+  const rows = [["People (2024)", fmt(p.pop)], ["Outlets", fmt(p.outlets)], ["Per 100,000", fmt(p.rate_per_100k, 1)],
+    ["RWI", `${fmt(p.rwi, 2)} &plusmn; ${fmt(p.rwi_error, 2)}`], ["Wealth quintile", p.quintile ? `${p.quintile} of 5` : "-"],
+    ["Shops (OSM + Overture)", fmt(p.shops)], ["Urban share", p.urban_share === undefined ? "-" : fmt(p.urban_share * 100) + "%"],
+    ["Model residual", fmt(p.quantile_residual, 2)], ["LISA", p.lisa]];
+  return `<div class="tt-title">${title}</div><table class="tt">${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`;
+}
+
+let S = {national_rate_per_100k: "-", ncr_rate_per_100k: "-", models: []};
+const map = new maplibregl.Map({
+  container: "map", style: "https://tiles.openfreemap.org/styles/positron",
+  bounds: [[116.8, 4.5], [126.8, 21.2]], attributionControl: {compact: true}, maxZoom: 16
+});
+map.addControl(new maplibregl.NavigationControl({showCompass: false}), "top-right");
+
+map.on("load", async () => {
+  S = await fetch("data/summary.json").then(r => r.json()).catch(() => S);
+  renderRatios();
+  map.addSource("tiles", {type: "vector", url: here("data/tiles.pmtiles")});
+  map.addSource("ncr", {type: "vector", url: here("data/ncr_barangays.pmtiles")});
+  // data layers go under the basemap's labels
+  const labels = map.getStyle().layers.find(l => l.type === "symbol")?.id;
+  map.addLayer({id: "tiles-fill", type: "fill", source: "tiles", "source-layer": "tiles",
+    paint: {"fill-color": fill("rate"), "fill-opacity": 0.78}}, labels);
+  map.addLayer({id: "ncr-fill", type: "fill", source: "ncr", "source-layer": "barangays",
+    paint: {"fill-color": fill("rate"), "fill-opacity": 0.85}}, labels);
+  map.addLayer({id: "ncr-line", type: "line", source: "ncr", "source-layer": "barangays", minzoom: 10,
+    paint: {"line-color": "#665B45", "line-width": 0.4, "line-opacity": 0.6}}, labels);
+
+  // Outlet points exist only in a local build (never committed)
+  const local = await fetch("data/outlets_local.pmtiles", {method: "HEAD"}).then(r => r.ok).catch(() => false);
+  if (local) {
+    map.addSource("outlets", {type: "vector", url: here("data/outlets_local.pmtiles")});
+    map.addLayer({id: "outlets", type: "circle", source: "outlets", "source-layer": "outlets",
+      layout: {visibility: "none"},
+      paint: {"circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 1.5, 14, 4.5], "circle-color": "#96700F",
+              "circle-stroke-color": "#F8F3E8", "circle-stroke-width": 1}});
+  } else {
+    document.getElementById("outlets-row").style.display = "none";
+    document.getElementById("hidden-note").style.display = "block";
+  }
+
+  const popup = new maplibregl.Popup({closeButton: false, closeOnClick: false, maxWidth: "300px"});
+  const hover = (layer, kind) => {
+    map.on("mousemove", layer, e => { map.getCanvas().style.cursor = "pointer";
+      popup.setLngLat(e.lngLat).setHTML(tooltip(e.features[0].properties, kind)).addTo(map); });
+    map.on("mouseleave", layer, () => { map.getCanvas().style.cursor = ""; popup.remove(); });
+  };
+  hover("ncr-fill", "ncr");
+  // a tile tooltip only where no NCR barangay is on top
+  map.on("mousemove", "tiles-fill", e => {
+    if (map.getLayoutProperty("ncr-fill", "visibility") !== "none" &&
+        map.queryRenderedFeatures(e.point, {layers: ["ncr-fill"]}).length) return;
+    map.getCanvas().style.cursor = "pointer";
+    popup.setLngLat(e.lngLat).setHTML(tooltip(e.features[0].properties, "tiles")).addTo(map);
+  });
+  map.on("mouseleave", "tiles-fill", () => { map.getCanvas().style.cursor = ""; popup.remove(); });
+
+  document.querySelectorAll("input[name=measure]").forEach(r => r.addEventListener("change", e => {
+    map.setPaintProperty("tiles-fill", "fill-color", fill(e.target.value));
+    map.setPaintProperty("ncr-fill", "fill-color", fill(e.target.value));
+    legend(e.target.value);
+  }));
+  const toggle = (box, layers) => document.getElementById(box).addEventListener("change", e =>
+    layers.forEach(l => map.getLayer(l) && map.setLayoutProperty(l, "visibility", e.target.checked ? "visible" : "none")));
+  toggle("show-tiles", ["tiles-fill"]);
+  toggle("show-ncr", ["ncr-fill", "ncr-line"]);
+  toggle("show-outlets", ["outlets"]);
+  legend("rate");
+});
+
+document.getElementById("go-ph").onclick = () => map.fitBounds([[116.8, 4.5], [126.8, 21.2]]);
+document.getElementById("go-ncr").onclick = () => map.fitBounds([[120.90, 14.35], [121.14, 14.79]]);
+
+function renderRatios() {
+  const pick = (scope, unit, variant) => S.models.find(m => m.scope === scope && m.unit === unit &&
+    m.model === "count" && m.variant === variant);
+  const cell = m => m ? `${fmt(m.ratio, 2)} <span style="color:var(--faint)">(${fmt(m.ci_low, 2)}-${fmt(m.ci_high, 2)})</span>` : "-";
+  const rows = [["National, tiles", "National", "tile"], ["National, barangays", "National", "barangay"],
+                ["NCR, barangays", "NCR", "barangay"], ["NCR, tiles (low n)", "NCR", "tile"]];
+  document.querySelector("#ratios tbody").innerHTML = rows.map(([label, s, u]) =>
+    `<tr><td>${label}</td><td class="num">${cell(pick(s, u, "+ urban share"))}</td><td class="num">${cell(pick(s, u, "+ shops"))}</td></tr>`).join("");
+  document.getElementById("ratio-caption").textContent =
+    `NB2 count models, 95% confidence intervals. Wealth unit: ${S.wealth_unit}. Both columns control for urban share.`;
+}
+</script>
+</body>
+</html>
