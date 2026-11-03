@@ -10,5 +10,5 @@ require_inputs ./01_collect_data.sh data/raw/pcso_outlets.kml data/raw/phl_rwi.c
 require_inputs "the manual census download in docs/data-quality.md (Getting the files)" data/manual/popcen2024
 
 for step in read_census_2024 extract_osm_shops_and_roads build_barangays place_pcso_outlets build_tables; do
-  run_python src/01_data_collection/$step.py
+  run_python src/02_build_tables/$step.py
 done

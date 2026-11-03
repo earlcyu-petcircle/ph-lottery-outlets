@@ -18,7 +18,7 @@ build_tables.py can sum people onto tiles.
 Writes data/work/barangays.parquet, barangay_geoms.parquet, pixels.parquet,
 commerce_points.parquet, road_segments.npz and data/derived/barangays_summary.json.
 
-Run after extract_osm_shops_and_roads.py:  python src/01_data_collection/build_barangays.py
+Run after extract_osm_shops_and_roads.py:  python src/02_build_tables/build_barangays.py
 """
 import difflib
 import json

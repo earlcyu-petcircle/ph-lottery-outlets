@@ -21,7 +21,7 @@ Checks, all reported in data/derived/popcen2024_validation.json and printed:
     official count (Proclamation No. 973).
 
 Writes data/work/popcen2024.parquet (one row per barangay: file, province, town, barangay,
-population). Run before build_barangays.py:  python src/01_data_collection/read_census_2024.py
+population). Run before build_barangays.py:  python src/02_build_tables/read_census_2024.py
 """
 import json
 import re

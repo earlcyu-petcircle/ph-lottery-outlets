@@ -6,7 +6,7 @@ Reads the public GeoParquet release on S3 directly with DuckDB, filtering on the
 struct so only matching row groups are read (no account, no API key). Columns are kept
 to what the pipeline needs: point, name, categories, confidence and source datasets.
 
-Usage:  python src/01_data_collection/download_overture_places.py data/raw/overture_places_ph.parquet
+Usage:  python src/01_collect_data/download_overture_places.py data/raw/overture_places_ph.parquet
 """
 import sys
 

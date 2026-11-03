@@ -1,5 +1,5 @@
 """
-Model and spatial helpers for the step 3 analysis.
+Model and spatial helpers for the analysis (phase 3).
 
 Every model here estimates an association between wealth and outlet density: how many
 outlets per person sit in richer against poorer places, holding the listed controls fixed.

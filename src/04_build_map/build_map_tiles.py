@@ -22,7 +22,7 @@ and its province (or, in the three cities, its city or municipality) alone accou
 
 Needs tippecanoe 2.17 or later on the path (brew install tippecanoe).
 
-Run after 03_analyse.sh (the notebooks):  ./04_build_map.sh  or  python src/03_web_map/build_map_tiles.py
+Run after 03_analyse.sh (the notebooks):  ./04_build_map.sh  or  python src/04_build_map/build_map_tiles.py
 """
 import json
 import shutil

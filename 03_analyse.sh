@@ -6,7 +6,7 @@
 #                                   side by side with the national results
 #   04_road_distance                road distance to the nearest outlet by wealth quintile
 #   05_maps                         static choropleth maps of outlet density beside wealth
-# The notebooks import their logic from src/02_data_analysis/ and are saved with their outputs
+# The notebooks import their logic from src/03_analyse/ and are saved with their outputs
 # by src/shared/run_notebook.py, which merges each cell's printed output into one stream so a
 # rerun saves the same file.
 # Writes results/tables/ and results/figures/ (committed) and the model residuals the web map

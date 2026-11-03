@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Phase 4: the web map's vector tiles in docs/map/data/ (PMTiles, built with tippecanoe).
 # Outlet points go to docs/map/data/outlets_local.pmtiles for local viewing only (gitignored).
-# Preview:  .venv/bin/python src/03_web_map/serve_map.py   then open http://localhost:8000/
+# Preview:  .venv/bin/python src/04_build_map/serve_map.py   then open http://localhost:8000/
 source "$(dirname "$0")/src/shared/setup.sh"
 
 require_tippecanoe
@@ -11,4 +11,4 @@ require_inputs ./03_analyse.sh results/tables/models.csv data/work/residuals_nat
   data/work/residuals_ncr_barangays.parquet data/work/residuals_cebu_barangays.parquet \
   data/work/residuals_davao_barangays.parquet
 
-run_python src/03_web_map/build_map_tiles.py
+run_python src/04_build_map/build_map_tiles.py

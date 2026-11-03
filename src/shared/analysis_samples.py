@@ -1,12 +1,12 @@
 """
-The analysis samples shared by every step 3 script, read from the committed step 2 tables.
+The analysis samples shared by every phase 3 notebook and script, read from the committed phase 2 tables.
 
 Wealth enters every model as the Relative Wealth Index (RWI) in units of one national
 standard deviation (SD) of tile RWI, measured over populated tiles. The same unit is used for
 tiles and barangays, nationally and in each city, so every wealth rate ratio is per the same
 change in wealth and the columns of a results table can be read side by side.
 
-The three cities of RQ3 (CITIES) are the `metro` areas of the step 2 tables, defined in
+The three cities of RQ3 (CITIES) are the `metro` areas of the phase 2 tables, defined in
 src/shared/common.py: Metro Manila (NCR), Metro Cebu and Metro Davao.
 """
 import numpy as np
