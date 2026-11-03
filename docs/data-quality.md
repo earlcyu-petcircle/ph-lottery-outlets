@@ -1,8 +1,8 @@
-# Data collection and quality (step 2)
+# Data collection and quality
 
-This note covers step 2 of the study: collecting the data and building the two analysis-ready tables.
-It reports how complete each layer is and where the gaps sit, so steps 3 and 4 know what they are standing on.
-It holds no models and no findings.
+This note covers the first two phases of the study: collecting the data and building the two analysis-ready tables.
+It reports how complete each layer is and where the gaps sit, so the analysis knows what it stands on.
+It holds no models and no findings; those are in the [README](../README.md#6-results).
 
 Every number here is rebuilt by `./02_build_tables.sh` (or `./run_all.sh`) from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`, `popcen2024_validation.json`).
 Snapshots in this build: PCSO outlet map pulled 30 October 2026, OpenStreetMap extract of 29 October 2026, Overture release 2026-10-21.0.
@@ -63,7 +63,7 @@ The KML has no geometry: each outlet has its address, its PCSO area and a `GPSCo
 | `unplaced` | 5 | No town could be read | Not counted |
 
 Address matching runs offline against COD-AB names (town, then barangay inside it, inside the outlet's PCSO area), because the addresses carry some owners' names and are not sent to any geocoding service.
-Each status has its own column in both tables, so step 3 can drop the flagged points or add the town-only ones as sensitivity checks.
+Each status has its own column in both tables, so the analysis can drop the flagged points or add the town-only ones as sensitivity checks.
 12 address strings appear twice; they are kept, since one shop can hold more than one terminal.
 
 ### Coverage against PCSO's CY2023 annual report
@@ -117,7 +117,7 @@ Reading it:
 
 - **BARMM is the one region to treat with care.** 15 outlets for 5.7M people may be real (PCSO's Mindanao figure does not split BARMM out), and its RWI coverage is the weakest.
   Its 2024 census join is now near complete: the Special Geographic Area's eight new municipalities match COD-AB's barangays by name within the area.
-- **Eastern Visayas has an unusually high outlet rate (11.7 per 100k)**, second only to NCR, and 24 barangays without RWI; worth a look in step 3 before reading it as a finding.
+- **Eastern Visayas has an unusually high outlet rate (11.7 per 100k)**, second only to NCR, and 24 barangays without RWI; the analysis does not examine it separately.
 - **Shop mapping is uneven:** 6.1 shops per 1,000 people in NCR against 0.2 in BARMM and about 1.2 in Bicol and Soccsksargen, which is the reason the count model is run with and without the shops measure.
 - **Central Luzon and Caraga have the most flagged GPS points (9.5% and 8.6%)**, mostly points just across a town border.
 
@@ -147,7 +147,7 @@ Anyone cloning the repo needs to do this once before `./02_build_tables.sh` (or 
 2. Download each region's "Table C - Population by Barangay" workbook (18 in all).
 3. Save them in `data/manual/popcen2024/` (gitignored) as `ncr.xlsx`, `car.xlsx`, `region_01.xlsx`, `region_02.xlsx`, `region_03.xlsx`, `calabarzon.xlsx`, `mimaropa.xlsx`, `region_05.xlsx`, `region_06.xlsx`, `nir.xlsx`, `region_07.xlsx`, `region_08.xlsx`, `region_09.xlsx`, `region_10.xlsx`, `region_11.xlsx`, `region_12.xlsx`, `caraga.xlsx`, `barmm.xlsx`.
 
-`src/01_data_collection/read_census_2024.py` stops with a message naming the folder and any missing file.
+`src/02_build_tables/read_census_2024.py` stops with a message naming the folder and any missing file.
 
 ### Reading and checking the workbooks
 

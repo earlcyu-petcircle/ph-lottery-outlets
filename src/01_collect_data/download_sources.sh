@@ -80,7 +80,7 @@ fetch philippines-latest.osm.pbf --max-time 3600 \
 #    public S3 release with DuckDB; see download_overture_places.py.
 if [ ! -s "$RAW/overture_places_ph.parquet" ] || [ "$REFRESH" = 1 ]; then
   echo "download $RAW/overture_places_ph.parquet"
-  "${VENV_PYTHON:-.venv/bin/python}" src/01_data_collection/download_overture_places.py "$RAW/overture_places_ph.parquet"
+  "${VENV_PYTHON:-.venv/bin/python}" src/01_collect_data/download_overture_places.py "$RAW/overture_places_ph.parquet"
 else
   echo "keep     $RAW/overture_places_ph.parquet"
 fi

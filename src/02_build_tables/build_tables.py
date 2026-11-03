@@ -11,7 +11,7 @@ province, region, PCSO area and the three city areas. No outlet-level rows are w
 
 Also writes data/derived/quality_by_area.csv, quality_by_region.csv and data_quality.json.
 
-Run after place_pcso_outlets.py:  python src/01_data_collection/build_tables.py
+Run after place_pcso_outlets.py:  python src/02_build_tables/build_tables.py
 """
 import json
 

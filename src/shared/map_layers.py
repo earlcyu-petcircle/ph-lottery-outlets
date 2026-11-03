@@ -1,5 +1,5 @@
 """
-What the web map (src/03_web_map/) and the static maps (notebooks/05_maps.ipynb) share:
+What the web map (src/04_build_map/) and the static maps (notebooks/05_maps.ipynb) share:
 tile outlines, the wealth x outlet-rate classes, and the colours, so both show the same thing.
 
 The wealth x outlet-rate class crosses wealth terciles (population-weighted, within the

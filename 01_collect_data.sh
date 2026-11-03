@@ -14,4 +14,4 @@ for arg in "$@"; do
   esac
 done
 
-VENV_PYTHON=.venv/bin/python bash src/01_data_collection/download_sources.sh "${ARGS[@]+"${ARGS[@]}"}"
+VENV_PYTHON=.venv/bin/python bash src/01_collect_data/download_sources.sh "${ARGS[@]+"${ARGS[@]}"}"

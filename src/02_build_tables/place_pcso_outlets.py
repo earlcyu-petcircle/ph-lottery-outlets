@@ -26,7 +26,7 @@ Placement, in order:
 Writes data/work/pcso_outlets.parquet (no addresses or names; gitignored) and the
 committed summary data/derived/pcso_geocoding.json. The raw KML is never committed.
 
-Run after build_barangays.py:  python src/01_data_collection/place_pcso_outlets.py
+Run after build_barangays.py:  python src/02_build_tables/place_pcso_outlets.py
 """
 import json
 import re
