@@ -5,64 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PH Lotto Outlets Map</title>
 <meta name="description" content="PCSO lotto outlets per person against the Relative Wealth Index, nationally on 2.4 km wealth tiles and by barangay in Metro Manila, Metro Cebu and Metro Davao.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%276%27 fill=%27%2396700F%27/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%272%27 y=%272%27 width=%2712%27 height=%2712%27 fill=%27%231F4FE0%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
 <style>
+/* Atlas Grid, as on the story page (docs/index.html) */
 :root{
   color-scheme: light;
-  --bg:#F1EBDD; --surface:#F8F3E8; --ink:#292216; --muted:#665B45; --faint:#8B8069;
-  --rule:#D9CFBA; --rule-strong:#C2B597; --accent:#96700F; --accent-tint:#EADFC5;
+  --bg:#FFFFFF; --ink:#111111; --ink-soft:#333333; --muted:#555555;
+  --accent:#1F4FE0; --highlight:#FFE14D; --grid:#F3F5FB; --rule:#DADDE6;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --head:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.55 "Karla",system-ui,sans-serif}
-#map{position:absolute;inset:0 0 0 360px}
-#panel{position:absolute;top:0;left:0;bottom:0;width:360px;overflow-y:auto;padding:1.4rem 1.3rem 2rem;
-  background:var(--surface);border-right:1px solid var(--rule-strong)}
-.kicker{font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
-h1{font:500 1.7rem/1.12 "Newsreader",Georgia,serif;margin:0 0 .6rem;text-wrap:balance}
-h2{font:600 1.05rem/1.3 "Newsreader",Georgia,serif;margin:1.3rem 0 .5rem;padding-bottom:.25rem;border-bottom:3px double var(--rule-strong)}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.55 "Public Sans",system-ui,sans-serif}
+a{color:var(--accent)}
+#map{position:absolute;inset:0 0 0 340px;background:var(--grid)}
+#panel{position:absolute;top:0;left:0;bottom:0;width:340px;overflow-y:auto;padding:1.2rem 1.2rem 2rem;
+  background:var(--bg);border-right:3px solid var(--ink)}
+.back{display:inline-flex;align-items:center;gap:.5rem;font:800 .95rem var(--head);letter-spacing:-.02em;color:var(--ink);text-decoration:none;margin:0 0 1rem}
+.back::before{content:"";width:10px;height:10px;background:var(--accent)}
+.kicker{font:600 .72rem var(--mono);letter-spacing:.06em;color:var(--accent);margin:0 0 .5rem}
+h1{font:800 1.75rem/1.02 var(--head);letter-spacing:-.03em;margin:0 0 .6rem;text-wrap:balance}
+h2{font:600 .72rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:1.3rem 0 .5rem;padding-bottom:.3rem;border-bottom:2px solid var(--ink)}
 p{margin:.4rem 0}
-.lead{font:400 1.02rem/1.5 "Newsreader",Georgia,serif;font-style:italic;color:var(--muted)}
+.lead{color:var(--ink-soft);font-size:.93rem}
 fieldset{border:0;margin:0;padding:0}
-label{display:flex;gap:.5rem;align-items:center;padding:.15rem 0;cursor:pointer}
+label{display:flex;gap:.5rem;align-items:center;padding:.12rem 0;cursor:pointer;font-size:.92rem}
 input{accent-color:var(--accent)}
-.buttons{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 0}
-button{font:500 .85rem "Karla",sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--rule-strong);
-  border-radius:3px;padding:.35rem .7rem;cursor:pointer}
-button:hover{background:var(--accent-tint)}
-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.82rem}
-th{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;
-  border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:.3rem .25rem}
+.buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0 0}
+button{font:600 .74rem var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);
+  border-radius:0;padding:.35rem .6rem;cursor:pointer}
+button:hover,button:focus-visible{background:var(--grid)}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{font:600 .64rem var(--mono);text-transform:uppercase;letter-spacing:.04em;text-align:left;
+  border-bottom:2px solid var(--ink);padding:.3rem .25rem}
 td{padding:.28rem .25rem;border-bottom:1px solid var(--rule)}
-tr:last-child td{border-bottom:1.5px solid var(--ink)}
-td.num{text-align:right;white-space:nowrap}
-.caption{font-size:.76rem;color:var(--faint);font-style:italic;margin-top:.35rem}
+td.num{text-align:right;white-space:nowrap;font-family:var(--mono);font-size:.74rem}
+td.num span{color:var(--muted)}
+.caption{font-size:.74rem;color:var(--muted);margin-top:.4rem}
 #legend .row{display:flex;align-items:center;gap:.45rem;font-size:.8rem;padding:.08rem 0}
-.sw{width:16px;height:12px;border:1px solid rgba(41,34,22,.25);flex:none}
-.bigrid{display:grid;grid-template-columns:auto repeat(3,28px);grid-template-rows:repeat(3,22px) auto;gap:2px;align-items:center;font-size:.7rem;color:var(--muted)}
+.sw{width:16px;height:12px;border:1px solid rgba(17,17,17,.2);flex:none}
+.bigrid{display:grid;grid-template-columns:auto repeat(3,28px);grid-template-rows:repeat(3,22px) auto;gap:2px;align-items:center;font:.66rem var(--mono);color:var(--muted)}
 .bigrid .cell{width:28px;height:22px}
 .note{font-size:.78rem;color:var(--muted)}
+code{font:.74rem var(--mono);background:var(--grid);padding:0 .2em}
 #hidden-note{display:none}
-footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-strong);font-size:.72rem;color:var(--faint)}
-.maplibregl-popup-content{font:13px/1.45 "Karla",sans-serif;color:var(--ink);background:var(--surface);border:1px solid var(--rule-strong);border-radius:3px;padding:.55rem .7rem}
+footer{margin-top:1.4rem;padding-top:.6rem;border-top:2px solid var(--ink);font-size:.72rem;color:var(--muted)}
+.maplibregl-popup-content{font:13px/1.45 "Public Sans",sans-serif;color:var(--ink);background:var(--bg);border:1.5px solid var(--ink);border-radius:0;padding:.55rem .7rem;box-shadow:none}
 .maplibregl-popup-tip{display:none}
-.tt-title{font:600 .95rem "Newsreader",serif;margin-bottom:.2rem}
-.tt td{border:0;padding:.05rem .4rem .05rem 0;font-size:.78rem}
-.tt td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.tt-title{font:800 .95rem var(--head);letter-spacing:-.01em;margin-bottom:.2rem}
+.tt td{border:0;padding:.05rem .5rem .05rem 0;font-size:.76rem}
+.tt td:last-child{text-align:right;font-family:var(--mono);font-size:.72rem}
+/* Embedded in the story page: the page around it carries the title and the model table */
+body.embed #panel{width:280px;padding-top:1rem}
+body.embed #map{left:280px}
+body.embed .standalone{display:none}
 @media (max-width:760px){
-  #panel{position:absolute;top:auto;left:0;right:0;bottom:0;width:auto;height:45%;border-right:0;border-top:1px solid var(--rule-strong);padding:1rem 16px}
-  #map{inset:0 0 45% 0}
+  #panel,body.embed #panel{position:absolute;top:auto;left:0;right:0;bottom:0;width:auto;height:44%;border-right:0;border-top:3px solid var(--ink);padding:.9rem 16px}
+  #map,body.embed #map{inset:0 0 44% 0}
 }
 </style>
 </head>
 <body>
 <aside id="panel">
-  <p class="kicker">PH lottery outlets &middot; web map</p>
-  <h1>Lotto outlets and neighbourhood wealth</h1>
-  <p class="lead">PCSO lotto outlets per person against Meta's Relative Wealth Index: every 2.4 km wealth tile in the country, and every barangay of Metro Manila, Metro Cebu and Metro Davao.</p>
+  <a class="back standalone" href="../">Earl Yu / Atlas</a>
+  <p class="kicker standalone">PH / LOTTO OUTLETS / MAP</p>
+  <h1 class="standalone">Lotto outlets and neighbourhood wealth</h1>
+  <p class="lead standalone">PCSO lotto outlets per person against Meta's Relative Wealth Index: every 2.4 km wealth tile in the country, and every barangay of Metro Manila, Metro Cebu and Metro Davao. The <a href="../">story page</a> walks through what it shows.</p>
 
   <h2>Show</h2>
   <fieldset id="measure">
@@ -71,24 +86,27 @@ footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-stro
     <label><input type="radio" name="measure" value="bivariate"> Wealth &times; outlet rate</label>
     <label><input type="radio" name="measure" value="lisa"> Residual hot spots (LISA)</label>
   </fieldset>
+  <div class="buttons" id="scopes"><button id="go-ph" aria-pressed="false">Philippines</button><button id="go-ncr" aria-pressed="false">Metro Manila</button><button id="go-cebu" aria-pressed="false">Metro Cebu</button><button id="go-davao" aria-pressed="false">Metro Davao</button></div>
+
+  <h2>Legend</h2>
+  <div id="legend"></div>
+
   <h2>Layers</h2>
   <fieldset>
     <label><input type="checkbox" id="show-tiles" checked> National: RWI tiles (2.4 km)</label>
-    <label><input type="checkbox" id="show-ncr" checked> NCR: barangays</label>
+    <label><input type="checkbox" id="show-ncr" checked> Metro Manila (NCR): barangays</label>
     <label><input type="checkbox" id="show-cebu" checked> Metro Cebu: barangays</label>
     <label><input type="checkbox" id="show-davao" checked> Metro Davao: barangays</label>
     <label id="outlets-row"><input type="checkbox" id="show-outlets"> Outlet points (local copy only)</label>
   </fieldset>
   <p class="note" id="hidden-note">Outlet points are not published: PCSO's outlet list stays out of the repository, so the public map shows counts only. Run the map locally after <code>./04_build_map.sh</code> to see them.</p>
-  <div class="buttons"><button id="go-ph">Philippines</button><button id="go-ncr">Metro Manila</button><button id="go-cebu">Metro Cebu</button><button id="go-davao">Metro Davao</button></div>
 
-  <h2>Legend</h2>
-  <div id="legend"></div>
-
+  <div class="standalone">
   <h2>What the models estimate</h2>
   <p class="note">Wealth rate ratio: how many times as many outlets per person a place one standard deviation richer has, with province (national) or city and municipality (in each of the three cities) intercepts. Above 1 means richer places have more outlets per person. An association, not a cause.</p>
   <table id="ratios"><thead><tr><th>Scope</th><th>Without shops</th><th>With shops</th></tr></thead><tbody></tbody></table>
   <p class="caption" id="ratio-caption"></p>
+  </div>
 
   <footer>
     Outlets: PCSO "Lotto Outlets" map, pulled 2 Nov 2026. Wealth: Meta / Data for Good RWI (CC BY-NC 4.0). People: PSA 2024 census on WorldPop 2024. Boundaries: OCHA COD-AB. Basemap: OpenFreeMap, &copy; OpenStreetMap contributors.
@@ -97,6 +115,9 @@ footer{margin-top:1.4rem;padding-top:.6rem;border-top:3px double var(--rule-stro
 <div id="map"></div>
 
 <script>
+// ?embed: shown inside the story page, which carries the title and the model table
+if (new URLSearchParams(location.search).has("embed")) document.body.classList.add("embed");
+
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
 const here = (p) => "pmtiles://" + new URL(p, location.href).href;
@@ -198,7 +219,7 @@ map.on("load", async () => {
     map.addLayer({id: `${c}-fill`, type: "fill", source: c, "source-layer": "barangays",
       paint: {"fill-color": fill("rate"), "fill-opacity": 0.85}}, labels);
     map.addLayer({id: `${c}-line`, type: "line", source: c, "source-layer": "barangays", minzoom: 10,
-      paint: {"line-color": "#665B45", "line-width": 0.4, "line-opacity": 0.6}}, labels);
+      paint: {"line-color": "#555555", "line-width": 0.4, "line-opacity": 0.6}}, labels);
   });
 
   // Outlet points exist only in a local build (never committed)
@@ -207,8 +228,8 @@ map.on("load", async () => {
     map.addSource("outlets", {type: "vector", url: here("data/outlets_local.pmtiles")});
     map.addLayer({id: "outlets", type: "circle", source: "outlets", "source-layer": "outlets",
       layout: {visibility: "none"},
-      paint: {"circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 1.5, 14, 4.5], "circle-color": "#96700F",
-              "circle-stroke-color": "#F8F3E8", "circle-stroke-width": 1}});
+      paint: {"circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 1.5, 14, 4.5], "circle-color": "#111111",
+              "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1}});
   } else {
     document.getElementById("outlets-row").style.display = "none";
     document.getElementById("hidden-note").style.display = "block";
@@ -230,26 +251,45 @@ map.on("load", async () => {
   });
   map.on("mouseleave", "tiles-fill", () => { map.getCanvas().style.cursor = ""; popup.remove(); });
 
-  document.querySelectorAll("input[name=measure]").forEach(r => r.addEventListener("change", e => {
-    map.setPaintProperty("tiles-fill", "fill-color", fill(e.target.value));
-    CITY_FILLS.forEach(l => map.setPaintProperty(l, "fill-color", fill(e.target.value)));
-    legend(e.target.value);
-  }));
+  document.querySelectorAll("input[name=measure]").forEach(r => r.addEventListener("change", e => setMeasure(e.target.value)));
   const toggle = (box, layers) => document.getElementById(box).addEventListener("change", e =>
     layers.forEach(l => map.getLayer(l) && map.setLayoutProperty(l, "visibility", e.target.checked ? "visible" : "none")));
   toggle("show-tiles", ["tiles-fill"]);
   Object.keys(CITIES).forEach(c => toggle(`show-${c}`, [`${c}-fill`, `${c}-line`]));
   toggle("show-outlets", ["outlets"]);
   legend("rate");
+  ready = true;
+  fromHash();
 });
 
-document.getElementById("go-ph").onclick = () => map.fitBounds([[116.8, 4.5], [126.8, 21.2]]);
-Object.entries(CITIES).forEach(([c, bounds]) => document.getElementById(`go-${c}`).onclick = () => map.fitBounds(bounds));
+let ready = false;
+const MEASURES = ["rate", "rwi", "bivariate", "lisa"];
+function setMeasure(measure) {
+  document.querySelector(`input[name=measure][value=${measure}]`).checked = true;
+  map.setPaintProperty("tiles-fill", "fill-color", fill(measure));
+  CITY_FILLS.forEach(l => map.setPaintProperty(l, "fill-color", fill(measure)));
+  legend(measure);
+}
+
+const SCOPES = {ph: [[116.8, 4.5], [126.8, 21.2]], ...CITIES};
+function goTo(scope) {
+  map.fitBounds(SCOPES[scope], {padding: 12});
+  Object.keys(SCOPES).forEach(s => document.getElementById(`go-${s}`).setAttribute("aria-pressed", String(s === scope)));
+}
+Object.keys(SCOPES).forEach(s => document.getElementById(`go-${s}`).onclick = () => goTo(s));
+
+// Deep links: #<scope>/<measure>, for example #davao/bivariate (the story page uses these)
+function fromHash() {
+  const [scope, measure] = location.hash.slice(1).split("/");
+  if (SCOPES[scope]) goTo(scope);
+  if (ready && MEASURES.includes(measure)) setMeasure(measure);
+}
+addEventListener("hashchange", fromHash);
 
 function renderRatios() {
   const pick = (scope, unit, variant) => S.models.find(m => m.scope === scope && m.unit === unit &&
     m.model === "count" && m.variant === variant);
-  const cell = m => m ? `${fmt(m.ratio, 2)} <span style="color:var(--faint)">(${fmt(m.ci_low, 2)}-${fmt(m.ci_high, 2)})</span>` : "-";
+  const cell = m => m ? `${fmt(m.ratio, 2)} <span>(${fmt(m.ci_low, 2)}-${fmt(m.ci_high, 2)})</span>` : "-";
   const rows = [["National, tiles", "National", "tile"], ["National, barangays", "National", "barangay"],
                 ["NCR, barangays", "NCR", "barangay"], ["NCR, tiles (low n)", "NCR", "tile"],
                 ["Metro Cebu, barangays", "Metro Cebu", "barangay"], ["Metro Cebu, tiles (low n)", "Metro Cebu", "tile"],

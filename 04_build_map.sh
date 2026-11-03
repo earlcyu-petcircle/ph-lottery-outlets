@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Phase 4: the web map's vector tiles in docs/map/data/ (PMTiles, built with tippecanoe).
 # Outlet points go to docs/map/data/outlets_local.pmtiles for local viewing only (gitignored).
-# Preview:  .venv/bin/python src/04_build_map/serve_map.py   then open http://localhost:8000/
+# Preview:  .venv/bin/python src/04_build_map/serve_map.py   then open http://localhost:8000/map/
 source "$(dirname "$0")/src/shared/setup.sh"
 
 require_tippecanoe

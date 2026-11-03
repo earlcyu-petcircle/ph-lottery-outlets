@@ -2,7 +2,7 @@
 
 This note covers the first two phases of the study: collecting the data and building the two analysis-ready tables.
 It reports how complete each layer is and where the gaps sit, so the analysis knows what it stands on.
-It holds no models and no findings; those are in the [README](../README.md#6-results).
+It holds no models and no findings; those are in the [paper](paper.md#6-results) and on the [story site](https://earlcyu-petcircle.github.io/ph-lottery-outlets/).
 
 Every number here is rebuilt by `./02_build_tables.sh` (or `./run_all.sh`) from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`, `popcen2024_validation.json`).
 Snapshots in this build: PCSO outlet map pulled 30 October 2026, OpenStreetMap extract of 29 October 2026, Overture release 2026-10-21.0.
