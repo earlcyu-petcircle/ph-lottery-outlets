@@ -16,6 +16,23 @@ The model, distance and descriptive tables are in [`results/`](results/) and the
 | 4. Results and discussion | Findings, figures, maps, limitations | Next |
 | 5. Clean-up | README as the finished paper; repo tidy | To do |
 
+### Step 3 figures
+
+The analysis notebooks are in [`notebooks/`](notebooks/) and the interactive map in [`docs/map/`](docs/map/); these figures can be read without either.
+
+| Figure | What it shows |
+|---|---|
+| [`map_national_bivariate.png`](results/figures/map_national_bivariate.png) | Every 2.4 km wealth tile by wealth third and outlet rate together: the national relationship on one map |
+| [`map_ncr_bivariate.png`](results/figures/map_ncr_bivariate.png) | The same for Metro Manila's barangays |
+| [`map_national_rate_and_wealth.png`](results/figures/map_national_rate_and_wealth.png) | Outlets per 100,000 people beside the Relative Wealth Index, on the same tiles |
+| [`map_ncr_rate_and_wealth.png`](results/figures/map_ncr_rate_and_wealth.png) | The same pair for Metro Manila's barangays |
+| [`quintile_rates.png`](results/figures/quintile_rates.png) | Outlets per 100,000 people by wealth quintile, national against NCR |
+| [`rate_ratios.png`](results/figures/rate_ratios.png) | The wealth rate ratio of every model variant, national against NCR |
+
+![Wealth and outlet density together, Philippines](results/figures/map_national_bivariate.png)
+
+![Wealth and outlet density together, Metro Manila](results/figures/map_ncr_bivariate.png)
+
 ## Contents
 
 1. [Background](#1-background)
@@ -157,7 +174,7 @@ The data-quality headline:
 PCSO's outlet addresses can carry owners' names, so the outlet list itself is never committed; only counts per tile and per barangay are.
 
 The code sits in one folder per phase, run by one script per phase at the repo root (section 6).
-The analysis is four narrative notebooks in [`notebooks/`](notebooks/), committed with their outputs; their logic lives as functions in [`src/02_data_analysis/`](src/02_data_analysis/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`), which the notebooks import.
+The analysis is five narrative notebooks in [`notebooks/`](notebooks/), committed with their outputs; their logic lives as functions in [`src/02_data_analysis/`](src/02_data_analysis/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`, `maps.py`), which the notebooks import.
 Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers); each script adds that folder to Python's import path itself, so any script also runs on its own.
 
 | Phase script | Step | Script | Writes |
@@ -172,6 +189,7 @@ Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid h
 | | National count and presence models, spatial checks, sensitivities | [`notebooks/02_count_and_presence_models.ipynb`](notebooks/02_count_and_presence_models.ipynb) | `data/work/` (model rows, residuals) |
 | | NCR zoom-in, side by side with the national results | [`notebooks/03_ncr_zoom_in.ipynb`](notebooks/03_ncr_zoom_in.ipynb) | `results/tables/`, `results/figures/` |
 | | Road distance to the nearest outlet by wealth quintile | [`notebooks/04_road_distance.ipynb`](notebooks/04_road_distance.ipynb) | `results/tables/` |
+| | Static choropleth maps of outlet density beside wealth | [`notebooks/05_maps.ipynb`](notebooks/05_maps.ipynb) | `results/figures/` |
 | `04_build_map.sh` | Web map vector tiles | [`build_map_tiles.py`](src/03_web_map/build_map_tiles.py) | `docs/map/data/` |
 
 ## 6. How to reproduce
@@ -188,7 +206,7 @@ cd ph-lottery-outlets
 
 ./01_collect_data.sh      # downloads into data/raw/ (reuses them unless --refresh)
 ./02_build_tables.sh      # tile and barangay tables in data/derived/
-./03_analyse.sh           # runs the four notebooks: tables and charts in results/
+./03_analyse.sh           # runs the five notebooks: tables, charts and maps in results/
 ./04_build_map.sh         # web map tiles in docs/map/data/
 .venv/bin/python src/03_web_map/serve_map.py   # open the web map at http://localhost:8000/
 ```

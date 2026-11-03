@@ -27,17 +27,15 @@ import shutil
 import subprocess
 
 import geopandas as gpd
-import numpy as np
 import pandas as pd
-from shapely.geometry import box
-
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
-from analysis_samples import NCR, TABLES, weighted_quintile
-from common import DERIVED, ROOT, WORK, Z
+from analysis_samples import NCR, TABLES
+from common import DERIVED, ROOT, WORK
+from map_layers import map_classes, tile_polygons
 
 MAP = ROOT / "docs" / "map" / "data"
 MAP.mkdir(parents=True, exist_ok=True)
@@ -45,33 +43,6 @@ TIPPECANOE = shutil.which("tippecanoe")
 if TIPPECANOE is None:
     raise SystemExit("build_map_tiles.py needs tippecanoe on the path: brew install tippecanoe "
                      "(or build it from https://github.com/felt/tippecanoe)")
-
-
-def tile_bounds(tx, ty, z=Z):
-    n = 2 ** z
-    lon_w, lon_e = tx / n * 360 - 180, (tx + 1) / n * 360 - 180
-    lat_n = np.degrees(np.arctan(np.sinh(np.pi * (1 - 2 * ty / n))))
-    lat_s = np.degrees(np.arctan(np.sinh(np.pi * (1 - 2 * (ty + 1) / n))))
-    return lon_w, lat_s, lon_e, lat_n
-
-
-def classes(df):
-    """Wealth quintile, wealth tercile and the wealth x outlet-rate class (e.g. "w1o2")."""
-    has = df["pop"] > 0
-    df["rate_per_100k"] = (df.outlets / df["pop"] * 1e5).where(has)
-    df["quintile"] = pd.NA
-    df["bivariate"] = pd.NA
-    d = df[has & df.rwi.notna()]
-    q = weighted_quintile(d.rwi.to_numpy(), d["pop"].to_numpy())
-    terc = np.minimum(((np.cumsum(d["pop"].to_numpy()[np.argsort(d.rwi.to_numpy(), kind="stable")])
-                        / d["pop"].sum() * 3 - 1e-9).astype(int) + 1), 3)
-    tercile = np.empty(len(d), dtype=int)
-    tercile[np.argsort(d.rwi.to_numpy(), kind="stable")] = terc
-    overall = d.outlets.sum() / d["pop"].sum() * 1e5
-    level = np.where(d.outlets == 0, 0, np.where(d.rate_per_100k <= overall, 1, 2))
-    df.loc[d.index, "quintile"] = q
-    df.loc[d.index, "bivariate"] = [f"w{t}o{lv}" for t, lv in zip(tercile, level)]
-    return df, overall
 
 
 def tippecanoe(src, dst, layer, *args):
@@ -95,15 +66,12 @@ sizes = {}
 
 # --- National tiles --------------------------------------------------------------------
 t = pd.read_csv(DERIVED / "tiles.csv", dtype={"quadkey": str})
-tx = np.array([int("".join(str(int(c) & 1) for c in q), 2) for q in t.quadkey])
-ty = np.array([int("".join(str(int(c) >> 1) for c in q), 2) for q in t.quadkey])
-t, national_rate = classes(t)
+t, national_rate = map_classes(t)
 res = pd.read_parquet(WORK / "residuals_national_tiles.parquet")
 t = t.merge(res[["quadkey", "quantile_residual", "cluster"]], on="quadkey", how="left")
 t = t.rename(columns={"cluster": "lisa"})
 t["lisa"] = t.lisa.fillna("No people")
-w, s, e, n = tile_bounds(tx, ty)
-geom = [box(*b) for b in zip(w, s, e, n)]
+geom = tile_polygons(t.quadkey)
 cols = ["quadkey", "province", "region", "pop", "outlets", "rate_per_100k", "rwi", "rwi_error", "quintile",
         "bivariate", "shops", "urban_share", "quantile_residual", "lisa"]
 tg = gpd.GeoDataFrame(rounded(t[cols].copy(), ["pop"], 0), geometry=geom, crs=4326)
@@ -117,7 +85,7 @@ sizes["tiles.pmtiles"] = tippecanoe(write_geojson(tg, WORK / "map_tiles.geojsons
 # --- NCR barangays ---------------------------------------------------------------------
 b = pd.read_csv(DERIVED / "barangays.csv")
 b = b[b.region_pcode == NCR].reset_index(drop=True)
-b, ncr_rate = classes(b)
+b, ncr_rate = map_classes(b)
 res = pd.read_parquet(WORK / "residuals_ncr_barangays.parquet")
 b = b.merge(res[["adm4_pcode", "quantile_residual", "cluster"]], on="adm4_pcode", how="left")
 b = b.rename(columns={"cluster": "lisa"})
