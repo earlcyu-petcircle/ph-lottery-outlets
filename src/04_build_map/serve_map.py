@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Serve the web map in docs/map/ locally:  python src/04_build_map/serve_map.py  ->  http://localhost:8000/
+Serve the story site and web map in docs/ locally, as GitHub Pages serves them:
+  python src/04_build_map/serve_map.py  ->  the site at http://localhost:8000/, the map at /map/
 
 PMTiles files are read by HTTP range requests, so the map does not open from file:// and the
 standard library's http.server (which ignores Range) is not enough. This adds byte-range
@@ -14,7 +15,7 @@ from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-MAP_DIR = Path(__file__).resolve().parents[2] / "docs" / "map"
+SITE_DIR = Path(__file__).resolve().parents[2] / "docs"
 RANGE = re.compile(r"bytes=(\d*)-(\d*)$")
 
 
@@ -59,6 +60,6 @@ class RangeHandler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
-    server = ThreadingHTTPServer(("127.0.0.1", port), partial(RangeHandler, directory=str(MAP_DIR)))
-    print(f"Serving {MAP_DIR} at http://localhost:{port}/  (Ctrl+C to stop)")
+    server = ThreadingHTTPServer(("127.0.0.1", port), partial(RangeHandler, directory=str(SITE_DIR)))
+    print(f"Serving {SITE_DIR}: the site at http://localhost:{port}/, the map at http://localhost:{port}/map/  (Ctrl+C to stop)")
     server.serve_forever()
