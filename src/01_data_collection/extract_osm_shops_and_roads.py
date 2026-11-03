@@ -12,13 +12,18 @@ barangay study needs besides the outlets themselves.
 Writes data/work/osm_retail.parquet, data/work/osm_ways.npz and the extract's snapshot
 time to data/raw/osm_extract_date.txt.
 
-Run after fetch_data.sh:  python src/osm_extract.py
+Run after download_sources.sh:  python src/01_data_collection/extract_osm_shops_and_roads.py
 """
 from array import array
 
 import numpy as np
 import osmium
 import pandas as pd
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
 from common import RAW, ROAD_CLASSES, WORK
 

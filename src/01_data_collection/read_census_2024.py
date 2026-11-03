@@ -21,7 +21,7 @@ Checks, all reported in data/derived/popcen2024_validation.json and printed:
     official count (Proclamation No. 973).
 
 Writes data/work/popcen2024.parquet (one row per barangay: file, province, town, barangay,
-population). Run before barangays.py:  python src/popcen2024.py
+population). Run before build_barangays.py:  python src/01_data_collection/read_census_2024.py
 """
 import json
 import re
@@ -30,6 +30,10 @@ import warnings
 
 import openpyxl
 import pandas as pd
+
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
 from common import DERIVED, POPCEN_FILES as FILES, ROOT, WORK
 

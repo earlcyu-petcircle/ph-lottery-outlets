@@ -20,7 +20,7 @@ and its province (or city) alone account for.
 
 Needs tippecanoe 2.17 or later on the path (brew install tippecanoe).
 
-Run after models.py:  python src/webmap.py
+Run after 03_analyse.sh (the notebooks):  ./04_build_map.sh  or  python src/03_web_map/build_map_tiles.py
 """
 import json
 import shutil
@@ -31,14 +31,19 @@ import numpy as np
 import pandas as pd
 from shapely.geometry import box
 
-from analysis_data import NCR, TABLES, weighted_quintile
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
+
+from analysis_samples import NCR, TABLES, weighted_quintile
 from common import DERIVED, ROOT, WORK, Z
 
 MAP = ROOT / "docs" / "map" / "data"
 MAP.mkdir(parents=True, exist_ok=True)
 TIPPECANOE = shutil.which("tippecanoe")
 if TIPPECANOE is None:
-    raise SystemExit("webmap.py needs tippecanoe on the path: brew install tippecanoe "
+    raise SystemExit("build_map_tiles.py needs tippecanoe on the path: brew install tippecanoe "
                      "(or build it from https://github.com/felt/tippecanoe)")
 
 

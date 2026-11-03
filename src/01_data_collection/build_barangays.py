@@ -3,7 +3,7 @@
 Put every layer except the outlets onto barangays and onto WorldPop 100 m pixels.
 
 One row per barangay (OCHA COD-AB v03, PSGC-coded), carrying:
-  - 2024 census population (popcen2024.py), joined by town and barangay name, since the PSA
+  - 2024 census population (read_census_2024.py), joined by town and barangay name, since the PSA
     workbooks carry no PSGC codes;
   - urban share: the share of its people in GHSL Degree of Urbanisation urban cells;
   - wealth: the population-weighted mean Relative Wealth Index, and its error, of the
@@ -13,12 +13,12 @@ One row per barangay (OCHA COD-AB v03, PSGC-coded), carrying:
 
 The pixel table is the dasymetric step (Mennis 2003): every populated WorldPop 2024 100 m
 pixel carries its barangay, its RWI tile and its share of the barangay's census count, so
-tables.py can sum people onto tiles.
+build_tables.py can sum people onto tiles.
 
 Writes data/work/barangays.parquet, barangay_geoms.parquet, pixels.parquet,
 commerce_points.parquet, road_segments.npz and data/derived/barangays_summary.json.
 
-Run after osm_extract.py:  python src/barangays.py
+Run after extract_osm_shops_and_roads.py:  python src/01_data_collection/build_barangays.py
 """
 import difflib
 import json
@@ -33,6 +33,11 @@ import rasterio
 import rasterio.transform
 import rasterio.windows
 import shapely
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
 from common import DERIVED, POPCEN_FILES, RAW, ROAD_CLASSES, WORK, lonlat_to_tile, read_rwi
 
@@ -58,7 +63,7 @@ geo = gpd.read_file(GDB, layer="phl_admin4", columns=cols, engine="pyogrio")
 geo = geo.sort_values("adm4_pcode").reset_index(drop=True)
 print(f"Barangays (COD-AB): {len(geo):,}")
 
-popcen = pd.read_parquet(WORK / "popcen2024.parquet")  # from popcen2024.py
+popcen = pd.read_parquet(WORK / "popcen2024.parquet")  # from read_census_2024.py
 popcen["row"] = np.arange(len(popcen))
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Serve the web map in docs/map/ locally:  python src/serve_map.py  ->  http://localhost:8000/
+Serve the web map in docs/map/ locally:  python src/03_web_map/serve_map.py  ->  http://localhost:8000/
 
 PMTiles files are read by HTTP range requests, so the map does not open from file:// and the
 standard library's http.server (which ignores Range) is not enough. This adds byte-range
@@ -14,7 +14,7 @@ from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-MAP_DIR = Path(__file__).resolve().parent.parent / "docs" / "map"
+MAP_DIR = Path(__file__).resolve().parents[2] / "docs" / "map"
 RANGE = re.compile(r"bytes=(\d*)-(\d*)$")
 
 

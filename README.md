@@ -156,14 +156,23 @@ The data-quality headline:
 
 PCSO's outlet addresses can carry owners' names, so the outlet list itself is never committed; only counts per tile and per barangay are.
 
-| Step | Script | Writes |
-|---|---|---|
-| Download every source | [`src/fetch_data.sh`](src/fetch_data.sh), [`src/fetch_overture.py`](src/fetch_overture.py) | `data/raw/` (gitignored) |
-| Read and check the 2024 census workbooks | [`src/popcen2024.py`](src/popcen2024.py) | `data/work/`, `data/derived/popcen2024_validation.json` |
-| Shop points and roads from OpenStreetMap | [`src/osm_extract.py`](src/osm_extract.py) | `data/work/` (gitignored) |
-| Barangays, 2024 census join, population and urban share on 100 m pixels, shops and roads per barangay | [`src/barangays.py`](src/barangays.py) | `data/work/`, `data/derived/barangays_summary.json` |
-| Parse PCSO GPS text, check it against the address, place outlets without coordinates | [`src/pcso.py`](src/pcso.py) | `data/work/` (outlet rows), `data/derived/pcso_geocoding.json` |
-| Tile and barangay tables, quality tables | [`src/tables.py`](src/tables.py) | `data/derived/` |
+The code sits in one folder per phase, run by one script per phase at the repo root (section 6).
+The analysis is four narrative notebooks in [`notebooks/`](notebooks/), committed with their outputs; their logic lives as functions in [`src/02_data_analysis/`](src/02_data_analysis/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`), which the notebooks import.
+Shared helpers are in [`src/shared/`](src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers); each script adds that folder to Python's import path itself, so any script also runs on its own.
+
+| Phase script | Step | Script | Writes |
+|---|---|---|---|
+| `01_collect_data.sh` | Download every source | [`download_sources.sh`](src/01_data_collection/download_sources.sh), [`download_overture_places.py`](src/01_data_collection/download_overture_places.py) | `data/raw/` (gitignored) |
+| `02_build_tables.sh` | Read and check the 2024 census workbooks | [`read_census_2024.py`](src/01_data_collection/read_census_2024.py) | `data/work/`, `data/derived/popcen2024_validation.json` |
+| | Shop points and roads from OpenStreetMap | [`extract_osm_shops_and_roads.py`](src/01_data_collection/extract_osm_shops_and_roads.py) | `data/work/` (gitignored) |
+| | Barangays, 2024 census join, population and urban share on 100 m pixels, shops and roads per barangay | [`build_barangays.py`](src/01_data_collection/build_barangays.py) | `data/work/`, `data/derived/barangays_summary.json` |
+| | Parse PCSO GPS text, check it against the address, place outlets without coordinates | [`place_pcso_outlets.py`](src/01_data_collection/place_pcso_outlets.py) | `data/work/` (outlet rows), `data/derived/pcso_geocoding.json` |
+| | Tile and barangay tables, quality tables | [`build_tables.py`](src/01_data_collection/build_tables.py) | `data/derived/` |
+| `03_analyse.sh` | Outlets per 100,000 by wealth quintile, distributions, the PCSO CY2023 check | [`notebooks/01_descriptives.ipynb`](notebooks/01_descriptives.ipynb) | `results/tables/`, `results/figures/` |
+| | National count and presence models, spatial checks, sensitivities | [`notebooks/02_count_and_presence_models.ipynb`](notebooks/02_count_and_presence_models.ipynb) | `data/work/` (model rows, residuals) |
+| | NCR zoom-in, side by side with the national results | [`notebooks/03_ncr_zoom_in.ipynb`](notebooks/03_ncr_zoom_in.ipynb) | `results/tables/`, `results/figures/` |
+| | Road distance to the nearest outlet by wealth quintile | [`notebooks/04_road_distance.ipynb`](notebooks/04_road_distance.ipynb) | `results/tables/` |
+| `04_build_map.sh` | Web map vector tiles | [`build_map_tiles.py`](src/03_web_map/build_map_tiles.py) | `docs/map/data/` |
 
 ## 6. How to reproduce
 
@@ -174,13 +183,19 @@ The 2024 census workbooks cannot be downloaded by script: fetch the 18 files by 
 ```bash
 git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
 cd ph-lottery-outlets
-./run_all.sh              # venv, pinned packages, downloads, then every table in data/derived/
+./run_all.sh              # every phase below, in order
 ./run_all.sh --refresh    # same, but pull fresh PCSO, OpenStreetMap and Overture snapshots
-./run_all.sh --analysis-only   # rerun only step 3 (models, distances, charts, web map)
-.venv/bin/python src/serve_map.py   # open the web map at http://localhost:8000/
+
+./01_collect_data.sh      # downloads into data/raw/ (reuses them unless --refresh)
+./02_build_tables.sh      # tile and barangay tables in data/derived/
+./03_analyse.sh           # runs the four notebooks: tables and charts in results/
+./04_build_map.sh         # web map tiles in docs/map/data/
+.venv/bin/python src/03_web_map/serve_map.py   # open the web map at http://localhost:8000/
 ```
 
-The web map reads PMTiles files by HTTP range requests, so it does not open from `file://`; `src/serve_map.py` is a small range-aware server.
+Each phase checks that the outputs it reads exist and names the phase to run if they do not, so the analysis can be rerun without collecting the data again.
+The phases share one small helper, `src/shared/setup.sh`, which makes the local virtual environment and checks for tippecanoe.
+The web map reads PMTiles files by HTTP range requests, so it does not open from `file://`; `serve_map.py` is a small range-aware server.
 On GitHub Pages (Settings, Pages, deploy from the `main` branch and the `/docs` folder) the map is at `<pages URL>/map/`.
 Outlet points appear only in a local build: PCSO's outlet list is never committed.
 

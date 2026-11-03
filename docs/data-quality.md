@@ -4,7 +4,7 @@ This note covers step 2 of the study: collecting the data and building the two a
 It reports how complete each layer is and where the gaps sit, so steps 3 and 4 know what they are standing on.
 It holds no models and no findings.
 
-Every number here is rebuilt by `./run_all.sh` from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`, `popcen2024_validation.json`).
+Every number here is rebuilt by `./02_build_tables.sh` (or `./run_all.sh`) from the downloads in `data/raw/`; the machine-readable versions are in [`data/derived/`](../data/derived/) (`data_quality.json`, `quality_by_area.csv`, `quality_by_region.csv`, `pcso_geocoding.json`, `barangays_summary.json`, `popcen2024_validation.json`).
 Snapshots in this build: PCSO outlet map pulled 30 October 2026, OpenStreetMap extract of 29 October 2026, Overture release 2026-10-21.0.
 
 ## The short version
@@ -141,13 +141,13 @@ The population is the PSA 2024 Census of Population (POPCEN), as of 1 July 2024,
 ### Getting the files
 
 psa.gov.ph serves scripts a Cloudflare bot check, so the files are downloaded by hand.
-Anyone cloning the repo needs to do this once before `./run_all.sh`:
+Anyone cloning the repo needs to do this once before `./02_build_tables.sh` (or `./run_all.sh`):
 
 1. Open [2024 Census of Population (POPCEN) Population Counts Declared Official by the President](https://psa.gov.ph/content/2024-census-population-popcen-population-counts-declared-official-president) in a browser.
 2. Download each region's "Table C - Population by Barangay" workbook (18 in all).
 3. Save them in `data/manual/popcen2024/` (gitignored) as `ncr.xlsx`, `car.xlsx`, `region_01.xlsx`, `region_02.xlsx`, `region_03.xlsx`, `calabarzon.xlsx`, `mimaropa.xlsx`, `region_05.xlsx`, `region_06.xlsx`, `nir.xlsx`, `region_07.xlsx`, `region_08.xlsx`, `region_09.xlsx`, `region_10.xlsx`, `region_11.xlsx`, `region_12.xlsx`, `caraga.xlsx`, `barmm.xlsx`.
 
-`src/popcen2024.py` stops with a message naming the folder and any missing file.
+`src/01_data_collection/read_census_2024.py` stops with a message naming the folder and any missing file.
 
 ### Reading and checking the workbooks
 

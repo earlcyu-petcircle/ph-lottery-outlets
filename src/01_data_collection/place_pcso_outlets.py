@@ -20,13 +20,13 @@ Placement, in order:
      the address, inside the outlet's PCSO area (address_barangay); the outlet is put at
      the barangay's population-weighted centre;
   3. only the town could be read -> the town's population-weighted centre (address_town);
-     tables.py counts these on tiles but keeps them apart from the main count;
+     build_tables.py counts these on tiles but keeps them apart from the main count;
   4. otherwise unplaced (unplaced_town_ambiguous when several towns fit, else unplaced).
 
 Writes data/work/pcso_outlets.parquet (no addresses or names; gitignored) and the
 committed summary data/derived/pcso_geocoding.json. The raw KML is never committed.
 
-Run after barangays.py:  python src/pcso.py
+Run after build_barangays.py:  python src/01_data_collection/place_pcso_outlets.py
 """
 import json
 import re
@@ -37,6 +37,11 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 import shapely
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shared"))  # shared helpers in src/shared/
 
 from common import DERIVED, PCSO_AREAS, RAW, WORK
 

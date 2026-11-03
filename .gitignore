@@ -9,3 +9,4 @@ __pycache__/
 .DS_Store
 # The web map's outlet points: built for local viewing only, never committed (docs/data-quality.md)
 docs/map/data/outlets_local.pmtiles
+.ipynb_checkpoints/
