@@ -114,6 +114,8 @@ body.embed .standalone{display:none}
 </aside>
 <div id="map"></div>
 
+<!-- RATE, RWI, BIV and LISA: the Atlas data palette, written from src/shared/map_layers.py -->
+<script src="palette.js"></script>
 <script>
 // ?embed: shown inside the story page, which carries the title and the model table
 if (new URLSearchParams(location.search).has("embed")) document.body.classList.add("embed");
@@ -122,15 +124,10 @@ const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
 const here = (p) => "pmtiles://" + new URL(p, location.href).href;
 
-const RATE = ["#e7e1d3", "#cde2fb", "#9ec5f4", "#5598e7", "#256abf", "#104281"];
 const RATE_BREAKS = [5, 10, 20, 40];
-const RWI = ["#8c510a", "#d8b365", "#f6e8c3", "#f0efec", "#c7eae5", "#5ab4ac", "#01665e"];
 const RWI_BREAKS = [-0.75, -0.35, -0.1, 0.1, 0.35, 0.75];
-// Wealth tercile (w1 poorest .. w3 richest) x outlet level (o0 none, o1 at or below the
-// scope's overall rate, o2 above it)
-const BIV = {w1o0:"#e8e8e8", w2o0:"#ace4e4", w3o0:"#5ac8c8", w1o1:"#dfb0d6", w2o1:"#a5add3",
-             w3o1:"#5698b9", w1o2:"#be64ac", w2o2:"#8c62aa", w3o2:"#3b4994"};
-const LISA = {"High-High":"#d7191c", "Low-Low":"#2c7bb6", "High-Low":"#fdae61", "Low-High":"#abd9e9"};
+// BIV keys: wealth tercile (w1 poorest .. w3 richest) x outlet level (o0 none, o1 at or below
+// the scope's overall rate, o2 above it)
 
 function fill(measure) {
   if (measure === "rate") {

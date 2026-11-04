@@ -14,23 +14,21 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
+import atlas
 from analysis_samples import FIGURES
 
-INK, MUTED, RULE, SURFACE = "#292216", "#665B45", "#D9CFBA", "#F8F3E8"
 SCOPE_ORDER = ["National", "NCR", "Metro Cebu", "Metro Davao"]
-QUINTILE_SERIES = {("National", "tile"): "#2a78d6", ("NCR", "barangay"): "#eb6834",
-                   ("Metro Cebu", "barangay"): "#1baf7a", ("Metro Davao", "barangay"): "#8a5cc7"}
-QUINTILE_LABEL = {("National", "tile"): "National, RWI tiles", ("NCR", "barangay"): "NCR, barangays",
-                  ("Metro Cebu", "barangay"): "Metro Cebu, barangays",
-                  ("Metro Davao", "barangay"): "Metro Davao, barangays"}
-UNIT_COLOUR = {"barangay": "#eb6834", "tile": "#2a78d6"}
-PANEL_TITLE = {"National": "National", "NCR": "Metro Manila (NCR)", "Metro Cebu": "Metro Cebu",
+QUINTILE_PANELS = [("National", "tile", "Philippines", "2.4 km tiles"),
+                   ("NCR", "barangay", "Metro Manila", "barangays"),
+                   ("Metro Cebu", "barangay", "Metro Cebu", "barangays"),
+                   ("Metro Davao", "barangay", "Metro Davao", "barangays")]
+# Barangays in cobalt (the main unit in the cities), tiles in ink (the main unit nationally)
+UNIT_MARK = {"barangay": {"color": atlas.ACCENT, "markerfacecolor": atlas.ACCENT},
+             "tile": {"color": atlas.INK_SOFT, "markerfacecolor": atlas.BG}}
+PANEL_TITLE = {"National": "Philippines", "NCR": "Metro Manila (NCR)", "Metro Cebu": "Metro Cebu",
                "Metro Davao": "Metro Davao"}
 UNIT_LABEL = {"barangay": "Barangays (main unit in the cities; check nationally)",
               "tile": "RWI tiles (main unit nationally; low-n check in the cities)"}
-STYLE = {"font.family": "DejaVu Sans", "font.size": 9, "axes.edgecolor": MUTED,
-         "axes.labelcolor": INK, "xtick.color": MUTED, "ytick.color": MUTED, "text.color": INK,
-         "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE}
 ROWS = [("count", "wealth only"), ("count", "+ urban share"), ("count", "+ shops"), ("count", "+ shops and roads"),
         ("count, spatial refit", "+ urban share"), ("count, spatial refit", "+ shops"),
         ("presence", "+ urban share"), ("presence", "+ shops")]
@@ -46,41 +44,36 @@ def _figure(figsize):
     """A figure on its own Agg canvas, outside pyplot, so a notebook does not also draw it."""
     fig = Figure(figsize=figsize, dpi=200)
     FigureCanvasAgg(fig)
-    return fig, fig.add_subplot()
-
-
-def _tidy(ax):
-    for side in ("top", "right"):
-        ax.spines[side].set_visible(False)
-    ax.tick_params(length=0)
+    return fig
 
 
 def quintile_chart(q):
-    """q: the quintile_rates table."""
+    """q: the quintile_rates table. One panel per scope, on one shared scale."""
     q = q[q.quintile != "All"].assign(quintile=lambda d: d.quintile.astype(int))
-    keys = list(QUINTILE_SERIES)
-    with plt.rc_context(STYLE):
-        fig, ax = _figure((8, 4))
-        width = 0.2
-        top = 0
-        for i, key in enumerate(keys):
-            d = q[(q.scope == key[0]) & (q.unit == key[1])].sort_values("quintile")
-            x = d.quintile + (i - (len(keys) - 1) / 2) * (width + 0.01)
-            ax.bar(x, d.outlets_per_100k, width=width, color=QUINTILE_SERIES[key], label=QUINTILE_LABEL[key],
-                   zorder=2)
-            for xi, v in zip(x, d.outlets_per_100k):
-                ax.text(xi, v + 0.25, f"{v:.1f}", ha="center", va="bottom", fontsize=6, color=MUTED)
-            top = max(top, d.outlets_per_100k.max())
-        ax.set_xticks(range(1, 6), ["1\npoorest", "2", "3", "4", "5\nrichest"])
-        ax.set_xlabel("Wealth quintile (each a fifth of the scope's people; each city split by its own people)")
-        ax.set_ylabel("Outlets per 100,000 people")
-        ax.yaxis.grid(True, color=RULE, linewidth=0.6, zorder=0)
-        ax.set_ylim(0, top * 1.12)
-        ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=4, fontsize=8)
-        ax.set_title("PCSO lotto outlets per person by wealth quintile", loc="left", fontsize=11,
-                     fontweight="bold", pad=24)
-        _tidy(ax)
-        fig.tight_layout()
+    top = q.outlets_per_100k.max()
+    with plt.rc_context(atlas.style()):
+        fig = _figure((9, 4.1))
+        axes = fig.subplots(1, len(QUINTILE_PANELS), sharey=True)
+        for ax, (scope, unit, name, unit_name) in zip(axes, QUINTILE_PANELS):
+            d = q[(q.scope == scope) & (q.unit == unit)].sort_values("quintile")
+            ax.bar(d.quintile, d.outlets_per_100k, width=0.68, color=atlas.ACCENT, zorder=2)
+            for x, v in zip(d.quintile, d.outlets_per_100k):
+                ax.text(x, v + top * 0.025, f"{v:.1f}", ha="center", va="bottom", color=atlas.INK,
+                        **atlas.mono(7.5, bold=True))
+            atlas.bare(ax)
+            atlas.baseline(ax)
+            ax.set_ylim(0, top * 1.14)
+            ax.set_xlim(0.4, 5.6)
+            ax.set_yticks([])
+            ax.set_xticks(range(1, 6), ["Q1\npoorest", "Q2", "Q3", "Q4", "Q5\nrichest"],
+                          fontfamily=atlas.family(atlas.MONO), fontsize=7.5)
+            ax.set_title(f"{name}\n", loc="left", **atlas.head(10.5))
+            ax.text(0, 1.0, unit_name, transform=ax.transAxes, va="bottom", color=atlas.MUTED,
+                    **atlas.mono(7.5))
+        top_room = atlas.heading(fig, "Lotto outlets per 100,000 people, by wealth fifth",
+                                 "Each scope's people split into fifths by wealth; each city by its own people. "
+                                 "No controls.")
+        fig.tight_layout(rect=(0, 0, 1, top_room), w_pad=2.2)
         fig.savefig(FIGURES / "quintile_rates.png")
     return FIGURES / "quintile_rates.png"
 
@@ -94,40 +87,43 @@ def rate_ratio_chart(m):
     lo = min(0.5, m.ci_low.min() * 0.9)
     hi = max(4, m.ci_high.max() * 1.1)
     ticks = [t for t in (0.25, 0.5, 1, 2, 4, 8, 16) if lo <= t <= hi]
-    with plt.rc_context(STYLE):
-        fig = Figure(figsize=(2.35 * len(scopes) + 2.4, 0.42 * len(rows) + 1.9), dpi=200)
-        FigureCanvasAgg(fig)
+    with plt.rc_context(atlas.style()):
+        fig = _figure((2.35 * len(scopes) + 2.4, 0.42 * len(rows) + 2.2))
         axes = fig.subplots(1, len(scopes), sharey=True)
         for ax, scope in zip(axes, scopes):
             for j, (model, variant) in enumerate(rows):
                 y = len(rows) - 1 - j
-                for k, unit in enumerate(("barangay", "tile")):
+                for unit in ("barangay", "tile"):
                     d = m[(m.model == model) & (m.variant == variant) & (m.scope == scope) & (m.unit == unit)]
                     if d.empty:
                         continue
                     r = d.iloc[0]
                     yy = y + (0.14 if unit == "barangay" else -0.14)
-                    ax.plot([r.ci_low, r.ci_high], [yy] * 2, color=UNIT_COLOUR[unit], linewidth=2,
-                            solid_capstyle="round")
-                    ax.plot(r.wealth_ratio, yy, "o", color=UNIT_COLOUR[unit], markersize=4.5,
-                            markeredgecolor=SURFACE, markeredgewidth=1)
-            ax.axvline(1, color=INK, linewidth=0.8)
+                    mark = UNIT_MARK[unit]
+                    ax.plot([r.ci_low, r.ci_high], [yy] * 2, color=mark["color"], linewidth=1.9,
+                            solid_capstyle="butt")
+                    ax.plot(r.wealth_ratio, yy, "s", markersize=4.6, markeredgewidth=1.4,
+                            markeredgecolor=mark["color"], markerfacecolor=mark["markerfacecolor"])
+            ax.axvline(1, color=atlas.INK, linewidth=1.1, linestyle=(0, (3, 3)))
             ax.set_xscale("log")
             ax.set_xlim(lo, hi)
-            ax.set_xticks(ticks, [f"{t:g}" for t in ticks])
+            ax.set_ylim(-0.6, len(rows) - 0.4)
+            ax.set_xticks(ticks, [f"{t:g}×" if t == 1 else f"{t:g}" for t in ticks],
+                          fontfamily=atlas.family(atlas.MONO), fontsize=7.5)
             ax.minorticks_off()
-            ax.xaxis.grid(True, color=RULE, linewidth=0.6)
-            ax.set_title(PANEL_TITLE[scope], loc="left", fontsize=9.5, fontweight="bold")
-            _tidy(ax)
-        axes[0].set_yticks(range(len(rows)), [ROW_LABEL[r] for r in rows][::-1])
-        fig.suptitle("Wealth ratio by model variant, with 95% intervals", x=0.01, ha="left", fontsize=11,
-                     fontweight="bold")
-        fig.supxlabel("Wealth ratio per 1 national SD of RWI (log scale); above 1: more outlets per person "
-                      "in richer places", fontsize=8.5, color=INK)
-        handles = [plt.Line2D([], [], color=UNIT_COLOUR[u], marker="o", linewidth=2, label=UNIT_LABEL[u])
+            atlas.bare(ax)
+            ax.spines["bottom"].set_visible(True)
+            ax.spines["bottom"].set_linewidth(1.5)
+            ax.tick_params(axis="x", length=3.5, width=1.1, color=atlas.INK)
+            ax.set_title(PANEL_TITLE[scope], loc="left", **atlas.head(10.5))
+        axes[0].set_yticks(range(len(rows)), [ROW_LABEL[r] for r in rows][::-1], fontsize=8.5)
+        top_room = atlas.heading(fig, "Wealth ratio by model variant, with 95% intervals",
+                                 "Per 1 national SD of RWI, log scale. Above 1: more outlets per person in richer "
+                                 "places. The dashed line at 1 is no association.")
+        handles = [plt.Line2D([], [], marker="s", linewidth=1.9, markersize=4.6, markeredgewidth=1.4,
+                              markeredgecolor=UNIT_MARK[u]["color"], label=UNIT_LABEL[u], **UNIT_MARK[u])
                    for u in ("barangay", "tile")]
-        fig.legend(handles=handles, frameon=False, loc="upper right", ncol=2, fontsize=8,
-                   bbox_to_anchor=(0.995, 1.0))
-        fig.tight_layout(rect=(0, 0, 1, 0.97))
+        fig.legend(handles=handles, loc="lower left", ncol=2, fontsize=8, bbox_to_anchor=(0.005, 0.0))
+        fig.tight_layout(rect=(0, 0.06, 1, top_room))
         fig.savefig(FIGURES / "rate_ratios.png")
     return FIGURES / "rate_ratios.png"

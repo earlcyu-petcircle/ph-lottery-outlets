@@ -10,16 +10,21 @@ import numpy as np
 import pandas as pd
 from shapely.geometry import box
 
+import atlas
 from analysis_samples import weighted_quintile
 from common import Z
 
-# Colours, as in docs/map/index.html
-RATE_NONE = "#e7e1d3"  # people but no outlet
-RATE = ["#cde2fb", "#9ec5f4", "#5598e7", "#256abf", "#104281"]  # light to dark blue
-RWI = ["#8c510a", "#d8b365", "#f6e8c3", "#f0efec", "#c7eae5", "#5ab4ac", "#01665e"]  # poorer brown, richer teal
-BIV = {"w1o0": "#e8e8e8", "w2o0": "#ace4e4", "w3o0": "#5ac8c8", "w1o1": "#dfb0d6", "w2o1": "#a5add3",
-       "w3o1": "#5698b9", "w1o2": "#be64ac", "w2o2": "#8c62aa", "w3o2": "#3b4994"}
-NO_PEOPLE = "#d6d3cc"
+# Colours: the Atlas data palette (atlas.py), shared with the web map through docs/map/palette.js,
+# which src/04_build_map/write_web_palette.py writes from these
+RATE_NONE = atlas.NO_OUTLET  # people but no outlet
+RATE = atlas.SEQUENTIAL[1:]  # five classes, light to dark cobalt
+RWI = atlas.DIVERGING  # seven steps, poorer pink to richer cobalt
+BIV = atlas.BIVARIATE
+NO_PEOPLE = atlas.NO_PEOPLE
+# Local Moran's I clusters of the model residuals (web map only): cobalt and sky for more outlets
+# than modelled, pink and amber for fewer; no teal, so pink never sits beside it
+LISA = {"High-High": atlas.CATEGORICAL[0], "High-Low": atlas.CATEGORICAL[5], "Low-Low": atlas.CATEGORICAL[1],
+        "Low-High": atlas.CATEGORICAL[2]}
 
 
 def tile_xy(quadkeys):
