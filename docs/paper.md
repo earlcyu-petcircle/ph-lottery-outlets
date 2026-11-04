@@ -1,9 +1,16 @@
-# Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines
+# Are Philippine lottery outlets concentrated in poorer neighborhoods? 
 
-Earl Yu, November 2026.
-Open and published data only.
+By: Earl Christian Yu
+Published on: 04 November 2026
+Last edited: 04 November 2026
 
-This is the full paper behind the one-page story site at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.
+> This is the full paper behind the one-page story site at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.
+
+## Summary
+
+Question: Are PCSO lotto outlets concentrated in poorer neighborhoods? 
+
+Answer: No. Per person, lotto 
 
 **In short.**
 Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods?
@@ -11,6 +18,7 @@ On the open data, no.
 Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest: 12.7 against 0.4 per 100,000 people.
 Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person.
 Inside Metro Manila wealth makes no difference to outlet density, Metro Davao leans towards its richer barangays, and Metro Cebu's lean cannot be told apart from none once shops are held fixed.
+
 The median person in the poorest fifth lives 11.5 km from an outlet by road, against 0.6 km in the richest.
 So the access version of "lottery as a tax on the poor" does not hold for PCSO's lotto network: outlets follow commerce and urbanisation, not poverty.
 That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.
@@ -37,66 +45,32 @@ A plain-English companion to the results is [here](https://claude.ai/artifact/Xb
 
 ## 1. Background
 
-This project started with Johnny Harris's video [*The US Lottery is a Lie*](https://www.youtube.com/watch?v=3Yn_3HqfV1w) (YouTube, 8 March 2023) [[1](#ref-1)].
-It asks why US state governments run lotteries and where the money comes from, and makes the case that lottery revenue leans on lower-income players.
-That is the familiar charge that the lottery is "a tax on the poor".
-This study asks whether the same story can be seen on a map of the Philippines.
+### Inspiration
 
-The Philippine lottery is a state enterprise, and a large one.
-The Philippine Charity Sweepstakes Office (PCSO) runs Lotto, the Small Town Lottery (STL) and the sweepstakes.
+A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that demonstrates why the US lottery is **"a tax on the poor"**. Since the lottery is owned by the government, proceeds from the lottery will go into funding government services (ideally). It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money.
 
-| Measure | Value | Source |
-|---|---|---|
-| PCSO gaming revenue, 2023 | PHP 61.45 billion (about US$1.1 billion), up 7% on 2022 | Philstar [[2](#ref-2)] |
-| PCSO gaming revenue, 2024 | PHP 62.35 billion, of which STL PHP 31.76 billion and Lotto with digit games PHP 29.72 billion | PCSO 2024 year-end report [[3](#ref-3)] |
-| Price of a standard lotto play | PHP 20, rolled back from PHP 24 in 2020 | Philstar [[4](#ref-4)] |
-| Lotto agents | 6,494 at the end of 2023 | PCSO Annual Report CY2023 [[5](#ref-5)] |
-| Lotto outlets on PCSO's published map | 7,443, undated (pulled 2 November 2026) | PCSO outlet map [[6](#ref-6)] |
-| For scale | more than 7-Eleven's stores (about 4,000) and Jollibee's branches (about 1,300) combined | Inquirer [[7](#ref-7)], Statista [[8](#ref-8)] |
+America's poorest households spend 33x more of their income on lotto tickets than the rich [source](https://fortune.com/2024/04/04/lottery-tickets-poor-rich-income-powerball-mega-millions-jackpot-odds-les-bernal-stop-predatory-gambling/). With these people as the biggest spenders, it is unsurprising why the lottery became known as "a tax on the poor."
+
+That got me thinking. **Is the Philippine lottery also a tax on poor Filipinos?** This can be assessed in two ways: **access and spend**. In terms of access, are lotto outlets more concentrated in poorer neighborhoods than richer ones, thereby giving easy access to poorer households since they are the desired target market? This can be done via spatial analysis and is the main scope of this paper. Meanwhile, the spend facet checks if poorer households spend more on lotto tickets (as a percentage of their household budget) than richer households. This is no longer within our scope.
+
+### Philippine Lottery
+
+The Philippine Charity Sweepstakes Office (PCSO) is a government-owned and controlled corporation that runs the country's national and local lotteries. As of 2024, it recorded a revenue of PHP 62.35 billion. It operates 7,443 outlets nationwide - more than the number of 7-11 convenience stores (~4,000) and Jollibee branches (~1,300) in the country.
 
 ![PCSO gaming revenue in 2024 by game: Small Town Lottery PHP 31.76 billion, Lotto with digit games PHP 29.72 billion and other games PHP 0.87 billion, of PHP 62.35 billion](../results/figures/pcso_gaming_revenue_2024.png)
 
-*PCSO gaming revenue in 2024, by game.
-Other games is the remainder of the PHP 62.35 billion total.
-Source: PCSO 2024 year-end report [[3](#ref-3)].*
-
-The terminals and draw system are leased from private firms: in 2021 a joint venture of Pacific Online Systems, Philippine Gaming Management Corporation and International Lottery & Totalizator Systems won a five-year, PHP 5.8 billion nationwide lease [[9](#ref-9)].
-
-What sharpens the question is where the money goes, because that is set by statute.
-The PCSO's charter is Republic Act 1169 of 1954 [[10](#ref-10)].
-Section 6, as amended by Batas Pambansa Blg. 42 in 1979, splits net receipts 55% to prizes, 30% to a charity fund for "health programs, medical assistance and services and/or charities of national character", and 15% to operations [[11](#ref-11)].
-The Universal Health Care Act (Republic Act 11223, 2019) then directs 40% of that charity fund to PhilHealth [[12](#ref-12)].
-The STL exists as a legal alternative to *jueteng*, the illegal numbers game penalised under Republic Act 9287 [[13](#ref-13)].
-So a PHP 20 bet funds hospital bills by law, and it matters whose PHP 20 it is.
+How the PCSO spends its money is dictated by law: 55% to prizes, 30% to a charity fund for "health programs, medical assistance and services, and/or charities of national character", and 15% to operations[[11](#ref-11)]. Moreover, the Universal Health Care Act (RA 11223) directs 40% of that charity fund to PhilHealth [[12](#ref-12)].
 
 ![Where PCSO's net receipts go by law: 55% to prizes, 30% to the charity fund and 15% to operations](../results/figures/pcso_net_receipts_split.png)
 
-*The statutory split of PCSO's net receipts: 55% prizes, 30% charity fund, 15% operations.
-Source: RA 1169, Section 6, as amended by Batas Pambansa Blg. 42 [[11](#ref-11)]; PhilHealth's 40% of the charity fund from RA 11223 [[12](#ref-12)].*
-
-"A tax on the poor" bundles two claims.
-The **access claim** is that outlets are concentrated in poorer neighbourhoods, which a map can test.
-The **spending claim** is that poorer households spend a larger share of income on tickets, which only household budget data can test.
-This study tests the access claim and says plainly what that does and does not tell us about the spending claim.
-
-### What earlier studies found
-
-Studies of where gambling and other retail outlets sit mostly count outlets per person in small areas and compare richer with poorer ones, using a count model with a population offset [[14](#ref-14), [15](#ref-15), [16](#ref-16)].
-Gaming machines and betting shops tend to follow deprivation [[14](#ref-14), [16](#ref-16)].
-Lottery retail is less clear: in New Jersey commercial land use was the strongest predictor and poverty turned negative [[17](#ref-17)], and in Massachusetts disadvantaged postcodes had no more agents or sales [[18](#ref-18)].
-The stronger studies control for commerce, because outlets are shops and shops cluster in town centres.
-No peer-reviewed lottery-outlet location study was found for the Philippines or another Asian middle-income country.
-
 ## 2. Research questions
 
-1. **RQ1 Supply per person.** After accounting for population, are PCSO lotto outlets more or less common per person in poorer neighbourhoods than in richer ones?
-   The access version of "a tax on the poor" expects more outlets per person where people are poorer.
-2. **RQ2 Commerce.** Does any wealth gradient hold among places with the same amount of shopping?
-   Without a shops measure the model asks whether poorer Filipinos live with more or fewer outlets around them; with it, whether lotto leans towards poorer or richer places among places with the same retail.
-3. **RQ3 Within cities.** Does the gradient hold inside Metro Manila, Metro Cebu and Metro Davao, where rich and poor neighbourhoods sit side by side?
-4. **RQ4 Distance.** How far do people in poorer and richer neighbourhoods live from their nearest outlet, by road?
-
-The spending claim is out of scope; it needs household spending on lotto by income, which the open data do not hold.
+| # | Theme | Question | Note |
+| --- | --- | --- | --- |
+| RQ #1 | Supply per person | After accounting for population, are PCSO lotto outlets more or less common per person in poorer neighbourhoods than in richer ones? | The access version of "a tax on the poor" expects more outlets per person where people are poorer. |
+| RQ #2 | Commerce | Does any wealth gradient hold among places with the same amount of shopping? | Without a shops measure the model asks whether poorer Filipinos live with more or fewer outlets around them; with it, whether lotto leans towards poorer or richer places among places with the same retail. |
+| RQ #3 | Within cities | Does the gradient hold inside Metro Manila, Metro Cebu and Metro Davao, where rich and poor neighbourhoods sit side by side? | |
+| RQ #4 | Distance | How far do people in poorer and richer neighbourhoods live from their nearest outlet, by road? | |
 
 ## 3. Data sources
 
