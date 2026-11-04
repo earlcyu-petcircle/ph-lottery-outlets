@@ -404,7 +404,7 @@ Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index vi
 
 The code sits in one folder per phase under [`src/`](../src/), named after the phase script at the repo root that runs it (section 10).
 The analysis is five narrative notebooks in [`notebooks/`](../notebooks/), committed with their outputs so each table and chart sits beside a short reading of it; their logic lives as functions in [`src/03_analyse/`](../src/03_analyse/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`, `maps.py`), which the notebooks import; `pcso_background.py` draws the two background charts in section 1 from figures typed in from their sources.
-Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers, `map_layers.py` the classes and colours the static and web maps share, `atlas.py` the story site's Atlas Grid style for every static chart and map, with its fonts committed in `fonts/`, `run_notebook.py` the notebook runner `03_analyse.sh` uses, `setup.sh` the phase scripts' setup); each script adds that folder to Python's import path itself, so any script also runs on its own.
+Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers, `map_layers.py` the classes and colours the static and web maps share, `atlas.py` the story site's Atlas Grid style and its Riso data palette for every chart and map, with its fonts committed in `fonts/`, `palette_check.py` the palette's colour-blind checks, `run_notebook.py` the notebook runner `03_analyse.sh` uses, `setup.sh` the phase scripts' setup); each script adds that folder to Python's import path itself, so any script also runs on its own.
 
 | Phase script | Step | Script | Writes |
 |---|---|---|---|
@@ -420,6 +420,7 @@ Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and gri
 | | Road distance to the nearest outlet by wealth quintile | [`notebooks/04_road_distance.ipynb`](../notebooks/04_road_distance.ipynb) | `results/tables/` |
 | | Static choropleth maps of outlet density beside wealth | [`notebooks/05_maps.ipynb`](../notebooks/05_maps.ipynb) | `results/figures/` |
 | `04_build_map.sh` | Web map vector tiles | [`build_map_tiles.py`](../src/04_build_map/build_map_tiles.py) | `docs/map/data/` |
+| | Web map colours, from `map_layers.py` | [`write_web_palette.py`](../src/04_build_map/write_web_palette.py) | `docs/map/palette.js` |
 
 ## Appendix B. Every figure and table
 

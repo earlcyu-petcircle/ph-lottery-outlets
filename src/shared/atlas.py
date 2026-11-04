@@ -23,6 +23,21 @@ FONTS = Path(__file__).resolve().parent / "fonts"
 BG, INK, INK_SOFT, MUTED = "#FFFFFF", "#111111", "#333333", "#555555"
 ACCENT, GRID, RULE = "#1F4FE0", "#F3F5FB", "#DADDE6"
 
+# The Atlas data palette, Riso: cobalt for more and richer, fluoro pink for poorer, cool greys.
+# Chosen 4 Nov 2026; the colour-blind checks are in palette_check.py. The maps (static and web)
+# take theirs through map_layers.py.
+SEQUENTIAL = ["#DCE9FF", "#A6C4FF", "#739EFC", "#4577F0", "#1F4FE0", "#173295"]  # light to dark cobalt
+DIVERGING = ["#CA1968", "#ED5F90", "#FCBDCD", "#EDEEF1", "#C3D8FF", "#6E9BFB", "#1F4FE0"]  # pink poorer, cobalt richer
+# Wealth third (w1 poorest .. w3 richest) x outlet level (o0 none, o1 up to the overall rate, o2 above).
+# The middle column is a faint cool tint and the pale and mid cells are tuned off the review's
+# values so every pair stays 8 or more apart in all four visions (palette_check.py).
+BIVARIATE = {"w1o0": "#EAB3C0", "w2o0": "#EFF2F5", "w3o0": "#B0CCFF",
+             "w1o1": "#E35486", "w2o1": "#9F9FC2", "w3o1": "#6696FD",
+             "w1o2": "#CA1968", "w2o2": "#30394E", "w3o2": "#1F4FE0"}
+# In this order for charts; a map's categories never put pink (2) beside teal (4)
+CATEGORICAL = ["#1F4FE0", "#E8407A", "#E8A317", "#0F9D8A", "#9C3F8F", "#3FA7D6"]
+NO_OUTLET, NO_PEOPLE = "#EBECEF", "#CDD0D7"
+
 HEAD, BODY, MONO = "Bricolage Grotesque", "Public Sans", "JetBrains Mono"
 _FALLBACK = {HEAD: "DejaVu Sans", BODY: "DejaVu Sans", MONO: "DejaVu Sans Mono"}
 _registered = None

@@ -151,13 +151,16 @@ def bivariate_map(scope):
         fig = _figure(SIZE[scope][1])
         top = atlas.heading(fig, f"Wealth and outlet density together: {TITLE[scope]}",
                             "Each unit by its wealth third and its outlet rate against the overall rate "
-                            f"({overall:.1f} per 100,000).\nDark purple: richer with many outlets; pink: poorer "
-                            "with many outlets; teal: richer with none.", x=0.03)
+                            f"({overall:.1f} per 100,000).\nHue is wealth (pink poorer, grey middle, cobalt richer); "
+                            "depth is outlets (pale: none, deep: above the overall rate).", x=0.03)
         ax = fig.add_axes((0.02, 0.05, 0.96, top - 0.06))
         _draw(ax, g, colours, scope)
         _bivariate_key(fig, KEY[scope], overall)
-        fig.text(0.03, 0.015, "Grey: no people or no RWI. Sources as in map_*_rate_and_wealth.png.",
-                 color=atlas.MUTED, **atlas.mono(6.5))
+        h = 0.11 / fig.get_figheight()  # a swatch about 0.11 inch high, as tall as the text
+        fig.patches.append(Rectangle((0.03, 0.015), h * fig.get_figheight() / fig.get_figwidth(), h,
+                                     transform=fig.transFigure, color=NO_PEOPLE, figure=fig))
+        fig.text(0.03 + 0.18 / fig.get_figwidth(), 0.015, "No people or no RWI. Sources as in "
+                 "map_*_rate_and_wealth.png.", color=atlas.MUTED, **atlas.mono(6.5))
         path = FIGURES / f"map_{scope}_bivariate.png"
         fig.savefig(path, dpi=DPI[scope])
     return path
