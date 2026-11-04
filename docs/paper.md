@@ -49,17 +49,17 @@ A plain-English companion to the results is [here](https://claude.ai/artifact/Xb
 
 A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that demonstrates why the US lottery is **"a tax on the poor"**. Since the lottery is owned by the government, proceeds from the lottery will go into funding government services (ideally). It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money.
 
-America's poorest households spend 33x more of their income on lotto tickets than the rich [source](https://fortune.com/2024/04/04/lottery-tickets-poor-rich-income-powerball-mega-millions-jackpot-odds-les-bernal-stop-predatory-gambling/). With these people as the biggest spenders, it is unsurprising why the lottery became known as "a tax on the poor."
+America's poorest households spend 33x more of their income on lotto tickets than the rich [[2](#ref-2)]. With these people as the biggest spenders, it is unsurprising why the lottery became known as "a tax on the poor."
 
 That got me thinking. **Is the Philippine lottery also a tax on poor Filipinos?** This can be assessed in two ways: **access and spend**. In terms of access, are lotto outlets more concentrated in poorer neighborhoods than richer ones, thereby giving easy access to poorer households since they are the desired target market? This can be done via spatial analysis and is the main scope of this paper. Meanwhile, the spend facet checks if poorer households spend more on lotto tickets (as a percentage of their household budget) than richer households. This is no longer within our scope.
 
 ### Philippine Lottery
 
-The Philippine Charity Sweepstakes Office (PCSO) is a government-owned and controlled corporation that runs the country's national and local lotteries. As of 2024, it recorded a revenue of PHP 62.35 billion. It operates 7,443 outlets nationwide - more than the number of 7-11 convenience stores (~4,000) and Jollibee branches (~1,300) in the country.
+The Philippine Charity Sweepstakes Office (PCSO) is a government-owned and controlled corporation that runs the country's national and local lotteries. As of 2024, it recorded a revenue of PHP 62.35 billion [[3](#ref-3)]. It operates 7,443 outlets nationwide [[4](#ref-4)] - more than the number of 7-11 convenience stores (~4,000) [[5](#ref-5)] and Jollibee branches (~1,300) [[6](#ref-6)] in the country.
 
 ![PCSO gaming revenue in 2024 by game: Small Town Lottery PHP 31.76 billion, Lotto with digit games PHP 29.72 billion and other games PHP 0.87 billion, of PHP 62.35 billion](../results/figures/pcso_gaming_revenue_2024.png)
 
-How the PCSO spends its money is dictated by law: 55% to prizes, 30% to a charity fund for "health programs, medical assistance and services, and/or charities of national character", and 15% to operations[[11](#ref-11)]. Moreover, the Universal Health Care Act (RA 11223) directs 40% of that charity fund to PhilHealth [[12](#ref-12)].
+How the PCSO spends its money is dictated by law: 55% to prizes, 30% to a charity fund for "health programs, medical assistance and services, and/or charities of national character", and 15% to operations [[7](#ref-7)]. Moreover, the Universal Health Care Act (RA 11223) directs 40% of that charity fund to PhilHealth [[8](#ref-8)].
 
 ![Where PCSO's net receipts go by law: 55% to prizes, 30% to the charity fund and 15% to operations](../results/figures/pcso_net_receipts_split.png)
 
@@ -79,13 +79,13 @@ The choices were made on a methodology review of 22 studies and the Philippine d
 
 | Role | Source | Grain | Year | Licence | Why this one |
 |---|---|---|---|---|---|
-| Outcome: lotto outlets | PCSO "Traditional Lotto Outlets" map [[6](#ref-6)] | Outlet: address, PCSO area, GPS text | Undated; pulled 2 Nov 2026 | Public PCSO publication | PCSO's own list, so it is complete by construction; 7,443 outlets against 6,494 agents at the end of 2023 |
-| Wealth | Meta / Data for Good Relative Wealth Index (RWI) [[19](#ref-19)] | About 2.4 km tile, with a per-tile error | 2021 file | CC BY-NC 4.0 | The only open wealth measure finer than a city, so it can see rich and poor parts of the same city |
+| Outcome: lotto outlets | PCSO "Traditional Lotto Outlets" map [[4](#ref-4)] | Outlet: address, PCSO area, GPS text | Undated; pulled 2 Nov 2026 | Public PCSO publication | PCSO's own list, so it is complete by construction; 7,443 outlets against 6,494 agents at the end of 2023 |
+| Wealth | Meta / Data for Good Relative Wealth Index (RWI) [[9](#ref-9)] | About 2.4 km tile, with a per-tile error | 2021 file | CC BY-NC 4.0 | The only open wealth measure finer than a city, so it can see rich and poor parts of the same city |
 | Population count | PSA 2024 Census of Population, by barangay (downloaded by hand) | Barangay | 1 Jul 2024 | PSA publication | Official counts at the smallest administrative unit |
 | Urban share | JRC GHSL Degree of Urbanisation | 1 km cell | 2025 epoch | CC BY 4.0 | A standard international urban definition, since the 2024 census carries no urban flag |
 | Population pattern | WorldPop R2025A, constrained, 100 m | Pixel | 2024 | CC BY 4.0 | Spreads each barangay's census count to where its people live inside it |
 | Boundaries and codes | OCHA COD-AB Philippines v03, PSGC codes | Barangay to region | Valid from Feb 2025 | CC BY-IGO | Official NAMRIA and PSA boundaries; 42,048 barangays |
-| Shops | OpenStreetMap (Geofabrik) and Overture Maps places [[20](#ref-20)] | Point | Oct-Nov 2026 | ODbL; CDLA Permissive 2.0 and per-source terms | General shop counts for the commerce control; their own lotto points are left out |
+| Shops | OpenStreetMap (Geofabrik) and Overture Maps places [[10](#ref-10)] | Point | Oct-Nov 2026 | ODbL; CDLA Permissive 2.0 and per-source terms | General shop counts for the commerce control; their own lotto points are left out |
 | Roads | OpenStreetMap highways | Segment | Nov 2026 | ODbL | Road length as an urbanity control, and the network for RQ4 |
 
 What was considered and not used:
@@ -102,12 +102,12 @@ What was considered and not used:
 ### 4.1 Unit of analysis
 
 The layers come at different grains: outlets are points, wealth is a 2.4 km grid, population is counted by barangay.
-The design picks one unit and moves every layer onto it, which is the change-of-support problem [[21](#ref-21)].
+The design picks one unit and moves every layer onto it, which is the change-of-support problem [[11](#ref-11)].
 
 - **Main unit: the RWI tile** (40,824 tiles, 40,737 with people).
   Wealth stays at its native grain.
   Outlets are counted per tile.
-  Each barangay's census count is spread over its WorldPop 100 m pixels and summed per tile, which is dasymetric mapping [[22](#ref-22)].
+  Each barangay's census count is spread over its WorldPop 100 m pixels and summed per tile, which is dasymetric mapping [[12](#ref-12)].
 - **Check: the barangay** (42,048, 41,923 with people and an RWI value).
   Population stays native, and wealth is the population-weighted RWI of the tiles its people live in.
   In cities several barangays share one tile's wealth value (Metro Manila's 1,711 barangays in the models have most of their people in 113 tiles), so standard errors are clustered by tile.
@@ -119,13 +119,13 @@ The design picks one unit and moves every layer onto it, which is the change-of-
 - **With and without commerce.** Each model is reported with wealth only, with urban share, with shops (OpenStreetMap plus Overture) and urban share, and with shops, urban share and road length (RQ2).
   Commerce may be a mediator as much as a confounder, which is why both are shown.
 - **Presence model.** Logistic regression on whether a tile has any outlet, with log population as a covariate.
-- **Spatial checks.** Moran's I on the residuals; where they cluster, a refit with Moran eigenvector spatial filters, a frequentist stand-in for a BYM2 spatial model [[23](#ref-23)].
+- **Spatial checks.** Moran's I on the residuals; where they cluster, a refit with Moran eigenvector spatial filters, a frequentist stand-in for a BYM2 spatial model [[13](#ref-13)].
 - **Within cities.** The same models inside Metro Manila, Metro Cebu and Metro Davao (RQ3), by barangay with city and municipality intercepts, and on RWI tiles as a low-n check.
   Wealth stays in national standard deviations, so every city's ratios read on the national scale.
   Each city is defined from an official source:
   Metro Manila is the National Capital Region;
-  Metro Cebu is the 13 cities and municipalities of the Metro Cebu Development and Coordinating Board, as listed in its 2015 roadmap study with JICA [[24](#ref-24)] (no statute defines Metro Cebu);
-  Metro Davao is the 15 cities and municipalities of Republic Act No. 11708 (2022), Section 4 [[25](#ref-25)].
+  Metro Cebu is the 13 cities and municipalities of the Metro Cebu Development and Coordinating Board, as listed in its 2015 roadmap study with JICA [[14](#ref-14)] (no statute defines Metro Cebu);
+  Metro Davao is the 15 cities and municipalities of Republic Act No. 11708 (2022), Section 4 [[15](#ref-15)].
   `src/shared/common.py` lists them.
 - **Barangay check.** The same models per barangay, with tile-clustered errors.
 - **Distance (RQ4).** Road distance over the OpenStreetMap network from where people live (100 m pixels) to the nearest outlet, by wealth group.
@@ -277,8 +277,8 @@ Its gradient goes with shops, and within the same retail it cannot be told apart
 ### 7.3 How this fits earlier studies
 
 The Philippine result sits with the lottery side of the earlier studies, not the gaming-machine side.
-Gaming machines and betting shops have been found to follow deprivation [[14](#ref-14), [16](#ref-16)].
-Lottery retail has not: in New Jersey commercial land use was the strongest correlate and poverty turned negative [[17](#ref-17)], and in Massachusetts disadvantaged postcodes had no more agents or sales [[18](#ref-18)].
+Gaming machines and betting shops have been found to follow deprivation [[16](#ref-16), [17](#ref-17)].
+Lottery retail has not: in New Jersey commercial land use was the strongest correlate and poverty turned negative [[18](#ref-18)], and in Massachusetts disadvantaged postcodes had no more agents or sales [[19](#ref-19)].
 Here too outlets go with commerce, and with commerce held fixed the residual lean is towards richer places.
 It adds a middle-income Asian case to a set of studies that had none.
 
@@ -347,30 +347,24 @@ The wealth values come from the RWI, which is CC BY-NC 4.0, so anything built on
 ## References
 
 1. <a id="ref-1"></a>Harris, J. *The US Lottery is a Lie.* YouTube, 8 March 2023. <https://www.youtube.com/watch?v=3Yn_3HqfV1w>
-2. <a id="ref-2"></a>Philstar. "PCSO earns P61.45 billion in 2023." 22 April 2024. <https://www.philstar.com/nation/2024/04/22/2349455/pcso-earns-p6145-billion-2023>
+2. <a id="ref-2"></a>Berger, C. "America's poorest households spend 33 times more of their income on lottery tickets than the rich, data shows." Fortune, 4 April 2024. <https://fortune.com/2024/04/04/lottery-tickets-poor-rich-income-powerball-mega-millions-jackpot-odds-les-bernal-stop-predatory-gambling/>
 3. <a id="ref-3"></a>Philippine Charity Sweepstakes Office. *Accomplishment Report 2024, Year-end.* 26 February 2025. <https://pcso-gov.ph/pcsofiles/transparency/12/Accomplishment%20Report%202024%20Yearend%20(20250226).pdf>
-4. <a id="ref-4"></a>Philstar. "PCSO rolls back lotto ticket price." 8 June 2020. <https://www.philstar.com/headlines/2020/06/08/2019414/headlines>
-5. <a id="ref-5"></a>Philippine Charity Sweepstakes Office. *Annual Report CY2023*, table "Lotto Agents, CY 2023". Read through a search index; pcso.gov.ph refuses scripted downloads.
-6. <a id="ref-6"></a>Philippine Charity Sweepstakes Office. "Lotto Outlets" map. <https://www.pcso.gov.ph/Maps/Outlets.aspx>
-7. <a id="ref-7"></a>Inquirer. "7-Eleven operator celebrates 4,000-store milestone in PH." <https://business.inquirer.net/485115/7-eleven-operator-celebrates-4000-store-milestone-in-ph>
-8. <a id="ref-8"></a>Statista. "Number of Jollibee stores." <https://www.statista.com/statistics/1479196/number-of-jolibee-stores/>
-9. <a id="ref-9"></a>BusinessWorld. "Pacific Online, partners bag lease for PCSO lottery system." 7 September 2021. <https://bworldonline.com/corporate/2021/09/07/394630/pacific-online-partners-bag-lease-for-pcso-lottery-system/>
-10. <a id="ref-10"></a>Republic Act No. 1169 (1954), the PCSO Charter. LawPhil. <https://lawphil.net/statutes/repacts/ra1954/ra_1169_1954.html>
-11. <a id="ref-11"></a>Batas Pambansa Blg. 42 (1979), amending RA 1169. LawPhil. <https://lawphil.net/statutes/bataspam/bp1979/bp_42_1979.html>
-12. <a id="ref-12"></a>Republic Act No. 11223 (2019), Universal Health Care Act, Section 37(c). LawPhil. <https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html>
-13. <a id="ref-13"></a>Republic Act No. 9287 (2004), increasing penalties for illegal numbers games. Supreme Court E-Library. <https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/1457>
-14. <a id="ref-14"></a>Wheeler, B. W., Rigby, J. E. and Huriwai, T. *Health & Place* 12 (1), 86-96, 2006. <https://doi.org/10.1016/j.healthplace.2004.10.011>
-15. <a id="ref-15"></a>Kephart, L., Rees, V. W., Giovenco, D. P. and Subramanian, S. V. *American Journal of Preventive Medicine* 69 (2), 107643, 2025. <https://doi.org/10.1016/j.amepre.2025.107643>
-16. <a id="ref-16"></a>Raisamo, S., Toikka, A., Selin, J. and Heiskanen, M. *BMC Public Health* 19, 1198, 2019. <https://doi.org/10.1186/s12889-019-7535-1>
-17. <a id="ref-17"></a>Wiggins, L., Nower, L., Mayers, R. S. and Peterson, N. A. *Journal of Community Psychology* 38 (4), 486-496, 2010. <https://doi.org/10.1002/jcop.20376>
-18. <a id="ref-18"></a>Pugh, Shirk and Volberg. *Journal of Gambling Studies* 42 (2), 663-683, 2026. <https://doi.org/10.1007/s10899-026-10475-6>
-19. <a id="ref-19"></a>Chi, G., Fang, H., Chatterjee, S. and Blumenstock, J. E. "Microestimates of wealth for all low- and middle-income countries." *PNAS* 119 (3), e2113658119, 2022. <https://doi.org/10.1073/pnas.2113658119>
-20. <a id="ref-20"></a>Overture Maps Foundation. "Places guide." <https://docs.overturemaps.org/guides/places>
-21. <a id="ref-21"></a>Gotway, C. A. and Young, L. J. "Combining incompatible spatial data." *Journal of the American Statistical Association* 97 (458), 632-648, 2002. <https://doi.org/10.1198/016214502760047140>
-22. <a id="ref-22"></a>Mennis, J. "Generating surface models of population using dasymetric mapping." *The Professional Geographer* 55 (1), 31-42, 2003. <https://doi.org/10.1111/0033-0124.10042>
-23. <a id="ref-23"></a>Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." *Statistical Methods in Medical Research*, 2016. <https://doi.org/10.1177/0962280216660421>
-24. <a id="ref-24"></a>JICA and Metro Cebu Development and Coordinating Board. *The Roadmap Study for Sustainable Urban Development in Metro Cebu*, final report, summary. June 2015. <https://openjicareport.jica.go.jp/pdf/12235529.pdf>
-25. <a id="ref-25"></a>Republic Act No. 11708 (2022), Metropolitan Davao Development Authority Act, Section 4. LawPhil. <https://lawphil.net/statutes/repacts/ra2022/pdf/ra_11708_2022.pdf>
+4. <a id="ref-4"></a>Philippine Charity Sweepstakes Office. "Lotto Outlets" map. <https://www.pcso.gov.ph/Maps/Outlets.aspx>
+5. <a id="ref-5"></a>Inquirer. "7-Eleven operator celebrates 4,000-store milestone in PH." <https://business.inquirer.net/485115/7-eleven-operator-celebrates-4000-store-milestone-in-ph>
+6. <a id="ref-6"></a>Statista. "Number of Jollibee stores." <https://www.statista.com/statistics/1479196/number-of-jolibee-stores/>
+7. <a id="ref-7"></a>Batas Pambansa Blg. 42 (1979), amending RA 1169. LawPhil. <https://lawphil.net/statutes/bataspam/bp1979/bp_42_1979.html>
+8. <a id="ref-8"></a>Republic Act No. 11223 (2019), Universal Health Care Act, Section 37(c). LawPhil. <https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html>
+9. <a id="ref-9"></a>Chi, G., Fang, H., Chatterjee, S. and Blumenstock, J. E. "Microestimates of wealth for all low- and middle-income countries." *PNAS* 119 (3), e2113658119, 2022. <https://doi.org/10.1073/pnas.2113658119>
+10. <a id="ref-10"></a>Overture Maps Foundation. "Places guide." <https://docs.overturemaps.org/guides/places>
+11. <a id="ref-11"></a>Gotway, C. A. and Young, L. J. "Combining incompatible spatial data." *Journal of the American Statistical Association* 97 (458), 632-648, 2002. <https://doi.org/10.1198/016214502760047140>
+12. <a id="ref-12"></a>Mennis, J. "Generating surface models of population using dasymetric mapping." *The Professional Geographer* 55 (1), 31-42, 2003. <https://doi.org/10.1111/0033-0124.10042>
+13. <a id="ref-13"></a>Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." *Statistical Methods in Medical Research*, 2016. <https://doi.org/10.1177/0962280216660421>
+14. <a id="ref-14"></a>JICA and Metro Cebu Development and Coordinating Board. *The Roadmap Study for Sustainable Urban Development in Metro Cebu*, final report, summary. June 2015. <https://openjicareport.jica.go.jp/pdf/12235529.pdf>
+15. <a id="ref-15"></a>Republic Act No. 11708 (2022), Metropolitan Davao Development Authority Act, Section 4. LawPhil. <https://lawphil.net/statutes/repacts/ra2022/pdf/ra_11708_2022.pdf>
+16. <a id="ref-16"></a>Wheeler, B. W., Rigby, J. E. and Huriwai, T. *Health & Place* 12 (1), 86-96, 2006. <https://doi.org/10.1016/j.healthplace.2004.10.011>
+17. <a id="ref-17"></a>Raisamo, S., Toikka, A., Selin, J. and Heiskanen, M. *BMC Public Health* 19, 1198, 2019. <https://doi.org/10.1186/s12889-019-7535-1>
+18. <a id="ref-18"></a>Wiggins, L., Nower, L., Mayers, R. S. and Peterson, N. A. *Journal of Community Psychology* 38 (4), 486-496, 2010. <https://doi.org/10.1002/jcop.20376>
+19. <a id="ref-19"></a>Pugh, Shirk and Volberg. *Journal of Gambling Studies* 42 (2), 663-683, 2026. <https://doi.org/10.1007/s10899-026-10475-6>
 
 Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index via the Humanitarian Data Exchange (CC BY-NC 4.0); WorldPop, University of Southampton (CC BY 4.0); PSA 2024 Census of Population; JRC GHSL Degree of Urbanisation (CC BY 4.0); OCHA COD-AB Philippines (CC BY-IGO); © OpenStreetMap contributors (ODbL); Overture Maps places (CDLA Permissive 2.0 and per-source terms).
 
