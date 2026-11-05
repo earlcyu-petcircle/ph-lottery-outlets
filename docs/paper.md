@@ -1,28 +1,14 @@
-# Are Philippine lottery outlets concentrated in poorer neighborhoods? 
+# Are Philippine lottery outlets concentrated in poor neighborhoods? 
 
 By: Earl Christian Yu
-Published on: 04 November 2026
-Last edited: 04 November 2026
+<br/>Published on: 04 November 2026
+<br/>Last edited: 04 November 2026
 
-> This is the full paper behind the one-page story site at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.
+*This is the full paper behind the one-page story site at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.*
 
 ## Summary
 
-Question: Are PCSO lotto outlets concentrated in poorer neighborhoods? 
-
-Answer: No. Per person, lotto 
-
-**In short.**
-Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods?
-On the open data, no.
-Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest: 12.7 against 0.4 per 100,000 people.
-Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person.
-Inside Metro Manila wealth makes no difference to outlet density, Metro Davao leans towards its richer barangays, and Metro Cebu's lean cannot be told apart from none once shops are held fixed.
-
-The median person in the poorest fifth lives 11.5 km from an outlet by road, against 0.6 km in the richest.
-So the access version of "lottery as a tax on the poor" does not hold for PCSO's lotto network: outlets follow commerce and urbanisation, not poverty.
-That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.
-A plain-English companion to the results is [here](https://claude.ai/artifact/XbucHNw8YSKuPHHV9k39RC).
+< to be finalized >
 
 ![Wealth and outlet density together, Philippines: most of the country is poorer tiles with no outlet, and the tiles that are both richer and above the national outlet rate cluster in Metro Manila and the larger cities](../results/figures/map_national_bivariate.png)
 
@@ -45,15 +31,17 @@ A plain-English companion to the results is [here](https://claude.ai/artifact/Xb
 
 ## 1. Background
 
-### Inspiration
+### 1.1 Inspiration
 
-A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that demonstrates why the US lottery is **"a tax on the poor"**. Since the lottery is owned by the government, proceeds from the lottery will go into funding government services (ideally). It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money.
+A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that demonstrates why the US lottery is **"a tax on the poor"**. It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money. In the US, poorer households spend as much as 33 times more on lotto tickets than richer households [[2](#ref-2)]. No wonder the lottery became known as a tax on the poor.
 
-America's poorest households spend 33x more of their income on lotto tickets than the rich [[2](#ref-2)]. With these people as the biggest spenders, it is unsurprising why the lottery became known as "a tax on the poor."
+That got me thinking. **Is the Philippine lottery also a tax on poor Filipinos?** There are two ways to test this: **access and spend**. 
+- **Access:** Are lotto outlets concentrated in poor neighborhoods, thereby giving easy access to poor households since they are the desired target market? 
+- **Spend:** Do poorer households spend more on lotto tickets than richer households? 
 
-That got me thinking. **Is the Philippine lottery also a tax on poor Filipinos?** This can be assessed in two ways: **access and spend**. In terms of access, are lotto outlets more concentrated in poorer neighborhoods than richer ones, thereby giving easy access to poorer households since they are the desired target market? This can be done via spatial analysis and is the main scope of this paper. Meanwhile, the spend facet checks if poorer households spend more on lotto tickets (as a percentage of their household budget) than richer households. This is no longer within our scope.
+The first question can be answered via spatial analysis and is the main scope of this paper. The second question, while also a crucial dimension, will not be part be part of this paper.
 
-### Philippine Lottery
+### 1.2 Philippine lottery
 
 The Philippine Charity Sweepstakes Office (PCSO) is a government-owned and controlled corporation that runs the country's national and local lotteries. As of 2024, it recorded a revenue of PHP 62.35 billion [[3](#ref-3)]. It operates 7,443 outlets nationwide [[4](#ref-4)] - more than the number of 7-11 convenience stores (~4,000) [[5](#ref-5)] and Jollibee branches (~1,300) [[6](#ref-6)] in the country.
 
@@ -65,21 +53,20 @@ How the PCSO spends its money is dictated by law: 55% to prizes, 30% to a charit
 
 ## 2. Research questions
 
-| # | Theme | Question | Note |
-| --- | --- | --- | --- |
-| RQ #1 | Supply per person | After accounting for population, are PCSO lotto outlets more or less common per person in poorer neighbourhoods than in richer ones? | The access version of "a tax on the poor" expects more outlets per person where people are poorer. |
-| RQ #2 | Commerce | Does any wealth gradient hold among places with the same amount of shopping? | Without a shops measure the model asks whether poorer Filipinos live with more or fewer outlets around them; with it, whether lotto leans towards poorer or richer places among places with the same retail. |
-| RQ #3 | Within cities | Does the gradient hold inside Metro Manila, Metro Cebu and Metro Davao, where rich and poor neighbourhoods sit side by side? | |
-| RQ #4 | Distance | How far do people in poorer and richer neighbourhoods live from their nearest outlet, by road? | |
+1. **Outlets per person.** Are there more PCSO lotto outlets per person in poorer neighborhoods than richer ones?
+2. **Commerce.** Among places with the same amount of shops, are lotto outlets more or less common in poorer neighbourhoods than in richer ones?
+3. **Within cities.** Does the same pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together?
+4. **Road distance.** How far do people in poor and rich neighbourhoods live from the nearest lotto outlet?
 
 ## 3. Data sources
 
-Every source is public and free to download.
-The choices were made on a methodology review of 22 studies and the Philippine data landscape, and each pick below says why it won.
+### 3.1 Selected data sources
 
-| Role | Source | Grain | Year | Licence | Why this one |
+Every source is public and free to download. Why each data source was chosen is indicated in the table below:
+
+| Data | Source | Grain | Year | Licence | Why this was chosen |
 |---|---|---|---|---|---|
-| Outcome: lotto outlets | PCSO "Traditional Lotto Outlets" map [[4](#ref-4)] | Outlet: address, PCSO area, GPS text | Undated; pulled 2 Nov 2026 | Public PCSO publication | PCSO's own list, so it is complete by construction; 7,443 outlets against 6,494 agents at the end of 2023 |
+| Lotto outlets | PCSO "Traditional Lotto Outlets" map [[4](#ref-4)] | Point | Undated; pulled 2 Nov 2026 | Public PCSO publication | PCSO's own list, so it is complete by construction; 7,443 outlets against 6,494 agents at the end of 2023 |
 | Wealth | Meta / Data for Good Relative Wealth Index (RWI) [[9](#ref-9)] | About 2.4 km tile, with a per-tile error | 2021 file | CC BY-NC 4.0 | The only open wealth measure finer than a city, so it can see rich and poor parts of the same city |
 | Population count | PSA 2024 Census of Population, by barangay (downloaded by hand) | Barangay | 1 Jul 2024 | PSA publication | Official counts at the smallest administrative unit |
 | Urban share | JRC GHSL Degree of Urbanisation | 1 km cell | 2025 epoch | CC BY 4.0 | A standard international urban definition, since the 2024 census carries no urban flag |
@@ -88,64 +75,71 @@ The choices were made on a methodology review of 22 studies and the Philippine d
 | Shops | OpenStreetMap (Geofabrik) and Overture Maps places [[10](#ref-10)] | Point | Oct-Nov 2026 | ODbL; CDLA Permissive 2.0 and per-source terms | General shop counts for the commerce control; their own lotto points are left out |
 | Roads | OpenStreetMap highways | Segment | Nov 2026 | ODbL | Road length as an urbanity control, and the network for RQ4 |
 
-What was considered and not used:
+### 3.2 Unselected data sources
 
-- **OpenStreetMap or Overture lotto points as the outcome.** OpenStreetMap holds 397 lotto outlets, about 6% of PCSO's agents, so it is a small sample rather than a census; PCSO's own map replaces it.
-- **Other outlet sources (Street View audit, LottoMatik's agent locator, Google Places).** PCSO's map is enough; Google's terms also forbid storing its places.
-- **An eFOI request for PCSO's outlet list.** The published map already gives the list with locations.
-- **PSA city and municipal poverty estimates as the wealth measure.** Not fine enough: wealth varies a lot inside Philippine cities, and a city-level rate would hide that. They stay available as a between-city cross-check.
-- **Community-Based Monitoring System barangay poverty.** The only official barangay poverty measure, but held by local governments and not public; usable to validate the RWI where a city shares it.
-- **The Small Town Lottery.** PCSO does not publish STL booth locations, so the national model covers PCSO lotto agents only.
+| Data | Source | Reason |
+|---|---|---|
+| Lotto outlets | OpenStreetMap | It only contains 397 lotto outlets, ~6% of PCSO's outlets. |
+| Wealth | PSA city and municipal poverty estimates | Not granular enough; wealth varies a lot within cities, so a city-level measure would hide that nuance. |
 
 ## 4. Research design
 
+| # | Research question | Data used | Methods used | Files used |
+|---|---|---|---|---|
+| RQ1 | Are PCSO lotto outlets more concentrated in poorer neighbourhoods than in richer ones? | - PCSO outlet map counted per tile<br/> - Meta Relative Wealth Index, per 2.4 km tile<br/> - 2024 census population, spread onto tiles with WorldPop<br/> - GHSL urban share | - **Descriptive statistics:** outlets per 100,000 people by population-weighted wealth quintile<br/> - **Regression model:** negative binomial regression of outlets per tile, with population as the offset and province and urban share held fixed, giving the wealth ratio<br/> - **Checks:** logistic regression: "any outlet in this tile?"; the same models on barangays. | `outlet_rates.py`<br/>`count_models.py`<br/>notebook 01 and 02 |
+| RQ2 | Among places with the same amount of shops, are lotto outlets more or less common in poorer neighbourhoods than in richer ones? | - Everything in RQ1<br/> - shop counts from OpenStreetMap and Overture<br/> - road length from OpenStreetMap | - **Regression model:** the RQ1 model with shops added, then shops and roads; compare how far the wealth ratio shrinks<br/> - **Checks:** spatial refit (Moran's I, eigenvector filters); dropping mismatched GPS points and adding town-centre outlets; barangays. | `count_models.py`<br/>`stats_tools.py`<br/>notebook 02 |
+| RQ3 | Does the same pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together? | - RQ2 data cut to each city<br/> - official city boundaries | - **Descriptive statistics:** each city's own wealth quintiles<br/> - **Regression model:** the same model inside each city, by barangay, with city and municipality held fixed and errors clustered by tile<br/> - **Check:** the same on the city's tiles. | `count_models.py`<br/>`outlet_rates.py`<br/>notebook 03 |
+| RQ4 | How far do people in poor and rich neighbourhoods live from the nearest lotto outlet? | - OpenStreetMap road network<br/> - population on WorldPop 100m pixels<br/> - outlet points<br/> - wealth quintiles | - **Road distance:** shortest-route search (Dijkstra) along the roads from all outlets at once, giving each 100m pixel its distance to the nearest outlet<br/> - **Descriptive statistics:** median road distance and share within 2km by wealth quintile, with straight-line distance alongside. | `road_distance.py`<br/>notebook 04 |
+
 ### 4.1 Unit of analysis
 
-The layers come at different grains: outlets are points, wealth is a 2.4 km grid, population is counted by barangay.
-The design picks one unit and moves every layer onto it, which is the change-of-support problem [[11](#ref-11)].
+The data come at various grains: lotto outlets are points, the wealth index is a 2.4km grid, and population is at a barangay-level. The design picks one unit and moves every layer onto it, which is the change-of-support problem [[11](#ref-11)].
 
-- **Main unit: the RWI tile** (40,824 tiles, 40,737 with people).
-  Wealth stays at its native grain.
-  Outlets are counted per tile.
-  Each barangay's census count is spread over its WorldPop 100 m pixels and summed per tile, which is dasymetric mapping [[12](#ref-12)].
-- **Check: the barangay** (42,048, 41,923 with people and an RWI value).
-  Population stays native, and wealth is the population-weighted RWI of the tiles its people live in.
-  In cities several barangays share one tile's wealth value (Metro Manila's 1,711 barangays in the models have most of their people in 113 tiles), so standard errors are clustered by tile.
+| Unit chosen | Purpose | Notes |
+|---|---|---|
+| RWI tile (40,824 tiles, 40,737 with people) | For nationwide analysis | Wealth stays on its native grain.<br/> Outlets are counted per tile.<br/> Each barangay's census count is spread over its WorldPop 100 m pixels and summed per tile, which is dasymetric mapping [[12](#ref-12)]. |
+| Barangay | For metro city comparisons | Population stays native, and wealth is the population-weighted RWI of the tiles its people live in.<br/> In cities, several barangays share one tile's wealth value (Metro Manila's 1,711 barangays in the models have most of their people in 113 tiles), so standard errors are clustered by tile.
 
-### 4.2 Models
+### 4.2 Descriptive statistics
 
-- **Count model.** Negative binomial (NB2) with estimated dispersion, outlets per tile as the outcome, log population as the offset so the result reads as outlets per person, and province intercepts to absorb PCSO branch practice and regional differences.
-  Wealth enters as the RWI per national tile standard deviation (0.49 RWI points), so the answer is a rate ratio: how many times as many outlets per person a place one standard deviation richer has, with the other terms held fixed.
-- **With and without commerce.** Each model is reported with wealth only, with urban share, with shops (OpenStreetMap plus Overture) and urban share, and with shops, urban share and road length (RQ2).
-  Commerce may be a mediator as much as a confounder, which is why both are shown.
-- **Presence model.** Logistic regression on whether a tile has any outlet, with log population as a covariate.
-- **Spatial checks.** Moran's I on the residuals; where they cluster, a refit with Moran eigenvector spatial filters, a frequentist stand-in for a BYM2 spatial model [[13](#ref-13)].
-- **Within cities.** The same models inside Metro Manila, Metro Cebu and Metro Davao (RQ3), by barangay with city and municipality intercepts, and on RWI tiles as a low-n check.
-  Wealth stays in national standard deviations, so every city's ratios read on the national scale.
-  Each city is defined from an official source:
-  Metro Manila is the National Capital Region;
-  Metro Cebu is the 13 cities and municipalities of the Metro Cebu Development and Coordinating Board, as listed in its 2015 roadmap study with JICA [[14](#ref-14)] (no statute defines Metro Cebu);
-  Metro Davao is the 15 cities and municipalities of Republic Act No. 11708 (2022), Section 4 [[15](#ref-15)].
-  `src/shared/common.py` lists them.
-- **Barangay check.** The same models per barangay, with tile-clustered errors.
-- **Distance (RQ4).** Road distance over the OpenStreetMap network from where people live (100 m pixels) to the nearest outlet, by wealth group.
-- **Sensitivities.** Dropping GPS points that disagree with their address, and adding outlets placed only at a town centre.
-  Carrying the RWI's per-tile error through the models was planned but not done (section 8).
+A simple way to answer the core research question is calculate the number of lotto outlets per 100,000 people and compare that number among various wealth quintiles. The wealth quintiles are formed by categorizing the 40,824 RWI tiles into five groups, each with roughly the same population. Since poor areas are sparse and rural, the lowest quintile will likely consist of a lot of tiles while the top quintile will contain fewer tiles.
 
-### 4.3 What the design can and cannot say
+< insert image that illustrates the quintile process >
 
-- The unit is the neighbourhood, not the person, and outlet location is not where buyers live.
-- The RWI is a modelled, relative score, not income or a poverty rate, and its per-tile error is large next to differences inside a city.
-- Shop mapping in OpenStreetMap and Overture is better in richer, urban places, so the commerce control is itself uneven.
-- Even a perfect outlet map says nothing about how much each household spends relative to income.
+### 4.3 Negative binomial regression
 
-## 5. Data
+A negative binomial regression model predicts the count of something and determines if a certain variable is a strong predictor of that count. This study applies the model to determine if wealth is a strong predictor of the count of lotto outlets per person in a given location. 
+
+The model predicts the expected count through a log:
+
+$$\log E[\text{outlets}_i] = \log(\text{pop}i) + \alpha{\text{province}} + \beta \cdot \frac{\text{RWI}_i}{0.49} + \gamma' x_i$$
+
+- **The offset, log(population):** this term has its coefficient fixed at 1. It turns the model from “outlets” into “outlets per person”, so big tiles don’t win just by having more people.
+- **The final answer is rate ratio:** how many times as many outlets per person a place one standard deviation richer has, with the other variables held constant. For example, if the final rate ratio is 2, that means that a place one standard deviation richer has 2x lotto outlets per person.
+- **Adding controls:** Control variables can be included to prevent them from distorting the predictor's answer. For this study, the controls are urban share, province intercept, and count of shops. By including these variables, the model will only compare tiles that have the same control variables to ensure that the control variables are not the ones responsible for predicting the final count. 
+- **Why negative binomial instead of Poisson:** Poisson assumes the variance equals the mean. Real counts are messier: lots of zeros, plus a few places with large clusters. Negative binomial adds a dispersion term, so the variance is μ + αμ². One way to picture it is that every place has its own hidden “appetite” for outlets beyond what the predictors explain. Poisson would ignore that extra spread and report confidence intervals that are too narrow.
+
+### 4.4 Other models
+
+- **Logistic regression:** This model predicts whether or not something is present. In this case, it can predict whether or not a tile contains a lotto outlet by calculating the probability that it contains one. Logistic regression was done to back up the results of the negative binomial regression model.
+- **Spatial checks:** Moran's I on the residuals; where they cluster, a refit with Moran eigenvector spatial filters, a frequentist stand-in for a BYM2 spatial model [[13](#ref-13)].
+- **Road distance:** People are placed on 100m population pixels. Each pixel and each outlet is snapped to the nearest road, then one search from all outlets at once gives every location its distance by road to the closest outlet.
+
+### 4.5 What the research design can and cannot say
+
+- The RWI is a modelled, relative score. It is not an income or a poverty rate, and its per-tile error is large next to differences inside a city.
+- Shop mapping in OpenStreetMap and Overture is better in richer, more urban places, so the commerce control is itself uneven.
+- Even a perfect outlet map says nothing about how much each household spends on lotto tickets. That entails a separate analysis.
+
+## 5. Processed data
 
 Two analysis-ready tables hold every input to the models, each row carrying PCSO outlets, people, wealth and its error, shop counts, road length, urban share, province, region and PCSO sales area.
 
-- [`data/derived/tiles.csv`](../data/derived/tiles.csv): one row per RWI tile (40,824), the main unit.
-- [`data/derived/barangays.csv`](../data/derived/barangays.csv): one row per barangay (42,048), the check.
-- [`docs/data-quality.md`](data-quality.md): how each source was parsed and joined, the column dictionary, and where the gaps sit.
+| File name | Description |
+|---|---|
+| [`data/derived/tiles.csv`](../data/derived/tiles.csv) | One row per RWI tile (40,824), the main unit |
+| [`data/derived/barangays.csv`](../data/derived/barangays.csv) | One row per barangay, the check |
+| [`docs/data-quality.md`](data-quality.md) | How each source was parsed and joined, the column dictionary, and where the gaps sit. |
 
 The data-quality headline:
 
@@ -159,11 +153,14 @@ PCSO's outlet addresses can carry owners' names, so the outlet list itself is ne
 
 ## 6. Results
 
-PCSO's lotto outlets are not concentrated in poorer places.
-Nationally they are far denser per person in richer places, most of that gap goes with shops and urbanisation, and what is left after holding shops fixed still leans richer.
-Inside the three cities the pattern splits: flat in Metro Manila, leaning rich in Metro Davao, and unclear in Metro Cebu once shops are controlled.
-Poorer people live much further from an outlet by road, except in Metro Manila, where everyone lives close to one.
-Every number below comes from the tables in [`results/tables/`](../results/tables/), named in brackets.
+| # | Research question | Answer |
+|---|---|---|
+| RQ1 | Are PCSO lotto outlets more concentrated in poorer neighbourhoods than in richer ones? | No, PCSO lotto outlets are more concentrated in richer areas than poorer ones. There are only 0.4 outlets per 100k people in the poorest wealth quintile vs 12.7 outlets in the richest quintile. |
+| RQ2 | Among places with the same amount of shops, are lotto outlets more or less common in poorer neighbourhoods than in richer ones? | After factoring in the number of shops, the study still found that lotto outlets are more prevalent in richer areas; however, the ratio decreases from +113% to +17%. This means that the +113% was really richer tiles having more shops and lotto outlets sitting in those shops. |
+| RQ3 | Does the same pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together? | Depends on the city. Metro Manila: outlet density is spread more evenly across wealth quintiles. Metro Davao: favours richer areas. Metro Cebu: favours richer areas. |
+| RQ4 | How far do people in poor and rich neighbourhoods live from the nearest lotto outlet? | Poorer people live further away from lotto outlets. Those living in poorest wealth quintile live a median of 11.5km away vs 0.6km away for those in the richest quintile. However, in Metro Manila, the median distance is about 0.4km for everyone. |
+
+*Every number below comes from the tables in [`results/tables/`](../results/tables/), named in brackets.*
 
 ### 6.1 RQ1: outlets per person
 
@@ -173,13 +170,13 @@ Barangays give the same ladder, from 0.4 to 12.6.
 Almost everyone in the poorest fifth (99.5%) lives in a tile with no outlet at all, against 5.5% of the richest fifth.
 
 The count model, which also holds province and urban share fixed, puts the national gap at 2.13 times as many outlets per person for a tile one standard deviation richer (95% CI 1.96-2.32; 2.36 on barangays; `models.csv`).
-One national standard deviation is 0.49 RWI points, roughly the step between neighbouring wealth fifths in the middle of the country (their population-weighted mean RWI is 0.17, 0.68 and 1.07 for the second to fourth fifths; `quintile_rates.csv`).
+One national standard deviation is 0.49 RWI points, roughly the step between neighbouring wealth quintiles in the middle of the country (their population-weighted mean RWI is 0.17, 0.68 and 1.07 for the second to fourth quintiles; `quintile_rates.csv`).
 The presence model says the same about having any outlet at all: an odds ratio of 2.18 (1.92-2.46).
 
 ![Figure 1. Outlets per 100,000 people by wealth quintile: national tiles against the barangays of Metro Manila, Metro Cebu and Metro Davao](../results/figures/quintile_rates.png)
 
 *Figure 1. Outlets per 100,000 people by wealth fifth.
-Each city is split by its own people, so its fifths compare its poorer and richer parts with each other, not with the country.
+Each city is split by its own people, so its quintiles compare its poorer and richer parts with each other, not with the country.
 No controls.*
 
 ### 6.2 RQ2: commerce
@@ -237,7 +234,7 @@ Metro Manila is the opposite case: the median is 0.4 to 0.5 km in every wealth f
 Metro Davao repeats the national ladder, and in Metro Cebu only the poorest fifth stands apart.
 
 *Table 2. Median road distance to the nearest outlet, and the share of people within 2 km by road, by wealth fifth.
-National fifths by tile, city fifths by each city's own barangays (`road_distance.csv`).*
+National quintiles by tile, city quintiles by each city's own barangays (`road_distance.csv`).*
 
 | Scope | Poorest fifth | 2nd | 3rd | 4th | Richest fifth |
 |---|---:|---:|---:|---:|---:|
@@ -266,7 +263,7 @@ A one-standard-deviation contrast there also reaches beyond the region's own ran
 
 Metro Davao is a different kind of place.
 Republic Act No. 11708 draws it to take in Davao City's uplands, the southern municipalities and the Island Garden City of Samal as well as its urban core, so its barangays span a wide range of wealth (standard deviation 0.64) and a wide urban-rural range.
-Its poorest fifth has 0.7 shops per 1,000 people, and only 38% of its people live in urban cells; its two richest fifths have about 8 shops per 1,000 and are almost entirely urban.
+Its poorest fifth has 0.7 shops per 1,000 people, and only 38% of its people live in urban cells; its two richest quintiles have about 8 shops per 1,000 and are almost entirely urban.
 Inside one boundary it repeats the national contrast between town and hinterland, and its gradient looks like the national one; the [Metro Davao](../results/figures/map_davao_bivariate.png) and [Metro Manila](../results/figures/map_ncr_bivariate.png) maps show the difference at a glance.
 Urban share is in every model, but it is near 1 across the richer half of each city, so it cannot tell a town centre from a suburb, and whether Davao's gradient survives inside its urban core alone is untested (section 9).
 
