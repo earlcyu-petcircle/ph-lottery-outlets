@@ -47,10 +47,9 @@ QUINTILES = ["Q1", "Q2", "Q3", "Q4", "Q5"]
 Q_NOTE = "Q1 is the poorest fifth of people, Q5 the richest."
 RATIO_NOTE = "Per national standard deviation of RWI (0.49 points), 95% intervals, log scale; 1 is no association."
 VARIANTS = ["wealth only", "+ urban share", "+ shops", "+ shops and roads"]
-# Tiles in cobalt (the national main unit), barangays in ink and hollow, as in charts.py
+# Tiles in cobalt (the national main unit), barangays in fluoro pink and hollow, as in charts.py
 MARK = {"tile": {"color": atlas.ACCENT, "face": atlas.ACCENT},
-        "barangay": {"color": atlas.INK_SOFT, "face": atlas.BG}}
-SECONDARY = atlas.CATEGORICAL[2]  # amber, the second series in a grouped bar chart
+        "barangay": {"color": atlas.SECOND, "face": atlas.BG}}
 
 
 def _figure(size):
@@ -370,7 +369,7 @@ def rq3_straight_line(rd):
         fig = _figure((7.2, 4.0))
         ax = fig.subplots()
         top = n.road_km_median.max()
-        for off, col, color in ((-w / 2, "road_km_median", atlas.ACCENT), (w / 2, "line_km_median", SECONDARY)):
+        for off, col, color in ((-w / 2, "road_km_median", atlas.ACCENT), (w / 2, "line_km_median", atlas.SECOND)):
             ax.bar([x + off for x in xs], n[col], width=w, color=color, zorder=2)
             for x, v in zip(xs, n[col]):
                 ax.text(x + off, v + top * 0.03, f"{v:.1f}", ha="center", va="bottom", color=atlas.INK,
@@ -382,7 +381,7 @@ def rq3_straight_line(rd):
         ax.set_yticks([])
         ax.set_xticks(list(xs), QUINTILES, fontfamily=atlas.family(atlas.MONO), fontsize=8.5)
         handles = [plt.Rectangle((0, 0), 1, 1, color=c, label=lab)
-                   for c, lab in ((atlas.ACCENT, "By road"), (SECONDARY, "Straight line"))]
+                   for c, lab in ((atlas.ACCENT, "By road"), (atlas.SECOND, "Straight line"))]
         fig.legend(handles=handles, loc="lower left", ncol=2, fontsize=8, bbox_to_anchor=(0.005, 0.0))
         room = atlas.heading(
             fig, f"Straight-line medians run from {n.line_km_median[1]:.1f} km in Q1 to "

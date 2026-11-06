@@ -36,6 +36,8 @@ BIVARIATE = {"w1o0": "#EAB3C0", "w2o0": "#EFF2F5", "w3o0": "#B0CCFF",
              "w1o2": "#CA1968", "w2o2": "#30394E", "w3o2": "#1F4FE0"}
 # In this order for charts; a map's categories never put pink (2) beside teal (4)
 CATEGORICAL = ["#1F4FE0", "#E8407A", "#E8A317", "#0F9D8A", "#9C3F8F", "#3FA7D6"]
+# Fluoro pink, the second series beside cobalt in any chart with two (the Riso pairing)
+SECOND = CATEGORICAL[1]
 NO_OUTLET, NO_PEOPLE = "#EBECEF", "#CDD0D7"
 
 HEAD, BODY, MONO = "Bricolage Grotesque", "Public Sans", "JetBrains Mono"

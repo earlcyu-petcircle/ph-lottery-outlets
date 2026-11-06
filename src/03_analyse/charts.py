@@ -22,9 +22,10 @@ QUINTILE_PANELS = [("National", "tile", "Philippines", "2.4 km tiles"),
                    ("NCR", "barangay", "Metro Manila", "barangays"),
                    ("Metro Cebu", "barangay", "Metro Cebu", "barangays"),
                    ("Metro Davao", "barangay", "Metro Davao", "barangays")]
-# Barangays in cobalt (the main unit in the cities), tiles in ink (the main unit nationally)
+# Barangays in cobalt (the main unit in the cities), tiles in fluoro pink and hollow (the main
+# unit nationally)
 UNIT_MARK = {"barangay": {"color": atlas.ACCENT, "markerfacecolor": atlas.ACCENT},
-             "tile": {"color": atlas.INK_SOFT, "markerfacecolor": atlas.BG}}
+             "tile": {"color": atlas.SECOND, "markerfacecolor": atlas.BG}}
 PANEL_TITLE = {"National": "Philippines", "NCR": "Metro Manila (NCR)", "Metro Cebu": "Metro Cebu",
                "Metro Davao": "Metro Davao"}
 UNIT_LABEL = {"barangay": "Barangays (main unit in the cities; check nationally)",
