@@ -327,51 +327,42 @@ Each city's barangays are split into quintiles by the city's own people, not the
 
 ## 7. Discussion
 
-### 7.1 Not an access story
+Lotto outlets follow shops and towns, not poverty: richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.
 
-The access version of "a tax on the poor" expects more outlets per person where people are poorer.
-PCSO's lotto network shows the reverse nationally, and no lean towards the poor inside any of the three cities.
-What outlets go with is commerce and urbanisation.
-A lotto terminal is a counter in a shop, a mall or a market, so outlets sit where shops sit, and in the Philippines shops sit in towns and cities, which are richer than the countryside around them.
-Once shops, roads and urban share are in the model, the national ratio falls from about 2.1 to about 1.2, and what is left still leans richer.
-A plausible reading is that outlets are placed for foot traffic rather than aimed at poor neighbourhoods; the data are consistent with that, but cannot test it.
+### 7.1 Nationally, richer places have more outlets per person, and closer ones
 
-### 7.2 Why Metro Manila and Metro Davao differ
+- Outlets per 100,000 people rise at every step from 0.4 in Q1 to 12.7 in Q5, about 31 times as many (Figure 1).
+- 99.5% of people in Q1 live in a tile with no outlet, against 5.5% in Q5 (Figure 2).
+- The median person in Q1 lives 11.5 km from an outlet by road, against 0.6 km in Q5 (Figure 12, Table 1).
+- Only 2% of people in Q1 live within 2 km of an outlet by road, against 92% in Q5.
+- So on access, the national picture is the reverse of "a tax on the poor": the poorest Filipinos have the fewest outlets and the furthest to go.
 
-Metro Manila is urban throughout.
-Almost all of its people (99.99%) live in urban cells, it has 6.0 shops per 1,000 people, and its barangays span a narrow band of wealth: a standard deviation of 0.20 RWI points, against one national standard deviation of 0.49 (`quintile_rates.csv`, notebook 3).
-Outlets are close to everyone, rich or poor, so there is no gradient to find.
-A one-standard-deviation contrast there also reaches beyond the region's own range of wealth, so the flat result says more about Manila's evenness than about any small lean the data cannot see.
+### 7.2 In Metro Manila, wealth makes no difference
 
-Metro Davao is a different kind of place.
-Republic Act No. 11708 draws it to take in Davao City's uplands, the southern municipalities and the Island Garden City of Samal as well as its urban core, so its barangays span a wide range of wealth (standard deviation 0.64) and a wide urban-rural range.
-Its poorest fifth has 0.7 shops per 1,000 people, and only 38% of its people live in urban cells; its two richest quintiles have about 8 shops per 1,000 and are almost entirely urban.
-Inside one boundary it repeats the national contrast between town and hinterland, and its gradient looks like the national one; the [Metro Davao](../results/figures/map_davao_bivariate.png) and [Metro Manila](../results/figures/map_ncr_bivariate.png) maps show the difference at a glance.
-Urban share is in every model, but it is near 1 across the richer half of each city, so it cannot tell a town centre from a suburb, and whether Davao's gradient survives inside its urban core alone is untested (section 9).
+- Outlets per 100,000 people sit between 12.5 and 15.2 in every quintile (Figure 7).
+  Q1 is highest at 15.2, but every Metro Manila model interval includes 1, so this is flat, not a lean towards the poor (Figure 9).
+- The median road distance is 0.4 to 0.5 km in every quintile, with 99% of people within 2 km: an outlet within about 400 m for everyone, whatever their wealth (Figure 13, Table 1).
+- Manila's barangays also span a narrow band of wealth (a standard deviation of 0.20 RWI points, against 0.49 nationally), so "flat" means no gradient within that band.
+- Metro Davao repeats the national gradient: 0.1 outlets per 100,000 in Q1 against 12.7 in Q5, and a median of 12.5 km by road in Q1 against 0.7 km in Q5.
+  Its boundary takes in Davao City's uplands, the southern municipalities and Samal as well as its urban core [[15](#ref-15)], so it holds a town and its hinterland in one region.
+- Metro Cebu sits in between: its poorer interior is far from outlets (4.5 km in Q1), while Q2 to Q5 sit at 0.6 to 1.0 km.
+  The [Metro Manila](../results/figures/map_ncr_bivariate.png), [Metro Cebu](../results/figures/map_cebu_bivariate.png) and [Metro Davao](../results/figures/map_davao_bivariate.png) maps show the difference at a glance.
 
-Metro Cebu sits between the two (standard deviation 0.57).
-Its [map](../results/figures/map_cebu_bivariate.png) splits into a dense urban core along the east coast, where the colours mix much as in Metro Manila, and a poorer, hilly interior with almost no outlets.
-Its gradient goes with shops, and within the same retail it cannot be told apart from flat.
+### 7.3 Outlets follow commerce, and that explains most of the rich-poor gap
 
-### 7.3 How this fits earlier studies
+- A lotto terminal is a counter in a shop, a mall or a market, and in the Philippines shops cluster in towns, which are richer than the countryside around them: shops per 1,000 people rise from 0.19 in Q1 to 5.74 in Q5, and the urban share from 38% to 99.8% (Figure 3).
+- The controls compare like with like: adding urban share and shops to the model asks whether, of two places in the same province with the same urban share and the same number of shops, the richer one still has more outlets per person.
+- Nationally, the tile rate ratio falls from 2.45 with wealth only to 2.13 with urban share, 1.17 with shops and 1.24 with shops and roads (Figure 4), so most of the gap is a shops-and-towns gap.
+- Like for like, richer places still have slightly more, and that holds through the spatial refits and outlet sensitivities (1.16 to 1.18 with shops; Figure 6), so there is no sign of outlets aimed at the poor.
+- In the cities, Metro Cebu's gap disappears once shops are in (1.23, interval 0.65-2.33), while Metro Davao's shrinks but holds (3.47 with shops, 1.97 with shops and roads; Figure 9).
+- This also explains Metro Manila: almost everyone lives in urban cells, and every quintile has 5.1 to 7.5 shops per 1,000 people, the most in Q1 (Figure 8), so outlets are close to everyone.
 
-The Philippine result sits with the lottery side of the earlier studies, not the gaming-machine side.
-Gaming machines and betting shops have been found to follow deprivation [[16](#ref-16), [17](#ref-17)].
-Lottery retail has not: in New Jersey commercial land use was the strongest correlate and poverty turned negative [[18](#ref-18)], and in Massachusetts disadvantaged postcodes had no more agents or sales [[19](#ref-19)].
-Here too outlets go with commerce, and with commerce held fixed the residual lean is towards richer places.
-It adds a middle-income Asian case to a set of studies that had none.
+### 7.4 How this fits earlier studies
 
-### 7.4 What this cannot say
-
-- **Access is not spending.**
-  Fewer outlets near poorer people does not mean poorer people buy fewer tickets: they may buy where they work, shop or travel, and the outlets in a commercial centre serve people who live elsewhere.
-- **Nothing here measures share of income.**
-  A PHP 20 play is a larger share of a small income wherever it is bought, so the spending claim stays open and needs household budget data.
-- **Association, not cause.**
-  The ratios describe where outlets are relative to wealth, shops and towns; they do not say why PCSO and its agents put them there.
-- **Lotto only.**
-  The Small Town Lottery brought in PHP 31.76 billion of PCSO's PHP 62.35 billion gaming revenue in 2024 [[3](#ref-3)], and its booths are not published.
-  These results cover the lotto network, not PCSO gaming as a whole.
+- Gaming machines and betting shops have been found to follow deprivation [[16](#ref-16), [17](#ref-17)].
+- Lottery retail has not: in New Jersey commercial land use was the strongest correlate and poverty turned negative [[18](#ref-18)], and in Massachusetts disadvantaged postcodes had no more agents or sales [[19](#ref-19)].
+- The Philippine result sits with the lottery studies: outlets go with commerce, and with commerce held fixed the residual lean is towards richer places.
+  It adds a middle-income Asian case to a set of studies that had none.
 
 ## 8. Limitations
 
@@ -394,6 +385,13 @@ It adds a middle-income Asian case to a set of studies that had none.
   Outlets opened since 2024 in growing places would show there as more outlets per person.
 - **Urban share cannot tell a town centre from a suburb**, since it is near 1 across the richer half of each city.
 - **BARMM is thin**: 15 outlets for 5.7 million people and the weakest wealth coverage, so the national results say little about it.
+- **Access is not spending.**
+  Fewer outlets near poorer people does not mean poorer people buy fewer tickets: they may buy where they work, shop or travel, and the outlets in a commercial centre serve people who live elsewhere.
+  Nothing here measures share of income either: a PHP 20 play is a larger share of a small income wherever it is bought, so the spending claim stays open and needs household budget data.
+- **Association, not cause.**
+  The ratios describe where outlets are relative to wealth, shops and towns; they do not say why PCSO and its agents put them there.
+- **Lotto only.**
+  The Small Town Lottery brought in PHP 31.76 billion of PCSO's PHP 62.35 billion gaming revenue in 2024 [[3](#ref-3)], and its booths are not published, so these results cover the lotto network, not PCSO gaming as a whole.
 
 ## 9. Conclusion and future work
 
