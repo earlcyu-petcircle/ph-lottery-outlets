@@ -7,7 +7,8 @@
 #   04_road_distance                road distance to the nearest outlet by wealth quintile
 #   05_maps                         static choropleth maps of outlet density beside wealth
 # then src/03_analyse/pcso_background.py, the two PCSO background charts in the paper's section 1
-# (typed in from the cited sources, so they need no data).
+# (typed in from the cited sources, so they need no data), and src/03_analyse/results_figures.py,
+# the numbered Results figures in the paper's section 6 (drawn from results/tables/).
 # The notebooks import their logic from src/03_analyse/ and are saved with their outputs
 # by src/shared/run_notebook.py, which merges each cell's printed output into one stream so a
 # rerun saves the same file.
@@ -24,3 +25,4 @@ for nb in 01_descriptives 02_count_and_presence_models 03_within_cities 04_road_
   .venv/bin/python src/shared/run_notebook.py "notebooks/$nb.ipynb"
 done
 run_python src/03_analyse/pcso_background.py
+run_python src/03_analyse/results_figures.py

@@ -154,96 +154,176 @@ PCSO's outlet addresses can carry owners' names, so the outlet list itself is ne
 
 ## 6. Results
 
+Every ratio is per national standard deviation of the RWI (0.49 points), with a 95% interval in brackets.
+A ratio above 1 means more outlets per person, or higher odds of any outlet, in richer places.
+Quintiles split the people in each scope into five equal groups by wealth, from Q1 (poorest) to Q5 (richest).
+
 ### 6.1 RQ1: Outlets per person
 
 > Are PCSO lotto outlets more or less common per person in poorer neighborhoods than in richer ones?
-
-- The count of outlets per person increases with every step up the wealth quintile.
-- This means that those in the poorest quintile have the least number of outlets per person (0.4) while those in the highest quintile have the most number of outlets (12.7).
-- In fact, those in the highest quintile have 30x more outlets per person than those in the poorest quintile.
-- The negative binomial regression model also supports this. It found that a tile one standard deviation richer contains 2.13x more outlets per person, holding the control variables constant.
-- The logistic regression model found a similar pattern, with an odds ratio of 2.18
-
-< insert chart here >
-
 > Does the answer change once we account for province, how urban a place is, how many shops it has, and its road length?
 
-- The counts change but the pattern is the same: richer neighborhoods have more outlets per person.
-- Urban share barely moves the ratio from 2.45 to 2.13.
-- Shop count is at 1.17.
-- Roads is at 1.24.
+#### 6.1.1 Descriptive statistics
 
-< insert chart here >
+- Outlets per 100,000 people rise at every step from Q1 to Q5: 0.4, 2.3, 6.7, 10.4 and 12.7 on tiles, against 6.5 across all tiles.
+- Q5 has 30.9 times the outlets per person of Q1.
+- On barangays the same rates are 0.4, 2.4, 6.4, 10.5 and 12.6.
+- The share of people living in a tile with no outlet falls from 99.5% in Q1 to 91.4%, 59.5%, 23.2% and 5.5% in Q5.
+- Shops per 1,000 people rise from 0.19 in Q1 to 0.74, 2.39, 4.54 and 5.74 in Q5.
+- The share of people living in urban cells rises from 38% in Q1 to 75%, 93%, 99% and 99.8% in Q5.
 
-![Figure 1. Outlets per 100,000 people by wealth quintile: national tiles against the barangays of Metro Manila, Metro Cebu and Metro Davao](../results/figures/quintile_rates.png)
+![Figure 1: The richest quintile has 31 times the outlets per person of the poorest](../results/figures/fig01_rq1_outlet_rate.png)
 
-*Figure 1. Outlets per 100,000 people by wealth fifth.
-Each city is split by its own people, so its quintiles compare its poorer and richer parts with each other, not with the country.
-No controls.*
+*Figure 1. Outlets per 100,000 people by national wealth quintile, on tiles. Source: [`quintile_rates.csv`](../results/tables/quintile_rates.csv).*
 
-### 6.2 RQ2: commerce
+![Figure 2: 99.5% of people in Q1 live in a tile with no outlet, against 5.5% in Q5](../results/figures/fig02_rq1_no_outlet.png)
 
-Most of the national gradient goes with where shops are.
-The poorest fifth of tiles has 0.19 shops per 1,000 people, and 38% of its people live in urban cells; the richest fifth has 5.7 shops per 1,000, and 99.8% of its people are urban (`quintile_rates.csv`).
-Adding shops to the model shrinks the wealth ratio from 2.13 to 1.17 (1.07-1.29), and adding road length as well leaves it at 1.24 (1.13-1.36) (`models.csv`).
-So among tiles in the same province with the same shops and urban share, a tile one standard deviation richer still has about 1.2 times as many outlets per person: a small lean towards richer places, not poorer ones.
+*Figure 2. Share of people living in a tile with no outlet, by national wealth quintile. Source: [`quintile_rates.csv`](../results/tables/quintile_rates.csv).*
 
-The checks agree.
-Barangays give 1.50 with shops and 1.22 with shops and roads, and the presence model gives 1.59 with shops.
-The tile ratio with shops barely moves when the model allows for spatial clustering (1.18), drops the GPS points that disagree with their address (1.16) or adds the outlets placed only at a town centre (1.17).
-Whether shops are a confounder or the route by which wealth and outlets meet cannot be told apart here, so both readings stand: without shops, poorer Filipinos live with far fewer outlets around them; with shops, lotto still leans slightly towards richer places.
+![Figure 3: The richest quintile has 30 times the shops per person of the poorest](../results/figures/fig03_rq1_shops_urban.png)
 
-### 6.3 RQ3: within cities
+*Figure 3. Shops per 1,000 people and share of people in urban cells, by national wealth quintile. Source: [`quintile_rates.csv`](../results/tables/quintile_rates.csv).*
 
-The three cities do not share one pattern (Table 1, Figure 2).
+#### 6.1.2 Negative binomial regression
 
-*Table 1. Wealth rate ratio per national standard deviation of RWI, with 95% intervals.
-Above 1 means more outlets per person in richer places.
-Cities by barangay, with city and municipality intercepts and errors clustered by RWI tile (`models.csv`, `quintile_rates.csv`).*
+- Tiles (40,737 tiles, 7,271 outlets), with province intercepts in every step:
+  - Wealth only: 2.45 (2.23-2.69).
+  - \+ urban share: 2.13 (1.96-2.32).
+  - \+ shops: 1.17 (1.07-1.29).
+  - \+ shops and roads: 1.24 (1.13-1.36).
+- Barangays (41,923 barangays, 7,282 outlets), same steps: 2.82 (2.67-2.98), 2.36 (2.22-2.52), 1.50 (1.39-1.61) and 1.22 (1.14-1.30).
+- Every interval is above 1.
+- The dispersion term α on tiles is 0.53, 0.49, 0.27 and 0.26 across the four steps.
 
-| Scope | Outlets per 100k | Wealth only | + urban share | + shops | + shops and roads |
-|---|---:|---:|---:|---:|---:|
-| Philippines, tiles | 6.5 | 2.45 (2.23-2.69) | 2.13 (1.96-2.32) | 1.17 (1.07-1.29) | 1.24 (1.13-1.36) |
-| Philippines, barangays | 6.5 | 2.82 (2.67-2.98) | 2.36 (2.22-2.52) | 1.50 (1.39-1.61) | 1.22 (1.14-1.30) |
-| Metro Manila | 14.1 | 0.95 (0.82-1.09) | 0.95 (0.82-1.09) | 0.89 (0.75-1.04) | 0.93 (0.83-1.06) |
-| Metro Cebu | 7.5 | 3.33 (2.09-5.31) | 2.34 (1.39-3.94) | 1.23 (0.65-2.33) | 1.16 (0.72-1.89) |
-| Metro Davao | 5.5 | 4.65 (2.91-7.44) | 4.55 (2.59-8.00) | 3.47 (1.68-7.21) | 1.97 (1.20-3.21) |
+![Figure 4: The wealth rate ratio falls from 2.45 with no controls to 1.24 with every control](../results/figures/fig04_rq1_count_model.png)
 
-**Metro Manila is flat.**
-Every count variant sits between about 0.9 and 1.0, the presence models at about 1.2, and every interval includes 1, on barangays and on the 121 tiles alike.
-Every wealth fifth of its barangays has between 12.5 and 15.2 outlets per 100,000 people, and the poorest fifth is, if anything, the highest (`quintile_rates.csv`).
+*Figure 4. Negative binomial wealth rate ratio by control step, tiles and barangays. Source: [`models.csv`](../results/tables/models.csv).*
 
-**Metro Davao leans rich in every barangay variant**: 4.55 with urban share, 3.47 with shops, and 1.97 with shops and roads, all with intervals above 1.
-Its rate climbs from 0.1 per 100,000 in the poorest fifth of barangays (one outlet among about 687,000 people) to 12.7 in the richest.
-Its tiles agree (2.69 with urban share, 1.70 with shops); only the tile presence model is too imprecise to say either way (1.51, 0.68-3.34).
+#### 6.1.3 Logistic regression
 
-**Metro Cebu is unclear once shops are controlled.**
-Its richer barangays have more outlets per person with urban share alone (2.34, 1.39-3.94), but with shops the ratio is 1.23 (0.65-2.33), and on its tiles 0.91 (0.74-1.13).
-Among barangays with the same retail, richer and poorer ones cannot be told apart.
-Its rate peaks in the fourth wealth fifth (12.8 per 100,000) and falls back in the richest (8.4).
+- Tiles (40,240 tiles, 2,330 with an outlet): 2.18 (1.92-2.46) with urban share and 1.59 (1.38-1.84) with shops.
+- Barangays (41,489 barangays, 3,884 with an outlet): 2.63 (2.47-2.81) with urban share and 1.41 (1.32-1.51) with shops.
+- 497 tiles and 434 barangays are left out because every unit in their province has the same outcome.
 
-![Figure 2. Wealth ratio by model variant with 95% intervals, one panel each for the Philippines, Metro Manila, Metro Cebu and Metro Davao](../results/figures/rate_ratios.png)
+![Figure 5: Wealth odds ratio of any outlet: 2.18 with urban share, 1.59 with shops](../results/figures/fig05_rq1_presence_model.png)
 
-*Figure 2. The wealth ratio of every model variant, barangays and tiles, on a log scale.
-The vertical line at 1 is no association.*
+*Figure 5. Logistic wealth odds ratio of at least one outlet, tiles and barangays. Source: [`models.csv`](../results/tables/models.csv).*
 
-### 6.4 RQ4: road distance
+#### 6.1.4 Spatial checks and outlet sensitivities
 
-Road access is unequal nationally, and the inequality favours richer places (Table 2).
-The median person in the poorest fifth of tiles lives 11.5 km from an outlet by road, only 2% live within 2 km, and 4.4% have no road route to an outlet at all.
-In the richest fifth the median is 0.6 km and 92% live within 2 km.
-Metro Manila is the opposite case: the median is 0.4 to 0.5 km in every wealth fifth, and 99% of people live within 2 km of an outlet.
-Metro Davao repeats the national ladder, and in Metro Cebu only the poorest fifth stands apart.
+- Moran's I on the tile count models' residuals is -0.012 with urban share and 0.002 with shops, and -0.013 and 0.001 after a refit with 10 Moran eigenvectors.
+- On barangays it is 0.039 and 0.042, and 0.034 and 0.037 after a refit with 100 eigenvectors.
+- Spatial refit ratios: tiles 2.14 (1.97-2.32) with urban share and 1.18 (1.07-1.29) with shops; barangays 2.42 (2.27-2.57) and 1.51 (1.40-1.62).
+- Only the 6,700 outlets whose GPS point matches their address: 2.12 (1.94-2.32) with urban share and 1.16 (1.05-1.27) with shops.
+- Adding the outlets placed only at a town centre (7,399 outlets): 2.11 (1.95-2.29) and 1.17 (1.07-1.27).
 
-*Table 2. Median road distance to the nearest outlet, and the share of people within 2 km by road, by wealth fifth.
-National quintiles by tile, city quintiles by each city's own barangays (`road_distance.csv`).*
+![Figure 6: Across the checks the tile ratio stays at 2.11-2.14 with urban share and 1.16-1.18 with shops](../results/figures/fig06_rq1_checks.png)
 
-| Scope | Poorest fifth | 2nd | 3rd | 4th | Richest fifth |
+*Figure 6. Tile wealth rate ratio in the main model, the spatial refit and two outlet sensitivities. Source: [`models.csv`](../results/tables/models.csv), [`spatial_checks.csv`](../results/tables/spatial_checks.csv).*
+
+### 6.2 RQ2: Within cities
+
+> Does the rich-poor pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together?
+
+Each city's barangays are split into quintiles by the city's own people, not the country's.
+
+#### 6.2.1 Descriptive statistics
+
+- Outlets per 100,000 people, Q1 to Q5:
+  - Metro Manila: 15.2, 12.5, 14.9, 14.0 and 14.1 (14.1 across the city).
+  - Metro Cebu: 1.4, 5.2, 9.5, 12.8 and 8.4 (7.5).
+  - Metro Davao: 0.1, 2.2, 4.6, 7.5 and 12.7 (5.5); its Q1 has one outlet for about 687,000 people.
+- Shops per 1,000 people, Q1 to Q5:
+  - Metro Manila: 7.5, 6.2, 5.3, 6.1 and 5.1.
+  - Metro Cebu: 0.8, 2.2, 4.6, 8.1 and 5.3.
+  - Metro Davao: 0.7, 1.6, 3.6, 7.7 and 8.0.
+
+![Figure 7: Outlets per 100,000: 12.5 to 15.2 in every Metro Manila quintile, 0.1 to 12.7 in Metro Davao](../results/figures/fig07_rq2_outlet_rate.png)
+
+*Figure 7. Outlets per 100,000 people by each city's barangay wealth quintile. Source: [`quintile_rates.csv`](../results/tables/quintile_rates.csv).*
+
+![Figure 8: Shops per person peak in Q1 in Metro Manila, Q4 in Metro Cebu and Q5 in Metro Davao](../results/figures/fig08_rq2_shops.png)
+
+*Figure 8. Shops per 1,000 people by each city's barangay wealth quintile. Source: [`quintile_rates.csv`](../results/tables/quintile_rates.csv).*
+
+#### 6.2.2 Negative binomial regression
+
+- Barangays, with city and municipality intercepts and errors clustered by RWI tile, in the order wealth only, + urban share, + shops, + shops and roads:
+  - Metro Manila (1,711 barangays, 1,979 outlets): 0.95 (0.82-1.09), 0.95 (0.82-1.09), 0.89 (0.75-1.04) and 0.93 (0.83-1.06).
+  - Metro Cebu (348 barangays, 239 outlets): 3.33 (2.09-5.31), 2.34 (1.39-3.94), 1.23 (0.65-2.33) and 1.16 (0.72-1.89).
+  - Metro Davao (548 barangays, 188 outlets): 4.65 (2.91-7.44), 4.55 (2.59-8.00), 3.47 (1.68-7.21) and 1.97 (1.20-3.21).
+- Every Metro Manila interval includes 1, and every Metro Davao interval is above 1.
+- Metro Cebu's intervals are above 1 for wealth only and + urban share, and include 1 for + shops and + shops and roads.
+
+![Figure 9: Every Metro Davao interval sits above 1; every Metro Manila interval includes 1](../results/figures/fig09_rq2_count_model.png)
+
+*Figure 9. Negative binomial wealth rate ratio by control step, on each city's barangays. Source: [`models.csv`](../results/tables/models.csv).*
+
+#### 6.2.3 Logistic regression
+
+- Barangays, + urban share and + shops:
+  - Metro Manila: 1.20 (0.90-1.61) and 1.22 (0.85-1.77).
+  - Metro Cebu: 3.51 (1.71-7.21) and 1.07 (0.43-2.63).
+  - Metro Davao: 7.09 (3.71-13.56) and 3.35 (1.44-7.78).
+- 9 Metro Manila and 54 Metro Davao barangays are left out because every barangay in their city or municipality has the same outcome.
+
+![Figure 10: Odds ratio of any outlet with shops: Manila 1.22, Cebu 1.07, Davao 3.35](../results/figures/fig10_rq2_presence_model.png)
+
+*Figure 10. Logistic wealth odds ratio of at least one outlet, on each city's barangays. Source: [`models.csv`](../results/tables/models.csv).*
+
+#### 6.2.4 Tile models and spatial refits
+
+- Tiles, in the order wealth only, + urban share, + shops, + shops and roads:
+  - Metro Manila (121 tiles): 0.97, 0.95, 0.92 and 0.94, every interval including 1.
+  - Metro Cebu (217 tiles): 2.36, 1.74, 0.91 and 0.95, the last two intervals including 1.
+  - Metro Davao (913 tiles): 3.03, 2.69, 1.70 and 1.60, every interval above 1.
+- Spatial refits: Metro Manila barangays 1.04 (0.88-1.24) with urban share and 0.92 (0.75-1.12) with shops; Metro Cebu barangays 2.29 (1.23-4.26) and 1.41 (0.75-2.64); Metro Davao tiles 1.64 (1.20-2.24) with shops.
+- Moran's I on the barangay count models' residuals with shops is 0.047 in Metro Manila, 0.099 in Metro Cebu and 0.019 in Metro Davao; after the refit it is 0.023 in Metro Manila and -0.019 in Metro Cebu.
+
+![Figure 11: On tiles with shops, the rate ratio is 0.92 in Metro Manila, 0.91 in Metro Cebu and 1.70 in Metro Davao](../results/figures/fig11_rq2_checks.png)
+
+*Figure 11. Negative binomial wealth rate ratio on each city's tiles, and the spatial refits. Source: [`models.csv`](../results/tables/models.csv), [`spatial_checks.csv`](../results/tables/spatial_checks.csv).*
+
+### 6.3 RQ3: Road distance
+
+> How far do people in poor and rich neighbourhoods live from the nearest lotto outlet?
+
+#### 6.3.1 Road distance
+
+- Philippines, Q1 to Q5:
+  - Median road distance to the nearest outlet: 11.5, 5.4, 2.1, 0.9 and 0.6 km (2.2 km overall).
+  - Share of people within 2 km by road: 2%, 15%, 48%, 79% and 92%.
+  - Share of people with no road route to any outlet: 4.4%, 2.8%, 0.7%, 0.2% and 0.04%.
+- Median road distance by each city's own quintiles, Q1 to Q5:
+  - Metro Manila: 0.4, 0.5, 0.4, 0.4 and 0.4 km, with 99% of people within 2 km in every quintile.
+  - Metro Cebu: 4.5, 1.0, 0.7, 0.6 and 0.8 km.
+  - Metro Davao: 12.5, 4.1, 1.6, 1.0 and 0.7 km.
+
+![Figure 12: The median person in Q1 lives 11.5 km from an outlet by road; in Q5, 0.6 km](../results/figures/fig12_rq3_road_national.png)
+
+*Figure 12. Median road distance to the nearest outlet and share of people within 2 km by road, by national wealth quintile. Source: [`road_distance.csv`](../results/tables/road_distance.csv).*
+
+![Figure 13: Median road distance: 0.4 to 0.5 km in every Metro Manila quintile, 12.5 to 0.7 km in Metro Davao](../results/figures/fig13_rq3_road_cities.png)
+
+*Figure 13. Median road distance to the nearest outlet by each city's barangay wealth quintile. Source: [`road_distance.csv`](../results/tables/road_distance.csv).*
+
+| Scope | Q1 | Q2 | Q3 | Q4 | Q5 |
 |---|---:|---:|---:|---:|---:|
 | Philippines | 11.5 km, 2% | 5.4 km, 15% | 2.1 km, 48% | 0.9 km, 79% | 0.6 km, 92% |
 | Metro Manila | 0.4 km, 99% | 0.5 km, 99% | 0.4 km, 99% | 0.4 km, 99% | 0.4 km, 99% |
 | Metro Cebu | 4.5 km, 24% | 1.0 km, 82% | 0.7 km, 97% | 0.6 km, 97% | 0.8 km, 96% |
 | Metro Davao | 12.5 km, 1% | 4.1 km, 23% | 1.6 km, 62% | 1.0 km, 88% | 0.7 km, 95% |
+
+*Table 1. Median road distance to the nearest outlet, and share of people within 2 km by road, by wealth quintile (national quintiles by tile, city quintiles by each city's barangays). Source: [`road_distance.csv`](../results/tables/road_distance.csv).*
+
+#### 6.3.2 Straight-line distance
+
+- Median straight-line distance to the nearest outlet, Philippines, Q1 to Q5: 7.9, 4.0, 1.5, 0.6 and 0.3 km.
+- The straight-line median is shorter than the road median in every quintile.
+
+![Figure 14: Straight-line medians run from 7.9 km in Q1 to 0.3 km in Q5](../results/figures/fig14_rq3_straight_line.png)
+
+*Figure 14. Median distance to the nearest outlet by road and in a straight line, by national wealth quintile. Source: [`road_distance.csv`](../results/tables/road_distance.csv).*
 
 ## 7. Discussion
 
@@ -370,7 +450,7 @@ Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index vi
 ## Appendix A. Code and pipeline
 
 The code sits in one folder per phase under [`src/`](../src/), named after the phase script at the repo root that runs it (section 10).
-The analysis is five narrative notebooks in [`notebooks/`](../notebooks/), committed with their outputs so each table and chart sits beside a short reading of it; their logic lives as functions in [`src/03_analyse/`](../src/03_analyse/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`, `maps.py`), which the notebooks import; `pcso_background.py` draws the two background charts in section 1 from figures typed in from their sources.
+The analysis is five narrative notebooks in [`notebooks/`](../notebooks/), committed with their outputs so each table and chart sits beside a short reading of it; their logic lives as functions in [`src/03_analyse/`](../src/03_analyse/) (`outlet_rates.py`, `count_models.py`, `road_distance.py`, `pcso_cy2023.py`, `charts.py`, `maps.py`), which the notebooks import; `pcso_background.py` draws the two background charts in section 1 from figures typed in from their sources, and `results_figures.py` draws the numbered figures in section 6 from the committed tables.
 Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and grid helpers, `analysis_samples.py` the analysis samples, `stats_tools.py` model and spatial helpers, `map_layers.py` the classes and colours the static and web maps share, `atlas.py` the story site's Atlas Grid style and its Riso data palette for every chart and map, with its fonts committed in `fonts/`, `palette_check.py` the palette's colour-blind checks, `run_notebook.py` the notebook runner `03_analyse.sh` uses, `setup.sh` the phase scripts' setup); each script adds that folder to Python's import path itself, so any script also runs on its own.
 
 | Phase script | Step | Script | Writes |
@@ -386,6 +466,7 @@ Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and gri
 | | Within cities: Metro Manila, Metro Cebu and Metro Davao, side by side with the national results | [`notebooks/03_within_cities.ipynb`](../notebooks/03_within_cities.ipynb) | `results/tables/`, `results/figures/` |
 | | Road distance to the nearest outlet by wealth quintile | [`notebooks/04_road_distance.ipynb`](../notebooks/04_road_distance.ipynb) | `results/tables/` |
 | | Static choropleth maps of outlet density beside wealth | [`notebooks/05_maps.ipynb`](../notebooks/05_maps.ipynb) | `results/figures/` |
+| | The PCSO background charts (section 1) and the Results figures (section 6) | [`pcso_background.py`](../src/03_analyse/pcso_background.py), [`results_figures.py`](../src/03_analyse/results_figures.py) | `results/figures/` |
 | `04_build_map.sh` | Web map vector tiles | [`build_map_tiles.py`](../src/04_build_map/build_map_tiles.py) | `docs/map/data/` |
 | | Web map colours, from `map_layers.py` | [`write_web_palette.py`](../src/04_build_map/write_web_palette.py) | `docs/map/palette.js` |
 
@@ -401,10 +482,29 @@ The static figures in [`results/figures/`](../results/figures/) can be read with
 | [`map_ncr_bivariate.png`](../results/figures/map_ncr_bivariate.png), [`map_ncr_rate_and_wealth.png`](../results/figures/map_ncr_rate_and_wealth.png) | The same two maps for Metro Manila's barangays |
 | [`map_cebu_bivariate.png`](../results/figures/map_cebu_bivariate.png), [`map_cebu_rate_and_wealth.png`](../results/figures/map_cebu_rate_and_wealth.png) | The same two maps for Metro Cebu's barangays |
 | [`map_davao_bivariate.png`](../results/figures/map_davao_bivariate.png), [`map_davao_rate_and_wealth.png`](../results/figures/map_davao_rate_and_wealth.png) | The same two maps for Metro Davao's barangays |
-| [`quintile_rates.png`](../results/figures/quintile_rates.png) | Outlets per 100,000 people by wealth quintile: national tiles against the barangays of the three cities (Figure 1) |
-| [`rate_ratios.png`](../results/figures/rate_ratios.png) | The wealth rate ratio of every model variant, one panel each for the country and the three cities (Figure 2) |
+| [`quintile_rates.png`](../results/figures/quintile_rates.png) | Outlets per 100,000 people by wealth quintile: national tiles against the barangays of the three cities, on one scale (notebooks 1 and 3) |
+| [`rate_ratios.png`](../results/figures/rate_ratios.png) | The wealth rate ratio of every model variant, one panel each for the country and the three cities (notebook 3) |
 | [`pcso_gaming_revenue_2024.png`](../results/figures/pcso_gaming_revenue_2024.png) | PCSO gaming revenue in 2024 by game (section 1) |
 | [`pcso_net_receipts_split.png`](../results/figures/pcso_net_receipts_split.png) | The statutory split of PCSO's net receipts (section 1) |
+
+The Results figures, in [`results/figures/`](../results/figures/) and drawn by [`results_figures.py`](../src/03_analyse/results_figures.py):
+
+| Figure | File | What it shows |
+|---|---|---|
+| 1 | [`fig01_rq1_outlet_rate.png`](../results/figures/fig01_rq1_outlet_rate.png) | Outlets per 100,000 people by national wealth quintile |
+| 2 | [`fig02_rq1_no_outlet.png`](../results/figures/fig02_rq1_no_outlet.png) | Share of people in a tile with no outlet, by national wealth quintile |
+| 3 | [`fig03_rq1_shops_urban.png`](../results/figures/fig03_rq1_shops_urban.png) | Shops per 1,000 people and urban share, by national wealth quintile |
+| 4 | [`fig04_rq1_count_model.png`](../results/figures/fig04_rq1_count_model.png) | National negative binomial wealth rate ratio by control step |
+| 5 | [`fig05_rq1_presence_model.png`](../results/figures/fig05_rq1_presence_model.png) | National logistic wealth odds ratio of any outlet |
+| 6 | [`fig06_rq1_checks.png`](../results/figures/fig06_rq1_checks.png) | National spatial refits and outlet sensitivities |
+| 7 | [`fig07_rq2_outlet_rate.png`](../results/figures/fig07_rq2_outlet_rate.png) | Outlets per 100,000 people by each city's wealth quintile |
+| 8 | [`fig08_rq2_shops.png`](../results/figures/fig08_rq2_shops.png) | Shops per 1,000 people by each city's wealth quintile |
+| 9 | [`fig09_rq2_count_model.png`](../results/figures/fig09_rq2_count_model.png) | City negative binomial wealth rate ratio by control step, barangays |
+| 10 | [`fig10_rq2_presence_model.png`](../results/figures/fig10_rq2_presence_model.png) | City logistic wealth odds ratio of any outlet, barangays |
+| 11 | [`fig11_rq2_checks.png`](../results/figures/fig11_rq2_checks.png) | City tile models and spatial refits |
+| 12 | [`fig12_rq3_road_national.png`](../results/figures/fig12_rq3_road_national.png) | Median road distance and share within 2 km, by national wealth quintile |
+| 13 | [`fig13_rq3_road_cities.png`](../results/figures/fig13_rq3_road_cities.png) | Median road distance by each city's wealth quintile |
+| 14 | [`fig14_rq3_straight_line.png`](../results/figures/fig14_rq3_straight_line.png) | Median road against straight-line distance, by national wealth quintile |
 
 The tables in [`results/tables/`](../results/tables/):
 
