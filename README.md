@@ -1,4 +1,4 @@
-# Do poorer Filipinos have easier access to PCSO lottery outlets than richer Filipinos?
+# Are PCSO lotto outlets more common in poorer neighbourhoods than in richer ones?
 
 Earl Yu, November 2026.
 Open and published data only.
