@@ -1,20 +1,31 @@
-# Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines
+# Do poorer Filipinos have easier access to PCSO lottery outlets than richer Filipinos?
 
 Earl Yu, November 2026.
 Open and published data only.
 
-**Read it as a one-page story, with the interactive map: <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>**
+**Lotto outlets follow shops and towns, not poverty.**
+No: nationally, richer places have more and closer outlets, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.
 
-Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods?
-On the open data, no.
-Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest: 12.7 against 0.4 per 100,000 people.
-Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person.
-Inside Metro Manila wealth makes no difference to outlet density, Metro Davao leans towards its richer barangays, and Metro Cebu's lean cannot be told apart from none once shops are held fixed.
-The median person in the poorest fifth lives 11.5 km from an outlet by road, against 0.6 km in the richest.
-Outlets follow commerce and urbanisation, not poverty.
-That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.
+Read it as a one-page story with the interactive map at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, or the [full paper](docs/paper.md).
+
+## Why ask
+
+The US lottery is often called "a tax on the poor".
+That charge has two halves: access (are there more outlets where people are poorer?) and spending (do poorer households spend more on tickets?).
+This study tests access, on a map of the Philippine Charity Sweepstakes Office's (PCSO) 7,443 lotto outlets.
 
 ![Wealth and outlet density together, Philippines: most of the country is poorer tiles with no outlet, and the tiles that are both richer and above the national outlet rate cluster in Metro Manila and the larger cities](results/figures/map_national_bivariate.png)
+
+## Three key insights
+
+1. **Nationally, richer places have more outlets per person, and closer ones:** 0.4 outlets per 100,000 people in the poorest quintile (Q1) against 12.7 in the richest (Q5), and a median road distance of 11.5 km against 0.6 km.
+2. **In Metro Manila, wealth makes no difference:** 12.5 to 15.2 outlets per 100,000 people and a median of 0.4 to 0.5 km by road in every quintile.
+3. **Outlets follow commerce, and that explains most of the rich-poor gap:** comparing places with the same urban share and shops shrinks the wealth rate ratio from 2.45 to 1.17.
+
+## Data, methodology and limitations
+
+Outlets are counted per 2.4 km tile of Meta's Relative Wealth Index and per barangay, compared per person by wealth quintile and with negative binomial count models, and measured by road distance; the [paper](docs/paper.md#4-research-design) has the full design.
+Access is not spending, and every result is an association, not a cause; the paper's [limitations](docs/paper.md#8-limitations) set out the rest.
 
 ## Where things are
 
@@ -55,6 +66,7 @@ A `--refresh` run picks up a newer PCSO map, OpenStreetMap and Overture, so expe
 
 The web map reads PMTiles files by HTTP range requests, so neither it nor the site opens from `file://`; `serve_map.py` is a small range-aware server for `docs/`.
 The story site is hand-written HTML with no build step, and its numbers are typed in from `results/tables/`, so a rerun that moves the tables needs the site updated by hand.
+Its three charts load the PNGs in `results/figures/` from the `main` branch on GitHub, so a redrawn figure shows on the site once it is merged.
 Outlet points appear only in a local build of the map: PCSO's outlet list is never committed.
 
 GitHub Pages serves the site from the `main` branch and the `/docs` folder (Settings, Pages, Deploy from a branch).
