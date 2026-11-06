@@ -26,8 +26,8 @@ import atlas
 from analysis_samples import FIGURES
 
 # (share of net receipts %, label, colour): RA 1169 s 6 as amended by BP 42
-NET_RECEIPTS = [(55, "Prizes", atlas.ACCENT), (30, "Charity fund", atlas.INK),
-                (15, "Operations", atlas.RULE)]
+NET_RECEIPTS = [(55, "Prizes", atlas.ACCENT), (30, "Charity fund", atlas.SECOND),
+                (15, "Operations", atlas.NO_PEOPLE)]  # the Riso cool grey
 # PHP billion, 2024: PCSO Accomplishment Report 2024, Year-end
 GAMING_TOTAL = 62.35
 GAMING = [("Small Town Lottery", 31.76), ("Lotto with digit games", 29.72)]
