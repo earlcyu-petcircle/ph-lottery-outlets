@@ -94,7 +94,10 @@ ul.sq li::marker{color:var(--accent)}
 figure{margin:0;max-width:880px}
 figure img{display:block;width:100%;height:auto}
 figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:10px}
-.mapbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.maps3{margin-top:30px}
+.maps3grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:6px;align-items:start}
+.maps3grid figure{border-top:2px solid var(--ink);padding-top:8px}
+.maps3grid figcaption{font:600 12.5px var(--mono);color:var(--ink);margin-top:6px}
 button{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer}
 button:hover{background:var(--grid)}
 
@@ -131,7 +134,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 @media (max-width:720px){
   :root{--pad:16px}
   body{font-size:16px}
-  .stats{grid-template-columns:minmax(0,1fr)}
+  .stats,.maps3grid{grid-template-columns:minmax(0,1fr)}
   .hero .wrap{padding-top:40px}
   section.block{padding:48px 0}
   .links{gap:2px 14px;font-size:13.5px}
@@ -230,10 +233,23 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
         <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig13_rq3_road_cities.png" alt="Bar charts: median road distance is 0.4 to 0.5 km in every Metro Manila quintile and 12.5 to 0.7 km in Metro Davao. Metro Manila Q1 to Q5: 0.4, 0.5, 0.4, 0.4, 0.4 km. Metro Cebu: 4.5, 1.0, 0.7, 0.6, 0.8 km. Metro Davao: 12.5, 4.1, 1.6, 1.0, 0.7 km." loading="lazy" width="1800" height="780">
         <figcaption>Figure 13 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#72-in-metro-manila-wealth-makes-no-difference">paper</a>. Each city is split into quintiles by its own people. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
       </figure>
-      <div class="mapbtns">
-        <button type="button" data-map="ncr/bivariate">Metro Manila on the map</button>
-        <button type="button" data-map="cebu/bivariate">Metro Cebu on the map</button>
-        <button type="button" data-map="davao/bivariate">Metro Davao on the map</button>
+      <div class="maps3">
+        <p class="ctitle">Wealth and outlets together: mixed right across Metro Manila, concentrated in Metro Davao's richer core</p>
+        <p class="tsub">Each barangay by its city's wealth third (pink poorer, grey middle, cobalt richer) and its outlet rate (pale: no outlet, deep: above the city's overall rate). Select a map to open it full size.</p>
+        <div class="maps3grid">
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Bivariate map of Metro Manila barangays by wealth third and outlet rate: poorer, middle and richer barangays above the city rate are spread across the whole city." loading="lazy" width="1292" height="1462"></a>
+            <figcaption>Metro Manila: 14.1 outlets per 100,000 overall</figcaption>
+          </figure>
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_cebu_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_cebu_bivariate.png" alt="Bivariate map of Metro Cebu barangays by wealth third and outlet rate." loading="lazy" width="1292" height="1496"></a>
+            <figcaption>Metro Cebu: 7.5 per 100,000 overall</figcaption>
+          </figure>
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_davao_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_davao_bivariate.png" alt="Bivariate map of Metro Davao barangays by wealth third and outlet rate: most of the region is poorer barangays with no outlet, and barangays above the city rate cluster in the richer urban core." loading="lazy" width="1632" height="1462"></a>
+            <figcaption>Metro Davao: 5.5 per 100,000 overall</figcaption>
+          </figure>
+        </div>
       </div>
     </article>
 
@@ -384,13 +400,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 </footer>
 
 <script>
-// City buttons: steer the embedded map by its #scope/measure deep link, then bring it into view
-const frame = document.getElementById("atlas-map");
-document.querySelectorAll("button[data-map]").forEach(b => b.addEventListener("click", () => {
-  frame.src = "map/?embed#" + b.dataset.map;
-  document.getElementById("map").scrollIntoView({behavior: "smooth"});
-}));
-
 const copy = document.getElementById("copy-bib");
 copy.addEventListener("click", async () => {
   try {
