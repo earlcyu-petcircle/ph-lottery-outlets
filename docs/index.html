@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lottery as a tax on the poor? PH lotto outlets | Earl Yu / Atlas</title>
-<meta name="description" content="Are the Philippine Charity Sweepstakes Office's lotto outlets concentrated in poorer neighbourhoods? A spatial study on open data: outlets per person against wealth for every 2.4 km tile in the Philippines and every barangay of Metro Manila, Metro Cebu and Metro Davao.">
+<title>PH lotto outlets follow commerce | Philippine Lottery Outlets</title>
+<meta name="description" content="Are Philippine lotto outlets concentrated in poorer or richer neighborhoods? On the open data, they are concentrated in richer ones. Lotto outlets follow commerce, not poverty: a spatial study of every 2.4 km tile in the Philippines and every barangay of Metro Manila, Metro Cebu and Metro Davao.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Is the lottery a tax on the poor, or just on the busy street?">
-<meta property="og:description" content="PCSO lotto outlets are about 30 times as common per person in the richest fifth of the Philippines as in the poorest. They follow commerce and urbanisation, not poverty.">
+<meta property="og:title" content="Lotto outlets follow commerce, not poverty">
+<meta property="og:description" content="Are Philippine lotto outlets concentrated in poorer or richer neighborhoods? Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.">
 <meta property="og:url" content="https://earlcyu-petcircle.github.io/ph-lottery-outlets/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%272%27 y=%272%27 width=%2712%27 height=%2712%27 fill=%27%231F4FE0%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Atlas Grid: Earl Yu's personal-project brand */
+/* Atlas Grid: Earl Yu's personal-project brand. Data colours are the Riso palette (src/shared/atlas.py). */
 :root{
   color-scheme: light;
   --bg:#FFFFFF;
@@ -39,7 +39,7 @@ a:hover{color:var(--ink)}
 .wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
 p+p{margin-top:.8em}
 strong{font-weight:600}
-.num,.mono{font-family:var(--mono);font-feature-settings:"zero" 0}
+.mono{font-family:var(--mono)}
 
 /* Nav */
 .nav{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:3px solid var(--ink)}
@@ -52,31 +52,28 @@ strong{font-weight:600}
 
 /* Hero */
 .hero{background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--grid) 1px,var(--bg) 1px) 0 0/24px 24px;border-bottom:1px solid var(--ink)}
-.hero .wrap{padding-top:64px;padding-bottom:44px}
+.hero .wrap{padding-top:60px;padding-bottom:48px}
 .kicker{font:600 12px var(--mono);letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
-.hero h1{font:800 clamp(2.5rem,6.4vw,4.6rem)/.96 var(--head);letter-spacing:-.035em;margin:16px 0 22px;max-width:15ch;text-wrap:balance}
+.question{font:500 clamp(1.15rem,2.2vw,1.45rem)/1.3 var(--head);letter-spacing:-.01em;color:var(--ink-soft);margin-top:16px;max-width:40rem}
+.hero h1{font:800 clamp(2.3rem,5.4vw,4.1rem)/.98 var(--head);letter-spacing:-.035em;margin:14px 0 22px;max-width:20ch;text-wrap:balance}
 mark{background:var(--highlight);color:inherit;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.answer{max-width:44rem;font-size:1.12rem;color:var(--ink-soft)}
+.answer{max-width:42rem;font-size:1.15rem;color:var(--ink-soft)}
 .answer strong{color:var(--ink)}
-.byline{margin-top:20px;font:13px var(--mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 18px}
-
-/* Stats */
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;padding:40px 0 18px}
-.stat{border-left:3px solid var(--accent);padding-left:14px}
-.stat .n{display:block;font:600 clamp(2rem,3.6vw,2.6rem)/1 var(--mono);letter-spacing:-.04em}
-.stat .l{display:block;font-size:14px;line-height:1.45;color:var(--muted);margin-top:10px}
-.counts{font:12.5px var(--mono);color:var(--muted);padding:6px 0 48px;display:flex;flex-wrap:wrap;gap:4px 22px}
+.byline{margin-top:22px;font:13px var(--mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 18px}
 
 /* Sections */
-section.block{border-top:1px solid var(--ink);padding:64px 0}
-.head{margin-bottom:28px;max-width:46rem}
+section.block{border-top:1px solid var(--ink);padding:60px 0}
+section.block:first-of-type{border-top:0}
+.head{margin-bottom:26px;max-width:46rem}
 .head h2{font:800 clamp(1.9rem,3.8vw,2.7rem)/1.02 var(--head);letter-spacing:-.03em;margin-top:10px}
 .head p{margin-top:14px;color:var(--ink-soft)}
 .prose{max-width:44rem;color:var(--ink-soft)}
-.prose h3{font:800 1.3rem/1.15 var(--head);letter-spacing:-.02em;color:var(--ink);margin:30px 0 8px}
+.prose h3{font:800 1.3rem/1.15 var(--head);letter-spacing:-.02em;color:var(--ink);margin:0 0 10px}
 ul.sq{list-style:square;padding-left:1.15em}
 ul.sq li{margin:.45em 0}
 ul.sq li::marker{color:var(--accent)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 52px}
+.two>*{min-width:0}
 
 /* Map */
 .mapframe{border:1.5px solid var(--ink);background:var(--grid);height:min(76vh,700px);min-height:480px}
@@ -84,100 +81,65 @@ ul.sq li::marker{color:var(--accent)}
 .mapnote{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 20px;margin-top:10px;font-size:13.5px;color:var(--muted)}
 .mapnote a{font-family:var(--mono);font-size:13px;white-space:nowrap}
 
-/* Context strip */
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:30px}
-.fact{border-top:2px solid var(--ink);padding-top:10px}
-.fact .n{font:600 1.5rem/1.1 var(--mono);letter-spacing:-.03em}
-.fact p{font-size:14px;color:var(--muted);margin-top:6px}
+/* Insights */
+.insight{padding:44px 0;border-top:1px solid var(--rule)}
+.insight:first-of-type{border-top:0;padding-top:8px}
+.insight .lab{font:600 13px var(--mono);color:var(--accent)}
+.insight h3{font:800 clamp(1.6rem,3vw,2.15rem)/1.05 var(--head);letter-spacing:-.03em;margin:8px 0 22px;max-width:24ch;text-wrap:balance}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 28px;margin-bottom:22px}
+.stat{border-left:3px solid var(--accent);padding-left:14px;min-width:0}
+.stat .n{display:block;font:600 clamp(1.55rem,2.8vw,2.05rem)/1.05 var(--mono);letter-spacing:-.04em;overflow-wrap:anywhere}
+.stat .l{display:block;font-size:14px;line-height:1.45;color:var(--muted);margin-top:8px}
+.insight .note{max-width:46rem;color:var(--ink-soft);margin-bottom:24px}
+figure{margin:0;max-width:880px}
+figure img{display:block;width:100%;height:auto}
+figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:10px}
+.maps3{margin-top:30px}
+figure.ncr{max-width:640px;margin-bottom:6px}
+button{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer}
+button:hover{background:var(--grid)}
 
-/* Findings */
-.finding{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px 52px;align-items:start;padding:44px 0;border-top:1px solid var(--rule)}
-.finding:first-of-type{border-top:0;padding-top:12px}
-.finding .lab{font:600 13px var(--mono);color:var(--accent)}
-.finding h3{font:800 clamp(1.5rem,2.6vw,1.75rem)/1.08 var(--head);letter-spacing:-.02em;margin:8px 0 14px}
-.finding p{color:var(--ink-soft)}
-.rq{font-size:14px;color:var(--muted);border-left:3px solid var(--rule);padding-left:12px;margin-bottom:14px}
-figure{margin:0}
-.ctitle{font:800 15px/1.25 var(--head);letter-spacing:-.01em;margin-bottom:12px}
-figure svg{display:block;width:100%;height:auto;max-width:540px;overflow:visible}
-figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px;max-width:540px}
-svg text{font-family:var(--mono);paint-order:stroke;stroke:#FFFFFF;stroke-width:4px;stroke-linejoin:round}
-svg .v{fill:var(--ink);font-weight:600}
-svg .l{fill:var(--ink-soft)}
-svg .s{fill:var(--muted)}
-svg .g{font-family:var(--head);font-weight:800;fill:var(--ink)}
-
-/* Four scopes */
-.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
-.card{border:1.5px solid var(--ink);padding:16px 16px 14px;display:flex;flex-direction:column}
-.card h3{font:800 1.25rem/1.1 var(--head);letter-spacing:-.02em}
-.card .verdict{font-size:14px;color:var(--ink-soft);margin:6px 0 12px;min-height:2.9em}
-.card svg{display:block;width:100%;height:auto;margin:4px 0 6px}
-.card .unit{font:11px var(--mono);color:var(--muted)}
-.card dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:13px;margin:12px 0 14px;border-top:1px solid var(--rule);padding-top:10px}
-.card dt{color:var(--muted)}
-.card dd{font-family:var(--mono);font-size:12.5px;text-align:right;color:var(--ink)}
-.card button{margin-top:auto}
-button,.btn{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer;text-decoration:none;display:inline-block}
-button:hover,.btn:hover{background:var(--grid);color:var(--ink)}
-
-/* Tables */
-.tables{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;margin-top:48px}
+/* Data and method */
+.tsub{font-size:13px;line-height:1.5;color:var(--muted);margin:4px 0 10px}
+.ctitle{font:800 15px/1.25 var(--head);letter-spacing:-.01em}
 .tablewrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
-.tsub{font-size:13px;line-height:1.5;color:var(--muted);margin:-6px 0 10px}
 th{font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.04em;text-align:left;border-bottom:2px solid var(--ink);padding:6px 6px 6px 0;vertical-align:bottom}
 td{padding:7px 6px 7px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-td.n,th.n{text-align:right}
-td.n{font:13px var(--mono);white-space:nowrap}
-td.n small{display:block;font-size:11px;color:var(--muted)}
 tr:last-child td{border-bottom:2px solid var(--ink)}
 .src td:first-child{font-weight:600;white-space:nowrap}
+.files{margin-top:22px;font-size:14px;color:var(--ink-soft)}
+.files a{font:600 13px var(--mono)}
 
-/* Method, data, cite */
-.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 52px}
-.files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;margin-top:8px}
-.file{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 0;border-bottom:1px solid var(--rule)}
-.file a{font:600 13.5px var(--mono);overflow-wrap:anywhere}
-.file .size{font:12px var(--mono);color:var(--muted);text-align:right}
-.file p{grid-column:1/-1;font-size:13.5px;color:var(--muted)}
-pre{align-self:start;font:13px/1.6 var(--mono);background:var(--grid);border-left:3px solid var(--ink);padding:14px 16px;overflow-x:auto;color:var(--ink);white-space:pre}
-.cite pre{white-space:pre-wrap;overflow-wrap:anywhere}
-.citebar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 8px}
-.citebar .kicker{color:var(--ink)}
+/* Sources */
 ol.refs{list-style:none;counter-reset:r;columns:2;column-gap:44px;font-size:13.5px;color:var(--ink-soft)}
 ol.refs li{counter-increment:r;break-inside:avoid;padding:0 0 10px 34px;position:relative;overflow-wrap:anywhere}
 ol.refs li::before{content:counter(r,decimal-leading-zero);position:absolute;left:0;font:600 12px/1.75 var(--mono);color:var(--accent)}
+.credit{font-size:13px;color:var(--muted);margin-top:14px;max-width:60rem}
+pre{font:13px/1.6 var(--mono);background:var(--grid);border-left:3px solid var(--ink);padding:14px 16px;overflow-x:auto;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.citebar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 8px}
+.citebar .kicker{color:var(--ink)}
+.cite{margin-top:40px}
 
 /* Footer */
 footer{border-top:3px solid var(--ink);padding:26px 0 44px;font-size:13px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 28px}
 
-@media (max-width:980px){
-  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .tables{grid-template-columns:minmax(0,1fr)}
-}
 @media (max-width:820px){
-  .finding,.two{grid-template-columns:minmax(0,1fr)}
+  .two{grid-template-columns:minmax(0,1fr)}
   ol.refs{columns:1}
 }
 @media (max-width:720px){
   :root{--pad:16px}
   body{font-size:16px}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 18px}
-  .facts,.files{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:minmax(0,1fr)}
   .hero .wrap{padding-top:40px}
   section.block{padding:48px 0}
   .links{gap:2px 14px;font-size:13.5px}
   html{scroll-padding-top:100px}
   table{font-size:13px}
-  td.n{font-size:11.5px}
-  td.n small{font-size:10px}
-  th{font-size:9.5px;letter-spacing:0}
 }
 @media (max-width:520px){
-  .cards{grid-template-columns:minmax(0,1fr)}
-  .card .verdict{min-height:0}
   .mapframe{height:82vh;min-height:520px}
 }
 </style>
@@ -186,9 +148,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top">Earl Yu / Atlas</a>
+    <a class="brand" href="#top">Philippine Lottery Outlets</a>
     <nav class="links" aria-label="Sections">
-      <a href="#map">Map</a><a href="#findings">Findings</a><a href="#scopes">Cities</a><a href="#method">Method</a><a href="#limits">Limits</a><a href="#data">Data</a><a href="#cite">Cite</a>
+      <a href="#why">Why</a><a href="#map">Map</a><a href="#insights">Insights</a><a href="#method">Data and method</a><a href="#limits">Limits</a><a href="#sources">Sources</a>
     </nav>
   </div>
 </header>
@@ -196,29 +158,35 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 <main id="top">
 <div class="hero">
   <div class="wrap">
-    <p class="kicker">PH / LOTTO OUTLETS / 2026</p>
-    <h1>Is the lottery a <mark>tax on the poor</mark>, or just on the busy street?</h1>
-    <p class="answer">Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods? <strong>On the open data, no.</strong> Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest. Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person. Outlets follow commerce and urbanisation, not poverty. That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.</p>
-    <p class="byline"><span>Earl Yu</span><span>November 2026</span><span>Open and published data only</span><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md">Read the full paper</a></p>
+    <p class="kicker">PH LOTTO OUTLETS</p>
+    <p class="question">Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?</p>
+    <h1>Lotto outlets follow commerce, not poverty. In <mark>Metro Manila</mark>, access is more equal.</h1>
+    <p class="answer"><strong>Lotto outlets are concentrated in richer areas, not poorer ones.</strong> Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is. But, in Metro Manila, that gap disappears: everyone lives near a lotto outlet and the lotto outlets per person are evenly distributed across wealth quintiles.</p>
+    <p class="byline"><span>Earl Yu</span><span>November 2026</span><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md">Read the full paper</a></p>
   </div>
 </div>
 
-<div class="wrap">
-  <div class="stats">
-    <div class="stat"><span class="n">30×</span><span class="l">outlets per person in the richest fifth of the country against the poorest: 12.7 against 0.4 per 100,000 people</span></div>
-    <div class="stat"><span class="n">1.2×</span><span class="l">outlets per person in a place one standard deviation richer, among places with the same shops and urban share (1.17, 95% CI 1.07-1.29)</span></div>
-    <div class="stat"><span class="n">11.5 km</span><span class="l">median road distance to an outlet for the poorest fifth, against 0.6 km for the richest</span></div>
-    <div class="stat"><span class="n">99%</span><span class="l">of Metro Manila's people live within 2 km of an outlet by road, in every wealth fifth</span></div>
+<section class="block" id="why" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="two">
+      <div class="head">
+        <p class="kicker">WHY ASK /</p>
+        <h2 id="why-h">Where are lotto outlets concentrated?</h2>
+      </div>
+      <div class="prose">
+        <p>The lottery is often dubbed as "a tax on the poor" since poorer households spend a far bigger share of their income on lotto tickets than richer ones; Johnny Harris's video <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w"><em>The US Lottery is a Lie</em></a> makes that case for the US.</p>
+        <p>There are two ways to test this: <strong>access</strong> and <strong>spend</strong>. This study focuses on access: <strong>are Philippine lotto outlets concentrated in poorer or richer neighbourhoods?</strong> Spend, whether poorer households spend more on tickets, needs household budget data and is out of scope.</p>
+      </div>
+    </div>
   </div>
-  <p class="counts"><span>7,443 outlets on PCSO's map</span><span>40,737 wealth tiles with people</span><span>41,923 barangays with people</span><span>4 scopes: the Philippines, Metro Manila, Metro Cebu, Metro Davao</span></p>
-</div>
+</section>
 
 <section class="block" id="map" aria-labelledby="map-h">
   <div class="wrap">
     <div class="head">
       <p class="kicker">MAP /</p>
       <h2 id="map-h">Outlets per person, tile by tile</h2>
-      <p>Every 2.4 km wealth tile in the country, with the barangays of Metro Manila, Metro Cebu and Metro Davao drawn on top. Switch between the outlet rate, the Relative Wealth Index, the two together, and the count model's residual hot spots, and hover for any place's numbers.</p>
+      <p>Every 2.4 km wealth tile in the country, with the barangays of Metro Manila, Metro Cebu and Metro Davao drawn on top. Switch between the outlet rate, the Relative Wealth Index, the two together and the count model's residual hot spots, and hover for any place's numbers.</p>
     </div>
     <div class="mapframe">
       <iframe id="atlas-map" name="atlas-map" src="map/?embed" title="Interactive map of PCSO lotto outlets per 100,000 people and the Relative Wealth Index, Philippines"></iframe>
@@ -227,489 +195,178 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
   </div>
 </section>
 
-<section class="block" id="why" aria-labelledby="why-h">
-  <div class="wrap">
-    <div class="two">
-      <div class="head">
-        <p class="kicker">WHY ASK /</p>
-        <h2 id="why-h">Two claims in one charge</h2>
-      </div>
-      <div class="prose">
-        <p>The question comes from Johnny Harris's video <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w"><em>The US Lottery is a Lie</em></a>, which makes the case that lottery revenue leans on lower-income players: the familiar charge that the lottery is "a tax on the poor". This study asks whether the same story can be seen on a map of the Philippines.</p>
-        <p>The charge bundles two claims. The <strong>access claim</strong> is that outlets are concentrated in poorer neighbourhoods, which a map can test. The <strong>spending claim</strong> is that poorer households spend a larger share of income on tickets, which only household budget data can test. This study tests the access claim.</p>
-      </div>
-    </div>
-    <div class="facts">
-      <div class="fact"><div class="n">PHP 62.35 bn</div><p>PCSO gaming revenue in 2024, of which the Small Town Lottery PHP 31.76 billion and Lotto with digit games PHP 29.72 billion.</p></div>
-      <div class="fact"><div class="n">55 / 30 / 15</div><p>The statutory split of net receipts: prizes, a charity fund for health and charities, and operations. 40% of that charity fund goes to PhilHealth.</p></div>
-      <div class="fact"><div class="n">7,443</div><p>Lotto outlets on PCSO's published map: more than 7-Eleven's stores (about 4,000) and Jollibee's branches (about 1,300) combined.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="findings" aria-labelledby="findings-h">
+<section class="block" id="insights" aria-labelledby="insights-h">
   <div class="wrap">
     <div class="head">
-      <p class="kicker">FINDINGS /</p>
-      <h2 id="findings-h">Four questions, four answers</h2>
-      <p>Wealth is Meta's Relative Wealth Index, and a model's wealth ratio is how many times as many outlets per person a place one standard deviation richer has (0.49 RWI points, roughly the step between neighbouring wealth fifths in the middle of the country). Above 1 means more outlets in richer places.</p>
+      <p class="kicker">THREE KEY INSIGHTS /</p>
+      <h2 id="insights-h">What the data say</h2>
+      <p>Wealth comes from Meta's Relative Wealth Index (RWI). Each wealth quintile holds the same number of people, from Q1, the poorest, to Q5, the richest.</p>
     </div>
 
-    <article class="finding">
-      <div>
-        <p class="lab">01 / SUPPLY PER PERSON</p>
-        <h3>Richer places have far more outlets per person</h3>
-        <p class="rq">After accounting for population, are outlets more or less common per person in poorer neighbourhoods?</p>
-        <p>Outlets per person climb with every step up in wealth. Splitting the country's people into five equal groups by the wealth of their tile, the poorest fifth has 0.4 outlets per 100,000 people and the richest 12.7, about 30 times as many. Almost everyone in the poorest fifth (99.5%) lives in a tile with no outlet at all, against 5.5% of the richest fifth.</p>
-        <p>The count model, which also holds province and urban share fixed, puts the gap at 2.13 times as many outlets per person for a tile one standard deviation richer (95% CI 1.96-2.32; 2.36 on barangays). The presence model says the same about having any outlet at all: an odds ratio of 2.18 (1.92-2.46).</p>
+    <article class="insight" id="insight-1">
+      <p class="lab">01 / THE COUNTRY</p>
+      <h3>Nationally, richer places have more lotto outlets per person, and the people there live closer to one</h3>
+      <div class="stats">
+        <div class="stat"><span class="n">31x</span><span class="l">more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4)</span></div>
+        <div class="stat"><span class="n">11.5km vs 0.6km</span><span class="l">median road distance to the nearest outlet, poorest against richest wealth quintile</span></div>
+        <div class="stat"><span class="n">2% vs 92%</span><span class="l">of people within 2 km of an outlet by road, poorest against richest wealth quintile</span></div>
       </div>
+      <p class="note">On access, the national picture is the reverse of "a tax on the poor": the poorest Filipinos have the fewest outlets and the furthest to go. 99.5% of people in the poorest wealth quintile live in a tile with no outlet, against 5.5% in the richest.</p>
       <figure>
-        <p class="ctitle">Outlets per 100,000 people, by wealth fifth, Philippines</p>
-        <svg viewBox="0 0 400 200" role="img" aria-label="Bar chart: outlets per 100,000 people by wealth fifth, Philippines, 2.4 km tiles. Poorest fifth 0.4, 2.3, 6.7, 10.4, 12.7 for the richest fifth.">
-<rect x="14.4" y="161.9" width="51.2" height="4.1" fill="#1F4FE0"/>
-<text x="40.0" y="155.9" text-anchor="middle" class="v" font-size="12.5">0.4</text>
-<text x="40.0" y="182.0" text-anchor="middle" class="l" font-size="11.5">Q1</text>
-<text x="40.0" y="196.0" text-anchor="middle" class="s" font-size="11.0">poorest</text>
-<rect x="94.4" y="143.3" width="51.2" height="22.7" fill="#1F4FE0"/>
-<text x="120.0" y="137.3" text-anchor="middle" class="v" font-size="12.5">2.3</text>
-<text x="120.0" y="182.0" text-anchor="middle" class="l" font-size="11.5">Q2</text>
-<text x="120.0" y="196.0" text-anchor="middle" class="s" font-size="11.0"></text>
-<rect x="174.4" y="99.1" width="51.2" height="66.9" fill="#1F4FE0"/>
-<text x="200.0" y="93.1" text-anchor="middle" class="v" font-size="12.5">6.7</text>
-<text x="200.0" y="182.0" text-anchor="middle" class="l" font-size="11.5">Q3</text>
-<text x="200.0" y="196.0" text-anchor="middle" class="s" font-size="11.0"></text>
-<rect x="254.4" y="62.0" width="51.2" height="104.0" fill="#1F4FE0"/>
-<text x="280.0" y="56.0" text-anchor="middle" class="v" font-size="12.5">10.4</text>
-<text x="280.0" y="182.0" text-anchor="middle" class="l" font-size="11.5">Q4</text>
-<text x="280.0" y="196.0" text-anchor="middle" class="s" font-size="11.0"></text>
-<rect x="334.4" y="39.1" width="51.2" height="126.9" fill="#1F4FE0"/>
-<text x="360.0" y="33.1" text-anchor="middle" class="v" font-size="12.5">12.7</text>
-<text x="360.0" y="182.0" text-anchor="middle" class="l" font-size="11.5">Q5</text>
-<text x="360.0" y="196.0" text-anchor="middle" class="s" font-size="11.0">richest</text>
-<line x1="0" y1="167" x2="400" y2="167" stroke="#111111" stroke-width="2"/>
-</svg>
-        <figcaption>Fifths of the country's people by the wealth of their 2.4 km tile. No controls. Barangays give the same ladder, from 0.4 to 12.6. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig01_rq1_outlet_rate.png" alt="Bar chart: the richest quintile has 31 times the outlets per person of the poorest. Lotto outlets per 100,000 people by wealth quintile, Philippines: Q1 0.4, Q2 2.3, Q3 6.7, Q4 10.4, Q5 12.7." loading="lazy" width="1440" height="780">
+        <figcaption>Figure 4 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#71-nationally-richer-places-have-more-outlets-per-person-and-closer-ones">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a>.</figcaption>
       </figure>
     </article>
 
-    <article class="finding">
-      <div>
-        <p class="lab">02 / COMMERCE</p>
-        <h3>Most of the gap goes with shops, and what is left still leans richer</h3>
-        <p class="rq">Does any wealth gradient hold among places with the same amount of shopping?</p>
-        <p>The poorest fifth of tiles has 0.19 shops per 1,000 people, and 38% of its people live in urban cells; the richest fifth has 5.7 shops per 1,000, and 99.8% of its people are urban. Adding shops to the model shrinks the wealth ratio from 2.13 to 1.17, and adding road length as well leaves it at 1.24.</p>
-        <p>So among tiles in the same province with the same shops and urban share, a tile one standard deviation richer still has about 1.2 times as many outlets per person: a small lean towards richer places, not poorer ones. It barely moves when the model allows for spatial clustering (1.18), drops GPS points that disagree with their address (1.16) or adds outlets placed only at a town centre (1.17). Whether shops are a confounder or the route by which wealth and outlets meet cannot be told apart here, so both readings stand.</p>
+    <article class="insight" id="insight-2">
+      <p class="lab">02 / THE REASON</p>
+      <h3>Outlets follow commerce, and that explains most of the rich-poor gap</h3>
+      <div class="stats">
+        <div class="stat"><span class="n">0.19 vs 5.74</span><span class="l">shops per 1,000 people, poorest against richest wealth quintile; the urban share rises from 38% to 99.8%</span></div>
+        <div class="stat"><span class="n">2.45 to 1.17</span><span class="l">the wealth rate ratio, with wealth only and then with urban share and shops held fixed</span></div>
+        <div class="stat"><span class="n">1.16 to 1.18</span><span class="l">the ratio with shops through the spatial refits and outlet sensitivities</span></div>
       </div>
+      <p class="note">A lotto terminal is a counter in a shop, a mall or a market, and in the Philippines shops cluster in towns, which are richer than the countryside around them. Most of the national gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18). The ratio is how many times as many outlets per person a place one standard deviation richer has (0.49 RWI points); 1 means no difference.</p>
       <figure>
-        <p class="ctitle">Wealth ratio as controls are added, Philippines, 2.4 km tiles</p>
-        <svg viewBox="0 0 400 180" role="img" aria-label="Dot and interval chart: national wealth rate ratio per standard deviation of wealth, on 2.4 km tiles. Wealth only 2.45 (95% CI 2.23 to 2.69); + urban share 2.13 (95% CI 1.96 to 2.32); + shops 1.17 (95% CI 1.07 to 1.29); + shops and roads 1.24 (95% CI 1.13 to 1.36). Every interval sits above 1.">
-<line x1="67.5" y1="0" x2="67.5" y2="156" stroke="#111111" stroke-width="1.5" stroke-dasharray="3 3"/>
-<line x1="0" y1="156" x2="400" y2="156" stroke="#111111" stroke-width="2"/>
-<line x1="67.5" y1="156" x2="67.5" y2="161" stroke="#111111" stroke-width="1.5"/>
-<text x="67.5" y="174" text-anchor="middle" class="s" font-size="11">1×</text>
-<line x1="190.2" y1="156" x2="190.2" y2="161" stroke="#111111" stroke-width="1.5"/>
-<text x="190.2" y="174" text-anchor="middle" class="s" font-size="11">1.5</text>
-<line x1="277.3" y1="156" x2="277.3" y2="161" stroke="#111111" stroke-width="1.5"/>
-<text x="277.3" y="174" text-anchor="middle" class="s" font-size="11">2</text>
-<line x1="400.0" y1="156" x2="400.0" y2="161" stroke="#111111" stroke-width="1.5"/>
-<text x="400.0" y="174" text-anchor="end" class="s" font-size="11">3</text>
-<text x="0" y="20" class="l" font-size="11.5">Wealth only</text>
-<text x="400" y="20" text-anchor="end" class="v" font-size="11.5">2.45 (2.23-2.69)</text>
-<line x1="310.7" y1="31" x2="366.8" y2="31" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="333.7" y="26" width="10" height="10" fill="#FFFFFF" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="56" class="l" font-size="11.5">+ urban share</text>
-<text x="400" y="56" text-anchor="end" class="v" font-size="11.5">2.13 (1.96-2.32)</text>
-<line x1="271.6" y1="67" x2="321.8" y2="67" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="291.7" y="62" width="10" height="10" fill="#FFFFFF" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="92" class="l" font-size="11.5">+ shops</text>
-<text x="400" y="92" text-anchor="end" class="v" font-size="11.5">1.17 (1.07-1.29)</text>
-<line x1="87.9" y1="103" x2="143.7" y2="103" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="110.8" y="98" width="10" height="10" fill="#1F4FE0" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="128" class="l" font-size="11.5">+ shops and roads</text>
-<text x="400" y="128" text-anchor="end" class="v" font-size="11.5">1.24 (1.13-1.36)</text>
-<line x1="105.1" y1="139" x2="160.1" y2="139" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="127.6" y="134" width="10" height="10" fill="#1F4FE0" stroke="#1F4FE0" stroke-width="2"/>
-</svg>
-        <figcaption>Negative binomial count models with province intercepts; squares are estimates, bars 95% intervals, on a log scale. Filled squares hold shops fixed. The dashed line at 1 is no association. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig04_rq1_count_model.png" alt="Dot and interval chart: the wealth rate ratio falls from 2.45 with wealth only to 1.17 with shops held fixed. On 2.4 km tiles: wealth only 2.45 (2.23-2.69), + urban share 2.13 (1.96-2.32), + shops 1.17 (1.07-1.29), + shops and roads 1.24 (1.13-1.36). Every interval is above 1." loading="lazy" width="1520" height="816">
+        <figcaption>Figure 7 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#73-outlets-follow-commerce-and-that-explains-most-of-the-rich-poor-gap">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>.</figcaption>
       </figure>
     </article>
 
-    <article class="finding">
-      <div>
-        <p class="lab">03 / WITHIN CITIES</p>
-        <h3>Inside the cities the pattern splits</h3>
-        <p class="rq">Does the gradient hold inside Metro Manila, Metro Cebu and Metro Davao, where rich and poor neighbourhoods sit side by side?</p>
-        <p><strong>Metro Manila is flat.</strong> Every count variant sits between about 0.9 and 1.0 and every interval includes 1. Every wealth fifth of its barangays has between 12.5 and 15.2 outlets per 100,000 people, and the poorest fifth is, if anything, the highest.</p>
-        <p><strong>Metro Davao leans rich in every variant</strong>: 4.55 with urban share, 3.47 with shops, and 1.97 with shops and roads, all with intervals above 1. Its rate climbs from 0.1 per 100,000 in the poorest fifth of barangays (one outlet among about 687,000 people) to 12.7 in the richest.</p>
-        <p><strong>Metro Cebu is unclear once shops are controlled.</strong> Its richer barangays have more outlets per person with urban share alone (2.34), but with shops the ratio is 1.23 (0.65-2.33): among barangays with the same retail, richer and poorer ones cannot be told apart.</p>
+    <article class="insight" id="insight-3">
+      <p class="lab">03 / THE CITIES</p>
+      <h3>In Metro Manila, wealth makes no difference</h3>
+      <div class="stats">
+        <div class="stat"><span class="n">12.5 to 15.2</span><span class="l">outlets per 100,000 people in every Metro Manila wealth quintile</span></div>
+        <div class="stat"><span class="n">99%</span><span class="l">of Metro Manila's people live within 2 km of the nearest lotto outlet</span></div>
+        <div class="stat"><span class="n">0.4 to 0.5 km</span><span class="l">median road distance in every Metro Manila wealth quintile</span></div>
       </div>
-      <figure>
-        <p class="ctitle">Wealth ratio inside each city, by barangay</p>
-        <svg viewBox="0 0 400 318" role="img" aria-label="Dot and interval chart: wealth rate ratio by barangay inside each city, with 95% intervals. Metro Manila: 0.95 (0.82 to 1.09) with urban share, 0.89 (0.75 to 1.04) with shops; Metro Cebu: 2.34 (1.39 to 3.94) with urban share, 1.23 (0.65 to 2.33) with shops; Metro Davao: 4.55 (2.59 to 8.00) with urban share, 3.47 (1.68 to 7.21) with shops.">
-<line x1="92.6" y1="0" x2="92.6" y2="294" stroke="#111111" stroke-width="1.5" stroke-dasharray="3 3"/>
-<line x1="0" y1="294" x2="400" y2="294" stroke="#111111" stroke-width="2"/>
-<line x1="0.0" y1="294" x2="0.0" y2="299" stroke="#111111" stroke-width="1.5"/>
-<text x="0.0" y="312" text-anchor="start" class="s" font-size="11">0.5</text>
-<line x1="92.6" y1="294" x2="92.6" y2="299" stroke="#111111" stroke-width="1.5"/>
-<text x="92.6" y="312" text-anchor="middle" class="s" font-size="11">1×</text>
-<line x1="185.1" y1="294" x2="185.1" y2="299" stroke="#111111" stroke-width="1.5"/>
-<text x="185.1" y="312" text-anchor="middle" class="s" font-size="11">2</text>
-<line x1="277.7" y1="294" x2="277.7" y2="299" stroke="#111111" stroke-width="1.5"/>
-<text x="277.7" y="312" text-anchor="middle" class="s" font-size="11">4</text>
-<line x1="370.2" y1="294" x2="370.2" y2="299" stroke="#111111" stroke-width="1.5"/>
-<text x="370.2" y="312" text-anchor="middle" class="s" font-size="11">8</text>
-<text x="0" y="20" class="g" font-size="13">Metro Manila</text>
-<text x="0" y="42" class="l" font-size="11.5">+ urban share</text>
-<text x="400" y="42" text-anchor="end" class="v" font-size="11.5">0.95 (0.82-1.09)</text>
-<line x1="66.5" y1="53" x2="104.1" y2="53" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="80.3" y="48" width="10" height="10" fill="#FFFFFF" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="78" class="l" font-size="11.5">+ shops</text>
-<text x="400" y="78" text-anchor="end" class="v" font-size="11.5">0.89 (0.75-1.04)</text>
-<line x1="54.7" y1="89" x2="98.3" y2="89" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="71.5" y="84" width="10" height="10" fill="#1F4FE0" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="114" class="g" font-size="13">Metro Cebu</text>
-<text x="0" y="136" class="l" font-size="11.5">+ urban share</text>
-<text x="400" y="136" text-anchor="end" class="v" font-size="11.5">2.34 (1.39-3.94)</text>
-<line x1="136.6" y1="147" x2="275.6" y2="147" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="201.1" y="142" width="10" height="10" fill="#FFFFFF" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="172" class="l" font-size="11.5">+ shops</text>
-<text x="400" y="172" text-anchor="end" class="v" font-size="11.5">1.23 (0.65-2.33)</text>
-<line x1="34.5" y1="183" x2="205.8" y2="183" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="115.1" y="178" width="10" height="10" fill="#1F4FE0" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="208" class="g" font-size="13">Metro Davao</text>
-<text x="0" y="230" class="l" font-size="11.5">+ urban share</text>
-<text x="400" y="230" text-anchor="end" class="v" font-size="11.5">4.55 (2.59-8.00)</text>
-<line x1="219.6" y1="241" x2="370.2" y2="241" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="289.9" y="236" width="10" height="10" fill="#FFFFFF" stroke="#1F4FE0" stroke-width="2"/>
-<text x="0" y="266" class="l" font-size="11.5">+ shops</text>
-<text x="400" y="266" text-anchor="end" class="v" font-size="11.5">3.47 (1.68-7.21)</text>
-<line x1="161.4" y1="277" x2="356.3" y2="277" stroke="#1F4FE0" stroke-width="2.5"/>
-<rect x="253.9" y="272" width="10" height="10" fill="#1F4FE0" stroke="#1F4FE0" stroke-width="2"/>
-</svg>
-        <figcaption>Count models with city and municipality intercepts, errors clustered by RWI tile, 95% intervals on a log scale. Wealth stays in national standard deviations, so every city reads on the national scale. Open squares control for urban share, filled squares for shops as well. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>.</figcaption>
+      <p class="note">However, Metro Manila paints a different picture: an outlet within about 400 m for everyone, whatever their wealth. Almost everyone lives in urban cells and every wealth quintile has 5.1 to 7.5 shops per 1,000 people, so outlets are close to everyone. Metro Davao repeats the national gradient (12.5 km by road in its poorest wealth quintile against 0.7 km in its richest), and Metro Cebu sits in between.</p>
+      <figure class="ncr">
+        <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Map: in Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Barangays by wealth tercile and outlets per 100,000 people against the city rate of 14.1." loading="lazy" width="1156" height="1666"></a>
+        <figcaption>Figure 1 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#summary">paper</a>; select the map to open it full size. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/barangays.csv">barangays.csv</a>.</figcaption>
       </figure>
-    </article>
-
-    <article class="finding">
-      <div>
-        <p class="lab">04 / DISTANCE</p>
-        <h3>The poorest live furthest from an outlet, except in Metro Manila</h3>
-        <p class="rq">How far do people in poorer and richer neighbourhoods live from their nearest outlet, by road?</p>
-        <p>The median person in the poorest fifth of tiles lives 11.5 km from an outlet by road, only 2% live within 2 km, and 4.4% have no road route to an outlet at all. In the richest fifth the median is 0.6 km and 92% live within 2 km.</p>
-        <p>Metro Manila is the opposite case: the median is 0.4 to 0.5 km in every wealth fifth, and 99% of people live within 2 km of an outlet. Metro Davao repeats the national ladder (12.5 km down to 0.7 km), and in Metro Cebu only the poorest fifth stands apart (4.5 km, then 1.0 km or less).</p>
-      </div>
+      <div class="maps3">
       <figure>
-        <p class="ctitle">Median road distance to the nearest outlet, by wealth fifth, Philippines</p>
-        <svg viewBox="0 0 400 214" role="img" aria-label="Bar chart: median road distance to the nearest outlet by wealth fifth, Philippines. Q1 11.5 km with 2% of people within 2 km, Q2 5.4 km with 15% of people within 2 km, Q3 2.1 km with 48% of people within 2 km, Q4 0.9 km with 79% of people within 2 km, Q5 0.6 km with 92% of people within 2 km.">
-<rect x="14.4" y="43.5" width="51.2" height="136.5" fill="#1F4FE0"/>
-<text x="40.0" y="37.5" text-anchor="middle" class="v" font-size="12.5">11.5 km</text>
-<text x="40.0" y="196.0" text-anchor="middle" class="l" font-size="11.5">Q1</text>
-<text x="40.0" y="210.0" text-anchor="middle" class="s" font-size="11.0">2% ≤2 km</text>
-<rect x="94.4" y="116.3" width="51.2" height="63.7" fill="#1F4FE0"/>
-<text x="120.0" y="110.3" text-anchor="middle" class="v" font-size="12.5">5.4 km</text>
-<text x="120.0" y="196.0" text-anchor="middle" class="l" font-size="11.5">Q2</text>
-<text x="120.0" y="210.0" text-anchor="middle" class="s" font-size="11.0">15% ≤2 km</text>
-<rect x="174.4" y="155.4" width="51.2" height="24.6" fill="#1F4FE0"/>
-<text x="200.0" y="149.4" text-anchor="middle" class="v" font-size="12.5">2.1 km</text>
-<text x="200.0" y="196.0" text-anchor="middle" class="l" font-size="11.5">Q3</text>
-<text x="200.0" y="210.0" text-anchor="middle" class="s" font-size="11.0">48% ≤2 km</text>
-<rect x="254.4" y="169.4" width="51.2" height="10.6" fill="#1F4FE0"/>
-<text x="280.0" y="163.4" text-anchor="middle" class="v" font-size="12.5">0.9 km</text>
-<text x="280.0" y="196.0" text-anchor="middle" class="l" font-size="11.5">Q4</text>
-<text x="280.0" y="210.0" text-anchor="middle" class="s" font-size="11.0">79% ≤2 km</text>
-<rect x="334.4" y="173.0" width="51.2" height="7.0" fill="#1F4FE0"/>
-<text x="360.0" y="167.0" text-anchor="middle" class="v" font-size="12.5">0.6 km</text>
-<text x="360.0" y="196.0" text-anchor="middle" class="l" font-size="11.5">Q5</text>
-<text x="360.0" y="210.0" text-anchor="middle" class="s" font-size="11.0">92% ≤2 km</text>
-<line x1="0" y1="181" x2="400" y2="181" stroke="#111111" stroke-width="2"/>
-</svg>
-        <figcaption>Road distance over the OpenStreetMap network from where people live (100 m pixels) to the nearest outlet. The second row is the share of people within 2 km by road. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig13_rq3_road_cities.png" alt="Bar charts: median road distance is 0.4 to 0.5 km in every Metro Manila quintile and 12.5 to 0.7 km in Metro Davao. Metro Manila Q1 to Q5: 0.4, 0.5, 0.4, 0.4, 0.4 km. Metro Cebu: 4.5, 1.0, 0.7, 0.6, 0.8 km. Metro Davao: 12.5, 4.1, 1.6, 1.0, 0.7 km." loading="lazy" width="1800" height="780">
+        <figcaption>Figure 16 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#72-in-metro-manila-wealth-makes-no-difference">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
       </figure>
+      </div>
     </article>
-  </div>
-</section>
-
-<section class="block" id="scopes" aria-labelledby="scopes-h">
-  <div class="wrap">
-    <div class="head">
-      <p class="kicker">FOUR SCOPES /</p>
-      <h2 id="scopes-h">The country and three cities, side by side</h2>
-      <p>Each city is split into fifths by its own people, so its bars compare its poorer and richer barangays with each other, not with the country. The bars share one scale.</p>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <h3>Philippines</h3>
-        <p class="verdict">Leans rich, mostly in step with shops and towns.</p>
-        <span class="unit">Outlets per 100,000, Q1 poorest to Q5 richest, by tile</span>
-        <svg viewBox="0 0 220 130" role="img" aria-label="Bar chart: Philippines, outlets per 100,000 people by wealth fifth, poorest to richest: 0.4, 2.3, 6.7, 10.4, 12.7.">
-<rect x="7.9" y="105.7" width="28.2" height="2.3" fill="#1F4FE0"/>
-<text x="22.0" y="99.7" text-anchor="middle" class="v" font-size="11">0.4</text>
-<text x="22.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q1</text>
-<rect x="51.9" y="95.2" width="28.2" height="12.8" fill="#1F4FE0"/>
-<text x="66.0" y="89.2" text-anchor="middle" class="v" font-size="11">2.3</text>
-<text x="66.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q2</text>
-<rect x="95.9" y="70.4" width="28.2" height="37.6" fill="#1F4FE0"/>
-<text x="110.0" y="64.4" text-anchor="middle" class="v" font-size="11">6.7</text>
-<text x="110.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q3</text>
-<rect x="139.9" y="49.5" width="28.2" height="58.5" fill="#1F4FE0"/>
-<text x="154.0" y="43.5" text-anchor="middle" class="v" font-size="11">10.4</text>
-<text x="154.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q4</text>
-<rect x="183.9" y="36.6" width="28.2" height="71.4" fill="#1F4FE0"/>
-<text x="198.0" y="30.6" text-anchor="middle" class="v" font-size="11">12.7</text>
-<text x="198.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q5</text>
-<line x1="0" y1="109" x2="220" y2="109" stroke="#111111" stroke-width="2"/>
-</svg>
-        <dl><dt>Overall</dt><dd>6.5 per 100k</dd><dt>With shops</dt><dd>1.17 (1.07-1.29)</dd><dt>Road km, Q1 to Q5</dt><dd>11.5 to 0.6</dd></dl>
-        <button type="button" data-map="ph/bivariate">Show on the map</button>
-      </div>
-      <div class="card">
-        <h3>Metro Manila</h3>
-        <p class="verdict">Flat: outlets close to everyone, rich or poor.</p>
-        <span class="unit">Outlets per 100,000, Q1 poorest to Q5 richest, by barangay</span>
-        <svg viewBox="0 0 220 130" role="img" aria-label="Bar chart: Metro Manila, outlets per 100,000 people by wealth fifth, poorest to richest: 15.2, 12.5, 14.9, 14.0, 14.1.">
-<rect x="7.9" y="22.7" width="28.2" height="85.3" fill="#1F4FE0"/>
-<text x="22.0" y="16.7" text-anchor="middle" class="v" font-size="11">15.2</text>
-<text x="22.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q1</text>
-<rect x="51.9" y="37.6" width="28.2" height="70.4" fill="#1F4FE0"/>
-<text x="66.0" y="31.6" text-anchor="middle" class="v" font-size="11">12.5</text>
-<text x="66.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q2</text>
-<rect x="95.9" y="24.1" width="28.2" height="83.9" fill="#1F4FE0"/>
-<text x="110.0" y="18.1" text-anchor="middle" class="v" font-size="11">14.9</text>
-<text x="110.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q3</text>
-<rect x="139.9" y="29.5" width="28.2" height="78.5" fill="#1F4FE0"/>
-<text x="154.0" y="23.5" text-anchor="middle" class="v" font-size="11">14.0</text>
-<text x="154.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q4</text>
-<rect x="183.9" y="28.9" width="28.2" height="79.1" fill="#1F4FE0"/>
-<text x="198.0" y="22.9" text-anchor="middle" class="v" font-size="11">14.1</text>
-<text x="198.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q5</text>
-<line x1="0" y1="109" x2="220" y2="109" stroke="#111111" stroke-width="2"/>
-</svg>
-        <dl><dt>Overall</dt><dd>14.1 per 100k</dd><dt>With shops</dt><dd>0.89 (0.75-1.04)</dd><dt>Road km, Q1 to Q5</dt><dd>0.4 to 0.4</dd></dl>
-        <button type="button" data-map="ncr/bivariate">Show on the map</button>
-      </div>
-      <div class="card">
-        <h3>Metro Cebu</h3>
-        <p class="verdict">Unclear once shops are held fixed; peaks in the fourth fifth.</p>
-        <span class="unit">Outlets per 100,000, Q1 poorest to Q5 richest, by barangay</span>
-        <svg viewBox="0 0 220 130" role="img" aria-label="Bar chart: Metro Cebu, outlets per 100,000 people by wealth fifth, poorest to richest: 1.4, 5.2, 9.5, 12.8, 8.4.">
-<rect x="7.9" y="100.1" width="28.2" height="7.9" fill="#1F4FE0"/>
-<text x="22.0" y="94.1" text-anchor="middle" class="v" font-size="11">1.4</text>
-<text x="22.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q1</text>
-<rect x="51.9" y="78.9" width="28.2" height="29.1" fill="#1F4FE0"/>
-<text x="66.0" y="72.9" text-anchor="middle" class="v" font-size="11">5.2</text>
-<text x="66.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q2</text>
-<rect x="95.9" y="54.6" width="28.2" height="53.4" fill="#1F4FE0"/>
-<text x="110.0" y="48.6" text-anchor="middle" class="v" font-size="11">9.5</text>
-<text x="110.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q3</text>
-<rect x="139.9" y="35.8" width="28.2" height="72.2" fill="#1F4FE0"/>
-<text x="154.0" y="29.8" text-anchor="middle" class="v" font-size="11">12.8</text>
-<text x="154.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q4</text>
-<rect x="183.9" y="60.6" width="28.2" height="47.4" fill="#1F4FE0"/>
-<text x="198.0" y="54.6" text-anchor="middle" class="v" font-size="11">8.4</text>
-<text x="198.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q5</text>
-<line x1="0" y1="109" x2="220" y2="109" stroke="#111111" stroke-width="2"/>
-</svg>
-        <dl><dt>Overall</dt><dd>7.5 per 100k</dd><dt>With shops</dt><dd>1.23 (0.65-2.33)</dd><dt>Road km, Q1 to Q5</dt><dd>4.5 to 0.8</dd></dl>
-        <button type="button" data-map="cebu/bivariate">Show on the map</button>
-      </div>
-      <div class="card">
-        <h3>Metro Davao</h3>
-        <p class="verdict">Leans rich in every variant, like the country in miniature.</p>
-        <span class="unit">Outlets per 100,000, Q1 poorest to Q5 richest, by barangay</span>
-        <svg viewBox="0 0 220 130" role="img" aria-label="Bar chart: Metro Davao, outlets per 100,000 people by wealth fifth, poorest to richest: 0.1, 2.2, 4.6, 7.5, 12.7.">
-<rect x="7.9" y="107.0" width="28.2" height="1.0" fill="#1F4FE0"/>
-<text x="22.0" y="101.0" text-anchor="middle" class="v" font-size="11">0.1</text>
-<text x="22.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q1</text>
-<rect x="51.9" y="95.7" width="28.2" height="12.3" fill="#1F4FE0"/>
-<text x="66.0" y="89.7" text-anchor="middle" class="v" font-size="11">2.2</text>
-<text x="66.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q2</text>
-<rect x="95.9" y="81.9" width="28.2" height="26.1" fill="#1F4FE0"/>
-<text x="110.0" y="75.9" text-anchor="middle" class="v" font-size="11">4.6</text>
-<text x="110.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q3</text>
-<rect x="139.9" y="65.6" width="28.2" height="42.4" fill="#1F4FE0"/>
-<text x="154.0" y="59.6" text-anchor="middle" class="v" font-size="11">7.5</text>
-<text x="154.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q4</text>
-<rect x="183.9" y="36.7" width="28.2" height="71.3" fill="#1F4FE0"/>
-<text x="198.0" y="30.7" text-anchor="middle" class="v" font-size="11">12.7</text>
-<text x="198.0" y="124.0" text-anchor="middle" class="l" font-size="10">Q5</text>
-<line x1="0" y1="109" x2="220" y2="109" stroke="#111111" stroke-width="2"/>
-</svg>
-        <dl><dt>Overall</dt><dd>5.5 per 100k</dd><dt>With shops</dt><dd>3.47 (1.68-7.21)</dd><dt>Road km, Q1 to Q5</dt><dd>12.5 to 0.7</dd></dl>
-        <button type="button" data-map="davao/bivariate">Show on the map</button>
-      </div>
-    </div>
-
-    <div class="tables">
-      <div>
-      <div class="tcap"><p class="ctitle">Wealth rate ratio per national standard deviation of RWI</p><p class="tsub">95% intervals below each estimate. Above 1 means more outlets per person in richer places. Cities by barangay, with city and municipality intercepts and errors clustered by RWI tile (models.csv, quintile_rates.csv).</p></div>
-      <div class="tablewrap">
-        <table aria-label="Wealth rate ratio per national standard deviation of RWI">
-          <thead><tr><th scope="col">Scope</th><th class="n" scope="col">Per 100k</th><th class="n" scope="col">Wealth only</th><th class="n" scope="col">+ urban</th><th class="n" scope="col">+ shops</th><th class="n" scope="col">+ shops, roads</th></tr></thead>
-          <tbody>
-            <tr><td>Philippines, tiles</td><td class="n">6.5</td><td class="n">2.45<small>2.23-2.69</small></td><td class="n">2.13<small>1.96-2.32</small></td><td class="n">1.17<small>1.07-1.29</small></td><td class="n">1.24<small>1.13-1.36</small></td></tr>
-            <tr><td>Philippines, barangays</td><td class="n">6.5</td><td class="n">2.82<small>2.67-2.98</small></td><td class="n">2.36<small>2.22-2.52</small></td><td class="n">1.50<small>1.39-1.61</small></td><td class="n">1.22<small>1.14-1.30</small></td></tr>
-            <tr><td>Metro Manila</td><td class="n">14.1</td><td class="n">0.95<small>0.82-1.09</small></td><td class="n">0.95<small>0.82-1.09</small></td><td class="n">0.89<small>0.75-1.04</small></td><td class="n">0.93<small>0.83-1.06</small></td></tr>
-            <tr><td>Metro Cebu</td><td class="n">7.5</td><td class="n">3.33<small>2.09-5.31</small></td><td class="n">2.34<small>1.39-3.94</small></td><td class="n">1.23<small>0.65-2.33</small></td><td class="n">1.16<small>0.72-1.89</small></td></tr>
-            <tr><td>Metro Davao</td><td class="n">5.5</td><td class="n">4.65<small>2.91-7.44</small></td><td class="n">4.55<small>2.59-8.00</small></td><td class="n">3.47<small>1.68-7.21</small></td><td class="n">1.97<small>1.20-3.21</small></td></tr>
-          </tbody>
-        </table>
-      </div>
-      </div>
-      <div>
-      <div class="tcap"><p class="ctitle">Median road distance to the nearest outlet, and share within 2 km</p><p class="tsub">National fifths by tile, city fifths by each city's own barangays (road_distance.csv).</p></div>
-      <div class="tablewrap">
-        <table aria-label="Median road distance to the nearest outlet, and share within 2 km">
-          <thead><tr><th scope="col">Scope</th><th class="n" scope="col">Q1</th><th class="n" scope="col">Q2</th><th class="n" scope="col">Q3</th><th class="n" scope="col">Q4</th><th class="n" scope="col">Q5</th></tr></thead>
-          <tbody>
-            <tr><td>Philippines</td><td class="n">11.5<small>2%</small></td><td class="n">5.4<small>15%</small></td><td class="n">2.1<small>48%</small></td><td class="n">0.9<small>79%</small></td><td class="n">0.6<small>92%</small></td></tr>
-            <tr><td>Metro Manila</td><td class="n">0.4<small>99%</small></td><td class="n">0.5<small>99%</small></td><td class="n">0.4<small>99%</small></td><td class="n">0.4<small>99%</small></td><td class="n">0.4<small>99%</small></td></tr>
-            <tr><td>Metro Cebu</td><td class="n">4.5<small>24%</small></td><td class="n">1.0<small>82%</small></td><td class="n">0.7<small>97%</small></td><td class="n">0.6<small>97%</small></td><td class="n">0.8<small>96%</small></td></tr>
-            <tr><td>Metro Davao</td><td class="n">12.5<small>1%</small></td><td class="n">4.1<small>23%</small></td><td class="n">1.6<small>62%</small></td><td class="n">1.0<small>88%</small></td><td class="n">0.7<small>95%</small></td></tr>
-          </tbody>
-        </table>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="meaning" aria-labelledby="meaning-h">
-  <div class="wrap">
-    <div class="two">
-      <div>
-        <div class="head">
-          <p class="kicker">WHAT IT MEANS /</p>
-          <h2 id="meaning-h">Not an access story</h2>
-        </div>
-        <div class="prose">
-          <p>The access version of "a tax on the poor" expects more outlets per person where people are poorer. PCSO's lotto network shows the reverse nationally, and no lean towards the poor inside any of the three cities. What outlets go with is commerce and urbanisation. A lotto terminal is a counter in a shop, a mall or a market, so outlets sit where shops sit, and in the Philippines shops sit in towns and cities, which are richer than the countryside around them. A plausible reading is that outlets are placed for foot traffic rather than aimed at poor neighbourhoods; the data are consistent with that, but cannot test it.</p>
-          <p>Metro Manila is urban throughout and its barangays span a narrow band of wealth, so there is no gradient to find. Metro Davao, drawn by law to take in Davao City's uplands, the southern municipalities and the Island Garden City of Samal as well as its urban core, repeats the national contrast between town and hinterland inside one boundary. Metro Cebu sits between the two.</p>
-          <p>The result sits with the lottery side of earlier studies, not the gaming-machine side: gaming machines and betting shops have been found to follow deprivation, while in New Jersey and Massachusetts lottery retail did not. It adds a middle-income Asian case to a set of studies that had none.</p>
-        </div>
-      </div>
-      <div class="prose">
-        <h3>What this cannot say</h3>
-        <ul class="sq">
-          <li><strong>Access is not spending.</strong> Fewer outlets near poorer people does not mean poorer people buy fewer tickets: they may buy where they work, shop or travel.</li>
-          <li><strong>Nothing here measures share of income.</strong> A PHP 20 play is a larger share of a small income wherever it is bought, so the spending claim stays open and needs household budget data.</li>
-          <li><strong>Association, not cause.</strong> The ratios describe where outlets are relative to wealth, shops and towns; they do not say why PCSO and its agents put them there.</li>
-          <li><strong>Lotto only.</strong> The Small Town Lottery brought in PHP 31.76 billion of PCSO's PHP 62.35 billion gaming revenue in 2024, and its booths are not published.</li>
-        </ul>
-        <p style="margin-top:18px">If the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.</p>
-      </div>
-    </div>
   </div>
 </section>
 
 <section class="block" id="method" aria-labelledby="method-h">
   <div class="wrap">
     <div class="head">
-      <p class="kicker">METHOD /</p>
+      <p class="kicker">DATA AND METHODOLOGY /</p>
       <h2 id="method-h">How it was measured</h2>
+      <p>The full design, every model and every check are in the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#4-research-design">paper</a>.</p>
     </div>
     <div class="two">
       <div class="prose">
         <ul class="sq">
-          <li><strong>Count outlets where wealth is measured.</strong> The main unit is the Relative Wealth Index's own 2.4 km tile (40,737 with people). Each barangay's 2024 census count is spread over the 100 m WorldPop pixels where its people live and summed per tile. Barangays (41,923) are the check.</li>
-          <li><strong>Compare per person.</strong> A negative binomial count model with population as the offset, so results read as outlets per person, and province intercepts to absorb regional differences and PCSO branch practice.</li>
-          <li><strong>Add commerce step by step.</strong> Each model is shown with wealth only, with urban share, with shops (OpenStreetMap plus Overture) and with road length, because commerce may be a mediator as much as a confounder.</li>
-          <li><strong>Check it several ways.</strong> A presence model for having any outlet, spatial refits where residuals cluster, and sensitivities that drop doubtful GPS points or add outlets placed only at a town centre.</li>
-          <li><strong>Zoom into three cities.</strong> The same models inside Metro Manila, Metro Cebu and Metro Davao by barangay, with city and municipality intercepts and errors clustered by tile. Each city's boundary comes from an official source.</li>
+          <li><strong>Count outlets where wealth is measured.</strong> The main unit is the Relative Wealth Index's own 2.4 km tile (40,737 with people). Each barangay's 2024 census count is spread over the 100 m pixels where its people live. Barangays (41,923) are the check.</li>
+          <li><strong>Compare per person.</strong> Outlets per 100,000 people by wealth quintile, then negative binomial count models with population as the offset and province intercepts.</li>
+          <li><strong>Add commerce step by step.</strong> Wealth only, then urban share, shops (OpenStreetMap plus Overture) and road length, with spatial refits and outlet sensitivities as checks.</li>
+          <li><strong>Zoom into three cities.</strong> The same models inside Metro Manila, Metro Cebu and Metro Davao by barangay, with errors clustered by tile.</li>
           <li><strong>Measure distance by road.</strong> From every 100 m pixel where people live to the nearest outlet over the OpenStreetMap road network.</li>
         </ul>
       </div>
       <div>
-      <div class="tcap"><p class="ctitle">Sources</p><p class="tsub">Every source is public and free to download.</p></div>
-      <div class="tablewrap">
-        <table class="src" aria-label="Sources">
-          <thead><tr><th scope="col">Role</th><th scope="col">Source</th><th scope="col">Year</th></tr></thead>
-          <tbody>
-            <tr><td>Outlets</td><td>PCSO "Lotto Outlets" map, 7,443 outlets</td><td class="mono">2026</td></tr>
-            <tr><td>Wealth</td><td>Meta / Data for Good Relative Wealth Index, 2.4 km tiles (CC BY-NC 4.0)</td><td class="mono">2021</td></tr>
-            <tr><td>People</td><td>PSA 2024 Census of Population, by barangay</td><td class="mono">2024</td></tr>
-            <tr><td>Where people live</td><td>WorldPop R2025A, constrained, 100 m (CC BY 4.0)</td><td class="mono">2024</td></tr>
-            <tr><td>Urban share</td><td>JRC GHSL Degree of Urbanisation, 1 km (CC BY 4.0)</td><td class="mono">2025</td></tr>
-            <tr><td>Boundaries</td><td>OCHA COD-AB Philippines, PSGC codes (CC BY-IGO)</td><td class="mono">2025</td></tr>
-            <tr><td>Shops</td><td>OpenStreetMap (ODbL) and Overture Maps places</td><td class="mono">2026</td></tr>
-            <tr><td>Roads</td><td>OpenStreetMap highways (ODbL)</td><td class="mono">2026</td></tr>
-          </tbody>
-        </table>
-      </div>
+        <p class="ctitle">Data</p>
+        <p class="tsub">Every source is public and free to download.</p>
+        <div class="tablewrap">
+          <table class="src" aria-label="Data sources">
+            <thead><tr><th scope="col">Role</th><th scope="col">Source</th><th scope="col">Year</th></tr></thead>
+            <tbody>
+              <tr><td>Outlets</td><td>PCSO "Lotto Outlets" map, 7,443 outlets</td><td class="mono">2026</td></tr>
+              <tr><td>Wealth</td><td>Meta / Data for Good Relative Wealth Index, 2.4 km tiles</td><td class="mono">2021</td></tr>
+              <tr><td>People</td><td>PSA 2024 Census of Population, by barangay</td><td class="mono">2024</td></tr>
+              <tr><td>Where people live</td><td>WorldPop R2025A, constrained, 100 m</td><td class="mono">2024</td></tr>
+              <tr><td>Urban share</td><td>JRC GHSL Degree of Urbanisation, 1 km</td><td class="mono">2025</td></tr>
+              <tr><td>Boundaries</td><td>OCHA COD-AB Philippines, PSGC codes</td><td class="mono">2025</td></tr>
+              <tr><td>Shops, roads</td><td>OpenStreetMap and Overture Maps places</td><td class="mono">2026</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+    <p class="files">Download the results: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>, <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a>, <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>, the tile and barangay tables in <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/tree/main/data/derived">data/derived/</a>, and <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/data-quality.md">data-quality.md</a>. To rerun everything, <code class="mono">./run_all.sh</code> as the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets#how-to-reproduce">README</a> describes; on the same downloads it reproduces the committed tables byte for byte.</p>
   </div>
 </section>
 
 <section class="block" id="limits" aria-labelledby="limits-h">
   <div class="wrap">
+    <div class="head">
+      <p class="kicker">LIMITATIONS /</p>
+      <h2 id="limits-h">What this can't say, and what to hold loosely</h2>
+      <p>Each is set out in full in the paper's <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#8-limitations">limitations</a>.</p>
+    </div>
     <div class="two">
-      <div class="head">
-        <p class="kicker">LIMITATIONS /</p>
-        <h2 id="limits-h">What to hold loosely</h2>
-        <p>Each of these is set out in full in the paper's limitations section.</p>
+      <div class="prose">
+        <h3>What it can't say</h3>
+        <ul class="sq">
+          <li><strong>Access is not spending.</strong> Fewer outlets near poorer people does not mean poorer people buy fewer tickets: they may buy where they work, shop or travel.</li>
+          <li><strong>Nothing here measures share of income.</strong> A PHP 20 play is a larger share of a small income wherever it is bought, so the spending claim stays open and needs household budget data.</li>
+          <li><strong>Association, not cause.</strong> The ratios describe where outlets are relative to wealth, shops and towns; they do not say why PCSO and its agents put them there.</li>
+          <li><strong>Lotto only.</strong> The Small Town Lottery brought in PHP 31.76 billion of PCSO's PHP 62.35 billion gaming revenue in 2024, and its booths are not published.</li>
+        </ul>
+        <p style="margin-top:18px"><strong>Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.</strong></p>
       </div>
       <div class="prose">
+        <h3>What to hold loosely</h3>
         <ul class="sq">
-          <li><strong>The wealth index's own error is not carried through.</strong> Its per-tile error (mean 0.53) is large next to Metro Manila's barangay spread of 0.20, so intervals are too narrow, most of all inside cities, and a flat result like Manila's is weaker evidence than it looks.</li>
-          <li><strong>Shop coverage is uneven.</strong> OpenStreetMap and Overture list 6.1 shops per 1,000 people in Metro Manila against 0.2 in BARMM, so the with-shops ratios rest on a control that is itself tied to wealth.</li>
-          <li><strong>PCSO's list is undated.</strong> It lists 7,443 outlets against 6,494 agents at the end of 2023, so it may hold closed outlets. 26 could not be placed, 133 only at a town centre; dropping or adding these moves the national ratios by 0.02 at most.</li>
-          <li><strong>2.4 km tiles are coarse inside cities.</strong> Metro Manila's 1,711 barangays have most of their people in 113 tiles, so neighbouring barangays often share one wealth value.</li>
-          <li><strong>The layers come from different years:</strong> wealth from 2021, people from 2024, outlets, shops and roads from 2026.</li>
-          <li><strong>Urban share cannot tell a town centre from a suburb</strong>, and <strong>BARMM is thin</strong>: 15 outlets for 5.7 million people and the weakest wealth coverage.</li>
+          <li><strong>The wealth index's own error is not carried through.</strong> Its per-tile error (mean 0.53) is large next to Metro Manila's barangay spread of 0.20, so intervals are too narrow and a flat result like Manila's is weaker evidence than it looks.</li>
+          <li><strong>Shop coverage is uneven.</strong> 6.1 shops per 1,000 people in Metro Manila against 0.2 in BARMM, so the with-shops ratios rest on a control that is itself tied to wealth.</li>
+          <li><strong>PCSO's list is undated.</strong> 7,443 outlets against 6,494 agents at the end of 2023, so it may hold closed outlets; dropping or adding doubtful ones moves the national ratios by 0.02 at most.</li>
+          <li><strong>2.4 km tiles are coarse inside cities</strong>, and <strong>the layers come from different years</strong>: wealth from 2021, people from 2024, outlets, shops and roads from 2026.</li>
+          <li><strong>BARMM is thin</strong>: 15 outlets for 5.7 million people and the weakest wealth coverage.</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="data" aria-labelledby="data-h">
+<section class="block" id="sources" aria-labelledby="sources-h">
   <div class="wrap">
     <div class="head">
-      <p class="kicker">DATA /</p>
-      <h2 id="data-h">Download and reproduce</h2>
-      <p>Every number on this page comes from the committed tables below. PCSO's outlet list is never committed, only counts per tile and per barangay.</p>
+      <p class="kicker">SOURCES /</p>
+      <h2 id="sources-h">Sources cited</h2>
     </div>
-    <div class="files">
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a><span class="size">12 KB</span><p>Every model's wealth ratio, interval, p-value and sample.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a><span class="size">5 KB</span><p>Outlets, people, shops and urban share by wealth fifth, nationally and per city.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a><span class="size">3 KB</span><p>Road and straight-line distance to the nearest outlet by wealth fifth.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/coefficients.csv">coefficients.csv</a><span class="size">18 KB</span><p>Every coefficient of every model, controls included.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/spatial_checks.csv">spatial_checks.csv</a><span class="size">6 KB</span><p>Moran's I on each main model's residuals, before and after spatial refits.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/distribution.csv">distribution.csv</a><span class="size">4 KB</span><p>Distributions of outlets, people, rates, wealth and shops per tile and barangay.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/tiles.csv">tiles.csv</a><span class="size">8.0 MB</span><p>The analysis table: one row per 2.4 km wealth tile (40,824).</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/barangays.csv">barangays.csv</a><span class="size">10.2 MB</span><p>The check table: one row per barangay (42,048).</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/tree/main/results/figures">results/figures/</a><span class="size">12 PNG</span><p>Static maps of outlet rate and wealth for all four scopes, and the paper's charts.</p></div>
-      <div class="file"><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/data-quality.md">data-quality.md</a><span class="size">note</span><p>How each source was parsed and joined, the column dictionary, and where the gaps sit.</p></div>
-    </div>
+    <ol class="refs">
+      <li>Harris, J. <em>The US Lottery is a Lie.</em> YouTube, 8 March 2023. <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w">youtube.com</a></li>
+      <li>Berger, C. "America's poorest households spend 33 times more of their income on lottery tickets than the rich, data shows." Fortune, 4 April 2024. <a href="https://fortune.com/2024/04/04/lottery-tickets-poor-rich-income-powerball-mega-millions-jackpot-odds-les-bernal-stop-predatory-gambling/">fortune.com</a></li>
+      <li>Philippine Charity Sweepstakes Office. <em>Accomplishment Report 2024, Year-end.</em> 26 February 2025. <a href="https://pcso-gov.ph/pcsofiles/transparency/12/Accomplishment%20Report%202024%20Yearend%20(20250226).pdf">pcso-gov.ph</a></li>
+      <li>Philippine Charity Sweepstakes Office. "Lotto Outlets" map. <a href="https://www.pcso.gov.ph/Maps/Outlets.aspx">pcso.gov.ph</a></li>
+      <li>Inquirer. "7-Eleven operator celebrates 4,000-store milestone in PH." <a href="https://business.inquirer.net/485115/7-eleven-operator-celebrates-4000-store-milestone-in-ph">inquirer.net</a></li>
+      <li>Statista. "Number of Jollibee stores." <a href="https://www.statista.com/statistics/1479196/number-of-jolibee-stores/">statista.com</a></li>
+      <li>Batas Pambansa Blg. 42 (1979), amending RA 1169. <a href="https://lawphil.net/statutes/bataspam/bp1979/bp_42_1979.html">lawphil.net</a></li>
+      <li>Republic Act No. 11223 (2019), Universal Health Care Act, Section 37(c). <a href="https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html">lawphil.net</a></li>
+      <li>Chi, G., Fang, H., Chatterjee, S. and Blumenstock, J. E. "Microestimates of wealth for all low- and middle-income countries." <em>PNAS</em> 119 (3), e2113658119, 2022. <a href="https://doi.org/10.1073/pnas.2113658119">doi</a></li>
+      <li>Overture Maps Foundation. "Places guide." <a href="https://docs.overturemaps.org/guides/places">overturemaps.org</a></li>
+      <li>Gotway, C. A. and Young, L. J. "Combining incompatible spatial data." <em>Journal of the American Statistical Association</em> 97 (458), 632-648, 2002. <a href="https://doi.org/10.1198/016214502760047140">doi</a></li>
+      <li>Mennis, J. "Generating surface models of population using dasymetric mapping." <em>The Professional Geographer</em> 55 (1), 31-42, 2003. <a href="https://doi.org/10.1111/0033-0124.10042">doi</a></li>
+      <li>Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." <em>Statistical Methods in Medical Research</em>, 2016. <a href="https://doi.org/10.1177/0962280216660421">doi</a></li>
+      <li>JICA and Metro Cebu Development and Coordinating Board. <em>The Roadmap Study for Sustainable Urban Development in Metro Cebu</em>, final report, summary. June 2015. <a href="https://openjicareport.jica.go.jp/pdf/12235529.pdf">jica.go.jp</a></li>
+      <li>Republic Act No. 11708 (2022), Metropolitan Davao Development Authority Act, Section 4. <a href="https://lawphil.net/statutes/repacts/ra2022/pdf/ra_11708_2022.pdf">lawphil.net</a></li>
+      <li>Wheeler, B. W., Rigby, J. E. and Huriwai, T. <em>Health &amp; Place</em> 12 (1), 86-96, 2006. <a href="https://doi.org/10.1016/j.healthplace.2004.10.011">doi</a></li>
+      <li>Raisamo, S., Toikka, A., Selin, J. and Heiskanen, M. <em>BMC Public Health</em> 19, 1198, 2019. <a href="https://doi.org/10.1186/s12889-019-7535-1">doi</a></li>
+      <li>Wiggins, L., Nower, L., Mayers, R. S. and Peterson, N. A. <em>Journal of Community Psychology</em> 38 (4), 486-496, 2010. <a href="https://doi.org/10.1002/jcop.20376">doi</a></li>
+      <li>Pugh, Shirk and Volberg. <em>Journal of Gambling Studies</em> 42 (2), 663-683, 2026. <a href="https://doi.org/10.1007/s10899-026-10475-6">doi</a></li>
+    </ol>
+    <p class="credit">Data: PCSO's published outlet map; Meta / Data for Good Relative Wealth Index (CC BY-NC 4.0); WorldPop (CC BY 4.0); PSA 2024 Census of Population; JRC GHSL (CC BY 4.0); OCHA COD-AB Philippines (CC BY-IGO); &copy; OpenStreetMap contributors (ODbL); Overture Maps places. Code is MIT licensed; anything built on the wealth values is for non-commercial use with attribution.</p>
 
-    <div class="two" style="margin-top:44px">
+    <div class="two cite">
       <div class="prose">
-        <h3 style="margin-top:0">Run it yourself</h3>
-        <p>Needs Python 3.12, <code class="mono">curl</code> and <a href="https://github.com/felt/tippecanoe">tippecanoe</a>, about 1.2 GB of downloads and 5 GB of memory. The 2024 census workbooks are fetched by hand first, as <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/data-quality.md#getting-the-files">data-quality.md</a> describes. On the same downloads a run reproduces the committed tables byte for byte.</p>
-        <p>The code, five narrative notebooks and the full paper are in the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets">GitHub repository</a>. Code is MIT licensed. The wealth values come from the RWI, which is CC BY-NC 4.0, so anything built on them is for non-commercial use with attribution.</p>
-      </div>
-      <pre><code>git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
-cd ph-lottery-outlets
-./run_all.sh            # collect, build, analyse, map
-python3 src/04_build_map/serve_map.py
-# this page at http://localhost:8000/</code></pre>
-    </div>
-  </div>
-</section>
-
-<section class="block cite" id="cite" aria-labelledby="cite-h">
-  <div class="wrap">
-    <div class="two">
-      <div class="head">
-        <p class="kicker">CITE /</p>
-        <h2 id="cite-h">Citation</h2>
-        <p>Yu, E. (2026). <em>Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines.</em> https://earlcyu-petcircle.github.io/ph-lottery-outlets/</p>
+        <h3>Cite this</h3>
+        <p>Yu, E. (2026). <em>Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?</em> https://earlcyu-petcircle.github.io/ph-lottery-outlets/</p>
       </div>
       <div>
         <div class="citebar"><span class="kicker">BIBTEX</span><button type="button" id="copy-bib">Copy</button></div>
 <pre id="bibtex">@misc{yu2026lotto,
   author = {Yu, Earl},
-  title = {Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines},
+  title = {Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?},
   year = {2026},
   month = nov,
   howpublished = {\url{https://earlcyu-petcircle.github.io/ph-lottery-outlets/}},
@@ -719,59 +376,16 @@ python3 src/04_build_map/serve_map.py
     </div>
   </div>
 </section>
-
-<section class="block" id="refs" aria-labelledby="refs-h">
-  <div class="wrap">
-    <div class="head">
-      <p class="kicker">REFERENCES /</p>
-      <h2 id="refs-h">Sources cited</h2>
-    </div>
-    <ol class="refs">
-      <li>Harris, J. <em>The US Lottery is a Lie.</em> YouTube, 8 March 2023. <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w">youtube.com</a></li>
-      <li>Philstar. "PCSO earns P61.45 billion in 2023." 22 April 2024. <a href="https://www.philstar.com/nation/2024/04/22/2349455/pcso-earns-p6145-billion-2023">philstar.com</a></li>
-      <li>Philippine Charity Sweepstakes Office. <em>Accomplishment Report 2024, Year-end.</em> 26 February 2025. <a href="https://pcso-gov.ph/pcsofiles/transparency/12/Accomplishment%20Report%202024%20Yearend%20(20250226).pdf">pcso-gov.ph</a></li>
-      <li>Philstar. "PCSO rolls back lotto ticket price." 8 June 2020. <a href="https://www.philstar.com/headlines/2020/06/08/2019414/headlines">philstar.com</a></li>
-      <li>Philippine Charity Sweepstakes Office. <em>Annual Report CY2023</em>, table "Lotto Agents, CY 2023". Read through a search index.</li>
-      <li>Philippine Charity Sweepstakes Office. "Lotto Outlets" map. <a href="https://www.pcso.gov.ph/Maps/Outlets.aspx">pcso.gov.ph</a></li>
-      <li>Inquirer. "7-Eleven operator celebrates 4,000-store milestone in PH." <a href="https://business.inquirer.net/485115/7-eleven-operator-celebrates-4000-store-milestone-in-ph">inquirer.net</a></li>
-      <li>Statista. "Number of Jollibee stores." <a href="https://www.statista.com/statistics/1479196/number-of-jolibee-stores/">statista.com</a></li>
-      <li>BusinessWorld. "Pacific Online, partners bag lease for PCSO lottery system." 7 September 2021. <a href="https://bworldonline.com/corporate/2021/09/07/394630/pacific-online-partners-bag-lease-for-pcso-lottery-system/">bworldonline.com</a></li>
-      <li>Republic Act No. 1169 (1954), the PCSO Charter. <a href="https://lawphil.net/statutes/repacts/ra1954/ra_1169_1954.html">lawphil.net</a></li>
-      <li>Batas Pambansa Blg. 42 (1979), amending RA 1169. <a href="https://lawphil.net/statutes/bataspam/bp1979/bp_42_1979.html">lawphil.net</a></li>
-      <li>Republic Act No. 11223 (2019), Universal Health Care Act, Section 37(c). <a href="https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html">lawphil.net</a></li>
-      <li>Republic Act No. 9287 (2004), increasing penalties for illegal numbers games. <a href="https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/1457">elibrary.judiciary.gov.ph</a></li>
-      <li>Wheeler, B. W., Rigby, J. E. and Huriwai, T. <em>Health &amp; Place</em> 12 (1), 86-96, 2006. <a href="https://doi.org/10.1016/j.healthplace.2004.10.011">doi</a></li>
-      <li>Kephart, L., Rees, V. W., Giovenco, D. P. and Subramanian, S. V. <em>American Journal of Preventive Medicine</em> 69 (2), 107643, 2025. <a href="https://doi.org/10.1016/j.amepre.2025.107643">doi</a></li>
-      <li>Raisamo, S., Toikka, A., Selin, J. and Heiskanen, M. <em>BMC Public Health</em> 19, 1198, 2019. <a href="https://doi.org/10.1186/s12889-019-7535-1">doi</a></li>
-      <li>Wiggins, L., Nower, L., Mayers, R. S. and Peterson, N. A. <em>Journal of Community Psychology</em> 38 (4), 486-496, 2010. <a href="https://doi.org/10.1002/jcop.20376">doi</a></li>
-      <li>Pugh, Shirk and Volberg. <em>Journal of Gambling Studies</em> 42 (2), 663-683, 2026. <a href="https://doi.org/10.1007/s10899-026-10475-6">doi</a></li>
-      <li>Chi, G., Fang, H., Chatterjee, S. and Blumenstock, J. E. "Microestimates of wealth for all low- and middle-income countries." <em>PNAS</em> 119 (3), e2113658119, 2022. <a href="https://doi.org/10.1073/pnas.2113658119">doi</a></li>
-      <li>Overture Maps Foundation. "Places guide." <a href="https://docs.overturemaps.org/guides/places">overturemaps.org</a></li>
-      <li>Gotway, C. A. and Young, L. J. "Combining incompatible spatial data." <em>Journal of the American Statistical Association</em> 97 (458), 632-648, 2002. <a href="https://doi.org/10.1198/016214502760047140">doi</a></li>
-      <li>Mennis, J. "Generating surface models of population using dasymetric mapping." <em>The Professional Geographer</em> 55 (1), 31-42, 2003. <a href="https://doi.org/10.1111/0033-0124.10042">doi</a></li>
-      <li>Riebler, A., Sørbye, S. H., Simpson, D. and Rue, H. "An intuitive Bayesian spatial model for disease mapping that accounts for scaling." <em>Statistical Methods in Medical Research</em>, 2016. <a href="https://doi.org/10.1177/0962280216660421">doi</a></li>
-      <li>JICA and Metro Cebu Development and Coordinating Board. <em>The Roadmap Study for Sustainable Urban Development in Metro Cebu</em>, final report, summary. June 2015. <a href="https://openjicareport.jica.go.jp/pdf/12235529.pdf">jica.go.jp</a></li>
-      <li>Republic Act No. 11708 (2022), Metropolitan Davao Development Authority Act, Section 4. <a href="https://lawphil.net/statutes/repacts/ra2022/pdf/ra_11708_2022.pdf">lawphil.net</a></li>
-    </ol>
-  </div>
-</section>
 </main>
 
 <footer>
   <div class="wrap">
-    <span><a class="brand" href="#top">Earl Yu / Atlas</a></span>
-    <span>Data: PCSO; Meta / Data for Good RWI (CC BY-NC 4.0); WorldPop (CC BY 4.0); PSA 2024 Census; JRC GHSL (CC BY 4.0); OCHA COD-AB (CC BY-IGO); &copy; OpenStreetMap contributors (ODbL); Overture Maps. Code MIT.</span>
+    <span><a class="brand" href="#top">Philippine Lottery Outlets</a></span>
+    <span>Code and data on <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets">GitHub</a>. Full paper: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md">docs/paper.md</a>.</span>
   </div>
 </footer>
 
 <script>
-// "Show on the map": steer the embedded map by its #scope/measure deep link, then bring it into view
-const frame = document.getElementById("atlas-map");
-document.querySelectorAll("button[data-map]").forEach(b => b.addEventListener("click", () => {
-  frame.src = "map/?embed#" + b.dataset.map;
-  document.getElementById("map").scrollIntoView({behavior: "smooth"});
-}));
-
 const copy = document.getElementById("copy-bib");
 copy.addEventListener("click", async () => {
   try {
