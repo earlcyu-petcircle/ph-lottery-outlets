@@ -96,7 +96,8 @@ figure img{display:block;width:100%;height:auto}
 figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:10px}
 .maps3{margin-top:30px}
 .maps3grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:6px;align-items:start}
-.maps3grid figure:first-child{grid-column:1/-1;max-width:600px}
+.maps3grid figure:first-child{grid-column:1/-1;max-width:none}
+.maps3grid figure:first-child img{width:auto;max-width:100%;max-height:calc(100vh - 90px);margin:0 auto}
 .maps3grid figure{border-top:2px solid var(--ink);padding-top:8px}
 .maps3grid figcaption{font:600 12.5px var(--mono);color:var(--ink);margin-top:6px}
 button{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer}
