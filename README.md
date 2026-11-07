@@ -1,20 +1,9 @@
-# Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines
+# Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?
 
 Earl Yu, November 2026.
-Open and published data only.
 
-**Read it as a one-page story, with the interactive map: <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>**
-
-Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods?
-On the open data, no.
-Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest: 12.7 against 0.4 per 100,000 people.
-Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person.
-Inside Metro Manila wealth makes no difference to outlet density, Metro Davao leans towards its richer barangays, and Metro Cebu's lean cannot be told apart from none once shops are held fixed.
-The median person in the poorest fifth lives 11.5 km from an outlet by road, against 0.6 km in the richest.
-Outlets follow commerce and urbanisation, not poverty.
-That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.
-
-![Wealth and outlet density together, Philippines: most of the country is poorer tiles with no outlet, and the tiles that are both richer and above the national outlet rate cluster in Metro Manila and the larger cities](results/figures/map_national_bivariate.png)
+- Full paper: [docs/paper.md](docs/paper.md)
+- Website, with the interactive map: <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>
 
 ## Where things are
 
