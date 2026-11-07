@@ -3,7 +3,7 @@
 Earl Yu, November 2026.
 
 - Full paper: [docs/paper.md](docs/paper.md)
-- Website, with the interactive map: <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>
+- Website, with the interactive map: <https://earlcyu.github.io/ph-lottery-outlets/>
 
 ## Where things are
 
@@ -24,7 +24,7 @@ Nothing else is installed globally.
 The 2024 census workbooks cannot be downloaded by script: fetch the 18 files by hand into `data/manual/popcen2024/` first, as [`docs/data-quality.md`](docs/data-quality.md#getting-the-files) describes.
 
 ```bash
-git clone https://github.com/earlcyu-petcircle/ph-lottery-outlets.git
+git clone https://github.com/earlcyu/ph-lottery-outlets.git
 cd ph-lottery-outlets
 ./run_all.sh              # every phase below, in order
 ./run_all.sh --refresh    # same, but pull fresh PCSO, OpenStreetMap and Overture snapshots
