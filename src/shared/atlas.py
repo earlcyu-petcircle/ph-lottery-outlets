@@ -9,7 +9,7 @@ The fonts are static cuts committed in src/shared/fonts/ (rebuilt by fonts/build
 If they are missing, register_fonts() warns and the charts fall back to DejaVu Sans and DejaVu
 Sans Mono, which matplotlib always has, so a chart still draws, in the wrong typeface.
 
-Used by src/03_analyse/charts.py, maps.py and pcso_background.py.
+Used by src/03_analyse/charts.py, maps.py, pcso_background.py and results_figures.py.
 """
 import warnings
 from pathlib import Path
@@ -36,6 +36,12 @@ BIVARIATE = {"w1o0": "#EAB3C0", "w2o0": "#EFF2F5", "w3o0": "#B0CCFF",
              "w1o2": "#CA1968", "w2o2": "#30394E", "w3o2": "#1F4FE0"}
 # In this order for charts; a map's categories never put pink (2) beside teal (4)
 CATEGORICAL = ["#1F4FE0", "#E8407A", "#E8A317", "#0F9D8A", "#9C3F8F", "#3FA7D6"]
+# Fluoro pink, the second series beside cobalt in any chart with two (the Riso pairing)
+SECOND = CATEGORICAL[1]
+# Amber, the third series
+THIRD = CATEGORICAL[2]
+# One colour per city in every chart that compares them, in the paper's city order
+CITY = {"Metro Manila": CATEGORICAL[0], "Metro Cebu": CATEGORICAL[1], "Metro Davao": CATEGORICAL[2]}
 NO_OUTLET, NO_PEOPLE = "#EBECEF", "#CDD0D7"
 
 HEAD, BODY, MONO = "Bricolage Grotesque", "Public Sans", "JetBrains Mono"
@@ -83,23 +89,46 @@ def mono(size, bold=False, **kw):
     return {"fontfamily": family(MONO), "fontweight": 600 if bold else 400, "fontsize": size, **kw}
 
 
+def kick(section, subsection=None):
+    """A figure's kicker: where it sits in docs/paper.md, e.g. kick("Results", "RQ1: Outlets per
+    person") is 'PH lotto outlets / Results / RQ1: Outlets per person'."""
+    return " / ".join(p for p in ("PH lotto outlets", section, subsection) if p)
+
+
 def kicker(fig, x, y, text, **kw):
-    """The site's mono kicker, e.g. 'PH / LOTTO OUTLETS / 2026', in cobalt capitals."""
+    """The site's mono kicker, e.g. 'PH LOTTO OUTLETS / RESULTS / RQ3: ROAD DISTANCE', in cobalt
+    capitals."""
     return fig.text(x, y, text.upper(), color=ACCENT, **mono(8, bold=True), **kw)
 
 
-def heading(fig, title, subtitle=None, kick="PH / LOTTO OUTLETS / 2026", x=0.012):
-    """The site's chart heading, a fixed size whatever the figure's height: a cobalt mono kicker,
-    a Bricolage title and a muted subtitle (a string, or lines joined by newlines). Returns the
-    figure fraction left below it, for tight_layout's rect top."""
+def heading(fig, title, subtitle=None, *, kick, x=0.012):
+    """The site's chart heading, a fixed size whatever the figure's height: a cobalt mono kicker
+    (from kick(), passed by every figure), a Bricolage headline that states the takeaway (lines
+    joined by newlines if it is long) and a muted subtitle that is the plain chart title, one
+    short line: what is plotted, where and when. Returns the figure fraction left below it, for
+    tight_layout's rect top."""
     h = fig.get_figheight()
     y = lambda inches: 1 - inches / h
     kicker(fig, x, y(0.16), kick, va="top")
-    fig.text(x, y(0.36), title, va="top", **head(13))
+    fig.text(x, y(0.36), title, va="top", linespacing=1.1, **head(13))
+    extra = 0.27 * title.count("\n")
     if not subtitle:
-        return y(0.72)
-    fig.text(x, y(0.68), subtitle, va="top", fontsize=8.5, color=MUTED, linespacing=1.45)
-    return y(0.98 + 0.17 * subtitle.count("\n"))
+        return y(0.72 + extra)
+    fig.text(x, y(0.68 + extra), subtitle, va="top", fontsize=8.5, color=MUTED, linespacing=1.45)
+    return y(0.98 + extra + 0.17 * subtitle.count("\n"))
+
+
+def source(fig, text, x=0.012, note=None):
+    """The source line at the foot of every chart and map, in muted mono, a fixed distance from
+    the bottom, with an optional short note above it (how to read the chart: what Q1 and Q5 mean,
+    the ratio scale), lines joined by newlines. Returns the figure fraction they take up, for the
+    bottom of tight_layout's rect."""
+    h = fig.get_figheight()
+    fig.text(x, 0.1 / h, text, va="bottom", color=MUTED, **mono(6.5))
+    if not note:
+        return 0.3 / h
+    fig.text(x, 0.3 / h, note, va="bottom", fontsize=7.5, color=MUTED, linespacing=1.4)
+    return (0.5 + 0.15 * note.count("\n")) / h
 
 
 def rule(fig, y, x0=0.0, x1=1.0, width=2.25):
