@@ -8,12 +8,13 @@ By: Earl Christian Yu
 
 ## Summary
 
-In the US the lottery has been called "a tax on the poor", because poorer households spend a far larger share of their income on tickets than richer ones.
-That can be tested in two ways, access and spend, and this paper tests access in the Philippines: are PCSO's lotto outlets concentrated in poorer or richer neighborhoods?
-Nationally they are concentrated in richer ones: outlets per 100,000 people rise at every step from 0.4 in the poorest wealth quintile to 12.7 in the richest, about 31 times as many, and the median person in the poorest wealth quintile lives 11.5 km from an outlet by road, against 0.6 km in the richest.
-Most of that gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18).
-In Metro Manila, where almost everyone lives among shops, wealth makes no difference: every wealth quintile has 12.5 to 15.2 outlets per 100,000 people and a median road distance of 0.4 to 0.5 km, while Metro Davao repeats the national gradient and Metro Cebu's lean goes with its shops.
-Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.
+1. The lottery is often dubbed as "a tax on the poor" since poorer households spend way more on lotto tickets than richer ones.
+2. Two ways to test this: access and spend. This paper focuses on access: are Philippine lotto outlets concentrated in poorer or richer neighborhoods?
+3. Nationally, they are concentrated in richer areas: there are 31x more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4).
+4. People in poorer areas also live farther from lotto outlets: the median road distance is 11.5km in poorer areas vs 0.6km in the richest areas.
+5. Most of this gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18).
+6. However, the story is different in Metro Manila: almost everyone lives only 0.4km to the nearest lotto outlet and wealth makes no difference. Every wealth quintile has 12.5 to 15.2 outlets per 100,000 people.
+7. Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.
 
 ![Figure 1: In Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Not the case on a national level.](../results/figures/map_ncr_bivariate.png)
 
