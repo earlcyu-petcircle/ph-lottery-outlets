@@ -1,33 +1,20 @@
-# Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?
+# Lottery as a tax on the poor? A spatial study of lotto outlets in the Philippines
 
 Earl Yu, November 2026.
+Open and published data only.
 
-**Lotto outlets follow commerce, not poverty. In Metro Manila, access is more equal.**
-Lotto outlets are concentrated in richer areas, not poorer ones.
-Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is.
-But, in Metro Manila, that gap disappears: everyone lives near a lotto outlet and the lotto outlets per person are evenly distributed across wealth quintiles.
+**Read it as a one-page story, with the interactive map: <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>**
 
-Read it as a one-page story with the interactive map at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, or the [full paper](docs/paper.md).
+Are the Philippine Charity Sweepstakes Office's (PCSO) lotto outlets concentrated in poorer neighbourhoods?
+On the open data, no.
+Per person, outlets are about 30 times as common in the richest fifth of the country as in the poorest: 12.7 against 0.4 per 100,000 people.
+Most of that gap goes with where shops and towns are, and among places with the same amount of retail, richer places still have about 1.2 times as many outlets per person.
+Inside Metro Manila wealth makes no difference to outlet density, Metro Davao leans towards its richer barangays, and Metro Cebu's lean cannot be told apart from none once shops are held fixed.
+The median person in the poorest fifth lives 11.5 km from an outlet by road, against 0.6 km in the richest.
+Outlets follow commerce and urbanisation, not poverty.
+That says nothing about who buys tickets or what share of their income they spend, and every result here is an association, not a cause.
 
-## Where are lotto outlets concentrated?
-
-The lottery is often dubbed as "a tax on the poor" since poorer households spend a far bigger share of their income on lotto tickets than richer ones.
-There are two ways to test this: access and spend.
-This study focuses on access: **are Philippine lotto outlets concentrated in poorer or richer neighbourhoods?**
-
-## Three key insights
-
-1. **Nationally, richer places have more lotto outlets per person, and the people there live closer to one:** 31x more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4), and a median road distance of 11.5km against 0.6km.
-2. **Outlets follow commerce, and that explains most of the rich-poor gap:** with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18).
-3. **In Metro Manila, wealth makes no difference:** every wealth quintile has 12.5 to 15.2 outlets per 100,000 people and 99% live within 2km of the nearest lotto outlet.
-
-![In Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Not the case on a national level.](results/figures/map_ncr_bivariate.png)
-
-## Data, methodology and limitations
-
-Outlets are counted per 2.4 km tile of Meta's Relative Wealth Index and per barangay, compared per person by wealth quintile and with negative binomial count models, and measured by road distance; the [paper](docs/paper.md#4-research-design) has the full design.
-Access is not spending, and every result is an association, not a cause; the paper's [limitations](docs/paper.md#8-limitations) set out the rest.
-Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.
+![Wealth and outlet density together, Philippines: most of the country is poorer tiles with no outlet, and the tiles that are both richer and above the national outlet rate cluster in Metro Manila and the larger cities](results/figures/map_national_bivariate.png)
 
 ## Where things are
 
@@ -68,7 +55,6 @@ A `--refresh` run picks up a newer PCSO map, OpenStreetMap and Overture, so expe
 
 The web map reads PMTiles files by HTTP range requests, so neither it nor the site opens from `file://`; `serve_map.py` is a small range-aware server for `docs/`.
 The story site is hand-written HTML with no build step, and its numbers are typed in from `results/tables/`, so a rerun that moves the tables needs the site updated by hand.
-Its charts and map image load the PNGs in `results/figures/` from the `main` branch on GitHub, so a redrawn figure shows on the site once it is merged.
 Outlet points appear only in a local build of the map: PCSO's outlet list is never committed.
 
 GitHub Pages serves the site from the `main` branch and the `/docs` folder (Settings, Pages, Deploy from a branch).
