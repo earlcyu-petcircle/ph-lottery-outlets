@@ -8,12 +8,12 @@ By: Earl Christian Yu
 
 ## Summary
 
-1. The lottery is often dubbed as "a tax on the poor" since poorer households spend way more on lotto tickets than richer ones.
+1. The lottery is often dubbed as "a tax on the poor" since poorer households spend a far bigger share of their income on lotto tickets than richer ones.
 2. Two ways to test this: access and spend. This paper focuses on access: are Philippine lotto outlets concentrated in poorer or richer neighborhoods?
 3. Nationally, they are concentrated in richer areas: there are 31x more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4).
 4. People in poorer areas also live farther from lotto outlets: the median road distance is 11.5km in poorer areas vs 0.6km in the richest areas.
 5. Most of this gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18).
-6. However, the story is different in Metro Manila: almost everyone lives only 0.4km to the nearest lotto outlet and wealth makes no difference. Every wealth quintile has 12.5 to 15.2 outlets per 100,000 people.
+6. However, the story is different in Metro Manila: the median person lives 0.4 to 0.5 km from the nearest lotto outlet and 99% live within 2 km, whatever their wealth. Every wealth quintile has 12.5 to 15.2 outlets per 100,000 people.
 7. Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.
 
 ![Figure 1: In Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Not the case on a national level.](../results/figures/map_ncr_bivariate.png)
