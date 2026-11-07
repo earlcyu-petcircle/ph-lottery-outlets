@@ -6,8 +6,8 @@ be seen without the web map:
                               the RWI, both in quantile classes
                               (map_<scope>_rate_and_wealth.png)
   bivariate_map(scope)        wealth terciles x outlet-rate levels, with a 3 x 3 key: the single
-                              picture of the relationship
-                              (map_<scope>_bivariate.png)
+                              picture of the relationship (map_<scope>_bivariate.png); Metro
+                              Manila's is Figure 1, the paper's summary image
 
 scope is "national" (every RWI tile) or one of the three cities by barangay: "ncr" (Metro
 Manila), "cebu" (Metro Cebu) or "davao" (Metro Davao). The colours and the bivariate classes
@@ -15,7 +15,7 @@ are the web map's (src/shared/map_layers.py); the ground, type and headings are 
 site's Atlas Grid (src/shared/atlas.py).
 
 Quantile classes:
-- Outlet rate: "no outlet" is its own class, and units with outlets are split into fifths of
+- Outlet rate: "no outlet" is its own class, and units with outlets are split into quintiles of
   units by their rate.
 - RWI: population-weighted fifths, as in the descriptive tables (each holds a fifth of the
   scope's people; each city is split by its own people).
@@ -38,14 +38,33 @@ from map_layers import BIV, NO_PEOPLE, RATE, RATE_NONE, RWI, map_classes, tile_p
 RWI5 = [RWI[0], RWI[1], RWI[3], RWI[5], RWI[6]]  # five of the web map's seven RWI steps
 UTM = "EPSG:32651"
 CITY = {"ncr": "NCR", "cebu": "Metro Cebu", "davao": "Metro Davao"}  # map scope -> analysis scope
-TITLE = {"national": "Philippines, RWI tiles (2.4 km)", "ncr": "Metro Manila (NCR), barangays",
-         "cebu": "Metro Cebu, barangays", "davao": "Metro Davao, barangays"}
+WHERE = {"national": "Philippines, 2.4 km RWI tiles", "ncr": "Metro Manila (NCR) barangays",
+         "cebu": "Metro Cebu barangays", "davao": "Metro Davao barangays"}
+# The summary map's subtitle, as worded for the paper; the others are built from WHERE
+SUBTITLE = {"ncr": "Wealth and lotto outlets per 100,000 people by barangay, Metro Manila"}
+# Each map's headline: what it shows at a glance, in line with the paper's results
+HEADLINE = {("bivariate", "national"): "Richer, outlet-dense tiles cluster in Metro Manila and the larger cities",
+            ("bivariate", "ncr"): "In Metro Manila, poorer barangays have as many lotto\noutlets per person as richer ones. Not the case on a\nnational level.",
+            ("bivariate", "cebu"): "Metro Cebu's poorer interior has few outlets",
+            ("bivariate", "davao"): "Metro Davao's outlets cluster in its urban core; its poorer hinterland has almost none",
+            ("rate and wealth", "national"): "Outlets are densest where wealth is highest",
+            ("rate and wealth", "ncr"): "In Metro Manila, outlet density does not follow wealth",
+            ("rate and wealth", "cebu"): "In Metro Cebu, outlets are sparse in the poorer interior",
+            ("rate and wealth", "davao"): "In Metro Davao, outlets are densest in the richer urban core"}
+PLACE = {"national": "the Philippines'", "ncr": "Metro Manila's", "cebu": "Metro Cebu's", "davao": "Metro Davao's"}
+UNIT = {"national": "tile", "ncr": "barangay", "cebu": "barangay", "davao": "barangay"}
 DPI = {"national": 150, "ncr": 170, "cebu": 170, "davao": 170}
-SIZE = {"national": ((12, 8.2), (8, 9.2)), "ncr": ((11, 8.6), (7.6, 8.6)),  # (rate and wealth, bivariate)
-        "cebu": ((11, 7.6), (7.6, 8.8)), "davao": ((12, 9.6), (9.6, 8.6))}
+SIZE = {"national": ((12, 8.4), (8, 9.4)), "ncr": ((11, 9.0), (6.8, 9.8)),  # (rate and wealth, bivariate)
+        "cebu": ((11, 8.0), (7.6, 9.0)), "davao": ((12, 10.0), (9.6, 8.8))}
 LEGEND_ROOM = {"cebu": 0.07, "davao": 0.12}  # figure fraction kept below the panels for their legends (default 0.03)
-KEY = {"national": (0.66, 0.62, 0.24, 0.22), "ncr": (0.15, 0.1, 0.2, 0.19),  # bivariate key, figure fractions
+KEY = {"national": (0.66, 0.62, 0.24, 0.22), "ncr": (0.17, 0.13, 0.24, 0.17),  # bivariate key, figure fractions
        "cebu": (0.66, 0.1, 0.2, 0.17), "davao": (0.78, 0.1, 0.17, 0.17)}
+MAP_X = {"ncr": (0.3, 0.68)}  # bivariate map's left edge and width, figure fractions (default 0.02, 0.96)
+# Where each map sits in docs/paper.md, for its kicker: Metro Manila's bivariate map is the summary
+# image (Figure 1); the rest are listed in Appendix B
+APPENDIX = atlas.kick("Appendix B", "Every figure and table")
+KICK = {("bivariate", "ncr"): atlas.kick("Summary")}
+SOURCE = "Source: PCSO outlet map (2 Nov 2026), PSA 2024 census on WorldPop, Meta RWI (2021), OCHA COD-AB."
 
 
 def units(scope):
@@ -74,10 +93,11 @@ def _draw(ax, g, colours, scope):
            edgecolor=atlas.BG if scope in CITY else colours)
     ax.set_axis_off()
     ax.set_aspect("equal")
+    ax.margins(0.01)
 
 
 def _rate_classes(g):
-    """Colour and legend for outlets per 100,000: no people, no outlet, fifths of the rest."""
+    """Colour and legend for outlets per 100,000: no people, no outlet, quintiles of the rest."""
     rate = g.rate_per_100k
     pos = rate[(g.outlets > 0) & (g["pop"] > 0)]
     edges = np.quantile(pos, [0, .2, .4, .6, .8, 1])
@@ -104,11 +124,13 @@ def rate_and_wealth_map(scope):
     g, overall = units(scope)
     with plt.rc_context(atlas.style()):
         fig = _figure(SIZE[scope][0])
-        top = atlas.heading(fig, f"PCSO lotto outlets and wealth: {TITLE[scope]}", x=0.02)
+        top = atlas.heading(fig, HEADLINE[("rate and wealth", scope)],
+                            f"Outlets per 100,000 people and Relative Wealth Index, {WHERE[scope]}",
+                            kick=KICK.get(("rate and wealth", scope), APPENDIX), x=0.02)
         for i, (title, (colours, handles), legend_title) in enumerate((
                 ("Outlets per 100,000 people", _rate_classes(g),
-                 f"Outlets per 100,000\n(fifths of units with an outlet;\noverall {overall:.1f})"),
-                ("Relative Wealth Index", _rwi_classes(g), "RWI (fifths of people)"))):
+                 f"Outlets per 100,000\n(quintiles of units with an outlet;\noverall {overall:.1f})"),
+                ("Relative Wealth Index", _rwi_classes(g), "RWI, by wealth quintile"))):
             ax = fig.add_subplot(1, 2, i + 1)
             _draw(ax, g, colours, scope)
             ax.set_title(title, loc="left", **atlas.head(11))
@@ -116,10 +138,8 @@ def rate_and_wealth_map(scope):
                      else {"loc": "upper left", "bbox_to_anchor": (0.02, 0.0), "ncol": 2})  # below the panel
             ax.legend(handles=handles, title=legend_title.replace("\n", " ") if scope in CITY else legend_title,
                       fontsize=8, title_fontsize=8.5, alignment="left", **place)
-        fig.text(0.02, 0.015, "Outlets: PCSO outlet map, 2 Nov 2026. People: PSA 2024 census on WorldPop 2024. "
-                 "Wealth: Meta Relative Wealth Index (2021). Boundaries: OCHA COD-AB.", color=atlas.MUTED,
-                 **atlas.mono(6.5))
-        fig.tight_layout(rect=(0, LEGEND_ROOM.get(scope, 0.03), 1, top))
+        foot = atlas.source(fig, SOURCE, x=0.02)
+        fig.tight_layout(rect=(0, max(LEGEND_ROOM.get(scope, 0.03), foot), 1, top))
         path = FIGURES / f"map_{scope}_rate_and_wealth.png"
         fig.savefig(path, dpi=DPI[scope])
     return path
@@ -134,14 +154,14 @@ def _bivariate_key(fig, rect, overall):
     ax.set_xlim(0, 3)
     ax.set_ylim(0, 3)
     ax.set_aspect("equal")
-    ax.set_xticks([0.48, 1.48, 2.48], ["Poorer", "Middle", "Richer"], fontsize=7.5)
-    ax.set_yticks([0.48, 1.48, 2.48], ["No outlet", f"Up to {overall:.1f}", f"Above {overall:.1f}"], fontsize=7.5,
+    ax.set_xticks([0.48, 1.48, 2.48], ["Poorer", "Middle", "Richer"], fontsize=8.5)
+    ax.set_yticks([0.48, 1.48, 2.48], ["No outlet", f"Up to {overall:.1f}", f"Above {overall:.1f}"], fontsize=8.5,
                   fontfamily=atlas.family(atlas.MONO))
     ax.tick_params(length=0)
     for side in ax.spines.values():
         side.set_visible(False)
-    ax.set_xlabel("Wealth (thirds of people) →", fontsize=8, color=atlas.INK)
-    ax.set_ylabel("Outlets per 100,000 →", fontsize=8, color=atlas.INK)
+    ax.set_xlabel("Wealth tercile →", fontsize=9, color=atlas.INK)
+    ax.set_ylabel("Outlets per 100,000 →", fontsize=9, color=atlas.INK)
 
 
 def bivariate_map(scope):
@@ -149,18 +169,22 @@ def bivariate_map(scope):
     colours = np.array([BIV.get(c, NO_PEOPLE) if isinstance(c, str) else NO_PEOPLE for c in g.bivariate])
     with plt.rc_context(atlas.style()):
         fig = _figure(SIZE[scope][1])
-        top = atlas.heading(fig, f"Wealth and outlet density together: {TITLE[scope]}",
-                            "Each unit by its wealth third and its outlet rate against the overall rate "
-                            f"({overall:.1f} per 100,000).\nHue is wealth (pink poorer, grey middle, cobalt richer); "
-                            "depth is outlets (pale: none, deep: above the overall rate).", x=0.03)
-        ax = fig.add_axes((0.02, 0.05, 0.96, top - 0.06))
+        top = atlas.heading(fig, HEADLINE[("bivariate", scope)],
+                            SUBTITLE.get(scope, f"Wealth tercile and outlets per 100,000 people, {WHERE[scope]}"),
+                            kick=KICK.get(("bivariate", scope), APPENDIX), x=0.03)
+        foot = atlas.source(fig, SOURCE, x=0.03, note=(
+            f"Each {UNIT[scope]} by its wealth tercile (hue: pink poorer, grey middle, cobalt richer) and its outlets\n"
+            f"per 100,000 people against {PLACE[scope]} overall rate of {overall:.1f} (depth: pale none, deep above it)."))
+        h = 0.11 / fig.get_figheight()  # a swatch about 0.11 inch high, as tall as the text
+        y = foot + 0.04 / fig.get_figheight()
+        fig.patches.append(Rectangle((0.03, y), h * fig.get_figheight() / fig.get_figwidth(), h,
+                                     transform=fig.transFigure, color=NO_PEOPLE, figure=fig))
+        fig.text(0.03 + 0.18 / fig.get_figwidth(), y, "No people or no RWI", color=atlas.MUTED, **atlas.mono(6.5))
+        left, width = MAP_X.get(scope, (0.02, 0.96))
+        bottom = foot + 0.25 / fig.get_figheight()
+        ax = fig.add_axes((left, bottom, width, top - bottom - 0.01))
         _draw(ax, g, colours, scope)
         _bivariate_key(fig, KEY[scope], overall)
-        h = 0.11 / fig.get_figheight()  # a swatch about 0.11 inch high, as tall as the text
-        fig.patches.append(Rectangle((0.03, 0.015), h * fig.get_figheight() / fig.get_figwidth(), h,
-                                     transform=fig.transFigure, color=NO_PEOPLE, figure=fig))
-        fig.text(0.03 + 0.18 / fig.get_figwidth(), 0.015, "No people or no RWI. Sources as in "
-                 "map_*_rate_and_wealth.png.", color=atlas.MUTED, **atlas.mono(6.5))
         path = FIGURES / f"map_{scope}_bivariate.png"
         fig.savefig(path, dpi=DPI[scope])
     return path
