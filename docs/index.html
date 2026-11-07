@@ -95,7 +95,8 @@ figure{margin:0;max-width:880px}
 figure img{display:block;width:100%;height:auto}
 figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:10px}
 .maps3{margin-top:30px}
-.maps3grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:6px;align-items:start}
+.maps3grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:6px;align-items:start}
+.maps3grid figure:first-child{grid-column:1/-1;max-width:600px}
 .maps3grid figure{border-top:2px solid var(--ink);padding-top:8px}
 .maps3grid figcaption{font:600 12.5px var(--mono);color:var(--ink);margin-top:6px}
 button{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer}
@@ -162,7 +163,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
   <div class="wrap">
     <p class="kicker">PH LOTTO OUTLETS</p>
     <p class="question">Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?</p>
-    <h1>Lotto outlets follow commerce, not poverty. In <mark>Metro Manila</mark>, wealth makes no difference.</h1>
+    <h1>Lotto outlets follow commerce, not poverty. In <mark>Metro Manila</mark>, access is more equal.</h1>
     <p class="answer"><strong>On the open data, they are concentrated in richer ones, not poorer ones.</strong> Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.</p>
     <p class="byline"><span>Earl Yu</span><span>November 2026</span><span>Open and published data only</span><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md">Read the full paper</a></p>
   </div>
@@ -173,7 +174,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
     <div class="two">
       <div class="head">
         <p class="kicker">WHY ASK /</p>
-        <h2 id="why-h">Access, not spend: where are the lotto outlets?</h2>
+        <h2 id="why-h">Where are lotto outlets concentrated?</h2>
       </div>
       <div class="prose">
         <p>The lottery is often dubbed as "a tax on the poor" since poorer households spend a far bigger share of their income on lotto tickets than richer ones; Johnny Harris's video <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w"><em>The US Lottery is a Lie</em></a> makes that case for the US.</p>
@@ -245,7 +246,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
       </div>
       <p class="note">However, Metro Manila paints a different picture: an outlet within about 400 m for everyone, whatever their wealth. Almost everyone lives in urban cells and every wealth quintile has 5.1 to 7.5 shops per 1,000 people, so outlets are close to everyone. Metro Davao repeats the national gradient (12.5 km by road in its poorest wealth quintile against 0.7 km in its richest), and Metro Cebu sits in between.</p>
       <div class="maps3">
-        <p class="ctitle">Metro Manila beside Metro Cebu and Metro Davao</p>
+        <p class="ctitle">Metro Manila, then Metro Cebu and Metro Davao</p>
         <p class="tsub">Each barangay by its city's wealth tercile (pink poorer, grey middle, cobalt richer) and its outlets per 100,000 people against the city's overall rate (pale: no outlet, deep: above it). Select a map to open it full size.</p>
         <div class="maps3grid">
           <figure>
