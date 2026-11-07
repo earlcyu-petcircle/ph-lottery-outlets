@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PH lotto outlets follow shops, not poverty | Earl Yu / Atlas</title>
-<meta name="description" content="Are PCSO lotto outlets more common in poorer neighbourhoods than in richer ones? No. Lotto outlets follow shops and towns, not poverty: a spatial study on open data for every 2.4 km tile in the Philippines and every barangay of Metro Manila, Metro Cebu and Metro Davao.">
+<title>PH lotto outlets follow commerce | Earl Yu / Atlas</title>
+<meta name="description" content="Are Philippine lotto outlets concentrated in poorer or richer neighborhoods? On the open data, they are concentrated in richer ones. Lotto outlets follow commerce, not poverty: a spatial study of every 2.4 km tile in the Philippines and every barangay of Metro Manila, Metro Cebu and Metro Davao.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lotto outlets follow shops and towns, not poverty">
-<meta property="og:description" content="Are PCSO lotto outlets more common in poorer neighbourhoods than in richer ones? No. Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.">
+<meta property="og:title" content="Lotto outlets follow commerce, not poverty">
+<meta property="og:description" content="Are Philippine lotto outlets concentrated in poorer or richer neighborhoods? Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.">
 <meta property="og:url" content="https://earlcyu-petcircle.github.io/ph-lottery-outlets/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%272%27 y=%272%27 width=%2712%27 height=%2712%27 fill=%27%231F4FE0%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,10 +160,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 <main id="top">
 <div class="hero">
   <div class="wrap">
-    <p class="kicker">PH / LOTTO OUTLETS / 2026</p>
-    <p class="question">Are PCSO lotto outlets more common in poorer neighbourhoods than in richer ones?</p>
-    <h1>Lotto outlets follow <mark>shops and towns</mark>, not poverty</h1>
-    <p class="answer"><strong>No.</strong> Nationally, richer places have more and closer outlets, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.</p>
+    <p class="kicker">PH LOTTO OUTLETS</p>
+    <p class="question">Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?</p>
+    <h1>Lotto outlets follow <mark>commerce</mark>, not poverty</h1>
+    <p class="answer"><strong>On the open data, they are concentrated in richer ones, not poorer ones.</strong> Richer places have more and closer outlets nationally, but that gap mostly reflects where commerce is, and where everyone lives among shops, as in Metro Manila, it disappears.</p>
     <p class="byline"><span>Earl Yu</span><span>November 2026</span><span>Open and published data only</span><a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md">Read the full paper</a></p>
   </div>
 </div>
@@ -176,8 +176,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
         <h2 id="why-h">Is the lottery a tax on the poor here too?</h2>
       </div>
       <div class="prose">
-        <p>Johnny Harris's video <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w"><em>The US Lottery is a Lie</em></a> makes the case that the US lottery is "a tax on the poor": America's poorest households spend 33 times more of their income on tickets than the rich. That charge has two halves. <strong>Access</strong>: are there more outlets where people are poorer? <strong>Spending</strong>: do poorer households spend more on tickets? A map can test access, so that is what this study does; spending needs household budget data.</p>
-        <p>The stakes are large. The Philippine Charity Sweepstakes Office (PCSO) took PHP 62.35 billion in gaming revenue in 2024, and its 7,443 lotto outlets outnumber 7-Eleven's stores (about 4,000) and Jollibee's branches (about 1,300) combined.</p>
+        <p>The lottery is often dubbed as "a tax on the poor" since poorer households spend a far bigger share of their income on lotto tickets than richer ones; Johnny Harris's video <a href="https://www.youtube.com/watch?v=3Yn_3HqfV1w"><em>The US Lottery is a Lie</em></a> makes that case for the US.</p>
+        <p>There are two ways to test this: <strong>access</strong> and <strong>spend</strong>. This study focuses on access: are Philippine lotto outlets concentrated in poorer or richer neighbourhoods? Spend, whether poorer households spend more on tickets, needs household budget data and is out of scope.</p>
+        <p>The Philippine Charity Sweepstakes Office (PCSO) runs the country's lotteries. It recorded a revenue of PHP 62.35 billion in 2024 and operates 7,443 outlets, more than the number of 7-Eleven stores (about 4,000) and Jollibee branches (about 1,300) in the country.</p>
       </div>
     </div>
   </div>
@@ -202,70 +203,73 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
     <div class="head">
       <p class="kicker">THREE KEY INSIGHTS /</p>
       <h2 id="insights-h">What the data say</h2>
-      <p>Wealth is Meta's Relative Wealth Index. Q1 to Q5 split the people in each scope into five equal groups by wealth, Q1 the poorest and Q5 the richest.</p>
+      <p>Wealth is Meta's Relative Wealth Index (RWI). Each wealth quintile holds the same number of people, from Q1, the poorest, to Q5, the richest.</p>
     </div>
 
     <article class="insight" id="insight-1">
       <p class="lab">01 / THE COUNTRY</p>
       <h3>Nationally, richer places have more outlets per person, and closer ones</h3>
       <div class="stats">
-        <div class="stat"><span class="n">0.4 vs 12.7</span><span class="l">outlets per 100,000 people in Q1 against Q5, about 31 times as many</span></div>
-        <div class="stat"><span class="n">11.5 vs 0.6 km</span><span class="l">median road distance to the nearest outlet, Q1 against Q5</span></div>
-        <div class="stat"><span class="n">2% vs 92%</span><span class="l">of people within 2 km of an outlet by road, Q1 against Q5</span></div>
+        <div class="stat"><span class="n">31x</span><span class="l">more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4)</span></div>
+        <div class="stat"><span class="n">11.5 vs 0.6 km</span><span class="l">median road distance to the nearest outlet, poorest against richest wealth quintile</span></div>
+        <div class="stat"><span class="n">2% vs 92%</span><span class="l">of people within 2 km of an outlet by road, poorest against richest wealth quintile</span></div>
       </div>
-      <p class="note">On access, the national picture is the reverse of "a tax on the poor": the poorest Filipinos have the fewest outlets and the furthest to go. 99.5% of people in Q1 live in a tile with no outlet at all, against 5.5% in Q5.</p>
+      <p class="note">On access, the national picture is the reverse of "a tax on the poor": the poorest Filipinos have the fewest outlets and the furthest to go. 99.5% of people in the poorest wealth quintile live in a tile with no outlet, against 5.5% in the richest.</p>
       <figure>
-        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig01_rq1_outlet_rate.png" alt="Bar chart: the richest quintile has 31 times the outlets per person of the poorest. Outlets per 100,000 people by national wealth quintile, on 2.4 km tiles: Q1 0.4, Q2 2.3, Q3 6.7, Q4 10.4, Q5 12.7." loading="lazy" width="1440" height="780">
-        <figcaption>Figure 1 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#71-nationally-richer-places-have-more-outlets-per-person-and-closer-ones">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a>, <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig01_rq1_outlet_rate.png" alt="Bar chart: the richest quintile has 31 times the outlets per person of the poorest. Lotto outlets per 100,000 people by wealth quintile, Philippines: Q1 0.4, Q2 2.3, Q3 6.7, Q4 10.4, Q5 12.7." loading="lazy" width="1440" height="780">
+        <figcaption>Figure 4 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#71-nationally-richer-places-have-more-outlets-per-person-and-closer-ones">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/quintile_rates.csv">quintile_rates.csv</a>.</figcaption>
       </figure>
     </article>
 
     <article class="insight" id="insight-2">
-      <p class="lab">02 / THE CITIES</p>
-      <h3>In Metro Manila, wealth makes no difference</h3>
+      <p class="lab">02 / THE REASON</p>
+      <h3>Outlets follow commerce, and that explains most of the rich-poor gap</h3>
       <div class="stats">
-        <div class="stat"><span class="n">12.5 to 15.2</span><span class="l">outlets per 100,000 people in every Metro Manila quintile, with every model interval including 1</span></div>
-        <div class="stat"><span class="n">0.4 to 0.5 km</span><span class="l">median road distance in every Metro Manila quintile, with 99% of people within 2 km</span></div>
-        <div class="stat"><span class="n">12.5 vs 0.7 km</span><span class="l">median road distance in Metro Davao, Q1 against Q5: the national gradient in one region</span></div>
+        <div class="stat"><span class="n">0.19 vs 5.74</span><span class="l">shops per 1,000 people, poorest against richest wealth quintile; the urban share rises from 38% to 99.8%</span></div>
+        <div class="stat"><span class="n">2.45 to 1.17</span><span class="l">the wealth rate ratio, with wealth only and then with urban share and shops held fixed</span></div>
+        <div class="stat"><span class="n">1.16 to 1.18</span><span class="l">the ratio with shops through the spatial refits and outlet sensitivities</span></div>
       </div>
-      <p class="note">Metro Davao takes in Davao City's uplands, the southern municipalities and Samal as well as its urban core, so it holds a town and its hinterland. Metro Cebu sits in between: its poorer interior is far from outlets (4.5 km in Q1), while Q2 to Q5 sit at 0.6 to 1.0 km.</p>
+      <p class="note">A lotto terminal is a counter in a shop, a mall or a market, and in the Philippines shops cluster in towns, which are richer than the countryside around them. Most of the national gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18). The ratio is how many times as many outlets per person a place one standard deviation richer has (0.49 RWI points); 1 means no difference.</p>
       <figure>
-        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig13_rq3_road_cities.png" alt="Bar charts: median road distance is 0.4 to 0.5 km in every Metro Manila quintile and 12.5 to 0.7 km in Metro Davao. Metro Manila Q1 to Q5: 0.4, 0.5, 0.4, 0.4, 0.4 km. Metro Cebu: 4.5, 1.0, 0.7, 0.6, 0.8 km. Metro Davao: 12.5, 4.1, 1.6, 1.0, 0.7 km." loading="lazy" width="1800" height="780">
-        <figcaption>Figure 13 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#72-in-metro-manila-wealth-makes-no-difference">paper</a>. Each city is split into quintiles by its own people. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig04_rq1_count_model.png" alt="Dot and interval chart: the wealth rate ratio falls from 2.45 with wealth only to 1.17 with shops held fixed. On 2.4 km tiles: wealth only 2.45 (2.23-2.69), + urban share 2.13 (1.96-2.32), + shops 1.17 (1.07-1.29), + shops and roads 1.24 (1.13-1.36). Every interval is above 1." loading="lazy" width="1520" height="816">
+        <figcaption>Figure 7 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#73-outlets-follow-commerce-and-that-explains-most-of-the-rich-poor-gap">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>.</figcaption>
       </figure>
-      <div class="maps3">
-        <p class="ctitle">Wealth and outlets together: mixed right across Metro Manila, concentrated in Metro Davao's richer core</p>
-        <p class="tsub">Each barangay by its city's wealth third (pink poorer, grey middle, cobalt richer) and its outlet rate (pale: no outlet, deep: above the city's overall rate). Select a map to open it full size.</p>
-        <div class="maps3grid">
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Bivariate map of Metro Manila barangays by wealth third and outlet rate: poorer, middle and richer barangays above the city rate are spread across the whole city." loading="lazy" width="1292" height="1462"></a>
-            <figcaption>Metro Manila: 14.1 outlets per 100,000 overall</figcaption>
-          </figure>
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_cebu_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_cebu_bivariate.png" alt="Bivariate map of Metro Cebu barangays by wealth third and outlet rate." loading="lazy" width="1292" height="1496"></a>
-            <figcaption>Metro Cebu: 7.5 per 100,000 overall</figcaption>
-          </figure>
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_davao_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_davao_bivariate.png" alt="Bivariate map of Metro Davao barangays by wealth third and outlet rate: most of the region is poorer barangays with no outlet, and barangays above the city rate cluster in the richer urban core." loading="lazy" width="1632" height="1462"></a>
-            <figcaption>Metro Davao: 5.5 per 100,000 overall</figcaption>
-          </figure>
-        </div>
-      </div>
     </article>
 
     <article class="insight" id="insight-3">
-      <p class="lab">03 / THE REASON</p>
-      <h3>Outlets follow commerce, and that explains most of the rich-poor gap</h3>
+      <p class="lab">03 / THE CITIES</p>
+      <h3>In Metro Manila, wealth makes no difference</h3>
       <div class="stats">
-        <div class="stat"><span class="n">0.19 vs 5.74</span><span class="l">shops per 1,000 people in Q1 against Q5; the urban share rises from 38% to 99.8%</span></div>
-        <div class="stat"><span class="n">2.45 to 1.17</span><span class="l">the wealth rate ratio, with wealth only and then with urban share and shops held fixed</span></div>
-        <div class="stat"><span class="n">1.16 to 1.18</span><span class="l">the ratio with shops through the spatial refits and outlet checks: a slight lean to richer places, none to poorer</span></div>
+        <div class="stat"><span class="n">12.5 to 15.2</span><span class="l">outlets per 100,000 people in every Metro Manila wealth quintile</span></div>
+        <div class="stat"><span class="n">99%</span><span class="l">of Metro Manila's people live within 2 km of the nearest lotto outlet</span></div>
+        <div class="stat"><span class="n">0.4 to 0.5 km</span><span class="l">median road distance in every Metro Manila wealth quintile</span></div>
       </div>
-      <p class="note">A lotto terminal is a counter in a shop, a mall or a market, and shops cluster in towns, which are richer than the countryside around them. The wealth rate ratio is how many times as many outlets per person a place one standard deviation richer has (0.49 RWI points); 1 means no difference. Comparing places in the same province with the same urban share and shops shrinks it from 2.45 to 1.17, so most of the gap is a shops-and-towns gap. The same holds in Metro Cebu, whose gap disappears once shops are in, while Metro Davao's shrinks but holds.</p>
+      <p class="note">However, Metro Manila paints a different picture: an outlet within about 400 m for everyone, whatever their wealth. Almost everyone lives in urban cells and every wealth quintile has 5.1 to 7.5 shops per 1,000 people, so outlets are close to everyone. Metro Davao repeats the national gradient (12.5 km by road in its poorest wealth quintile against 0.7 km in its richest), and Metro Cebu sits in between.</p>
+      <div class="maps3">
+        <p class="ctitle">Metro Manila beside Metro Cebu and Metro Davao</p>
+        <p class="tsub">Each barangay by its city's wealth tercile (pink poorer, grey middle, cobalt richer) and its outlets per 100,000 people against the city's overall rate (pale: no outlet, deep: above it). Select a map to open it full size.</p>
+        <div class="maps3grid">
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Map: in Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Barangays by wealth tercile and outlet rate against the city rate of 14.1." loading="lazy" width="1156" height="1666"></a>
+            <figcaption>Metro Manila: 14.1 per 100,000 overall</figcaption>
+          </figure>
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_cebu_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_cebu_bivariate.png" alt="Map of Metro Cebu barangays by wealth tercile and outlet rate against the city rate." loading="lazy" width="1292" height="1530"></a>
+            <figcaption>Metro Cebu: 7.5 per 100,000 overall</figcaption>
+          </figure>
+          <figure>
+            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_davao_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_davao_bivariate.png" alt="Map of Metro Davao barangays by wealth tercile and outlet rate: most of the region is poorer barangays with no outlet." loading="lazy" width="1632" height="1496"></a>
+            <figcaption>Metro Davao: 5.5 per 100,000 overall</figcaption>
+          </figure>
+        </div>
+        <p class="tsub" style="margin-top:10px">The Metro Manila map is Figure 1 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#summary">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/barangays.csv">barangays.csv</a>.</p>
+      </div>
+      <div class="maps3">
       <figure>
-        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig04_rq1_count_model.png" alt="Dot and interval chart: the wealth rate ratio falls from 2.45 with no controls to 1.24 with every control. On 2.4 km tiles: wealth only 2.45 (2.23-2.69), + urban share 2.13 (1.96-2.32), + shops 1.17 (1.07-1.29), + shops and roads 1.24 (1.13-1.36). On barangays: 2.82, 2.36, 1.50 and 1.22. Every interval is above 1." loading="lazy" width="1520" height="796">
-        <figcaption>Figure 4 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#73-outlets-follow-commerce-and-that-explains-most-of-the-rich-poor-gap">paper</a>. Negative binomial count models with province intercepts, 95% intervals. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/models.csv">models.csv</a>.</figcaption>
+        <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig13_rq3_road_cities.png" alt="Bar charts: median road distance is 0.4 to 0.5 km in every Metro Manila quintile and 12.5 to 0.7 km in Metro Davao. Metro Manila Q1 to Q5: 0.4, 0.5, 0.4, 0.4, 0.4 km. Metro Cebu: 4.5, 1.0, 0.7, 0.6, 0.8 km. Metro Davao: 12.5, 4.1, 1.6, 1.0, 0.7 km." loading="lazy" width="1800" height="780">
+        <figcaption>Figure 16 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#72-in-metro-manila-wealth-makes-no-difference">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/tables/road_distance.csv">road_distance.csv</a>.</figcaption>
       </figure>
+      </div>
     </article>
   </div>
 </section>
@@ -326,7 +330,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
           <li><strong>Association, not cause.</strong> The ratios describe where outlets are relative to wealth, shops and towns; they do not say why PCSO and its agents put them there.</li>
           <li><strong>Lotto only.</strong> The Small Town Lottery brought in PHP 31.76 billion of PCSO's PHP 62.35 billion gaming revenue in 2024, and its booths are not published.</li>
         </ul>
-        <p style="margin-top:18px"><strong>If the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.</strong></p>
+        <p style="margin-top:18px"><strong>Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.</strong></p>
       </div>
       <div class="prose">
         <h3>What to hold loosely</h3>
@@ -374,13 +378,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
     <div class="two cite">
       <div class="prose">
         <h3>Cite this</h3>
-        <p>Yu, E. (2026). <em>Do poorer Filipinos have easier access to PCSO lottery outlets than richer Filipinos?</em> https://earlcyu-petcircle.github.io/ph-lottery-outlets/</p>
+        <p>Yu, E. (2026). <em>Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?</em> https://earlcyu-petcircle.github.io/ph-lottery-outlets/</p>
       </div>
       <div>
         <div class="citebar"><span class="kicker">BIBTEX</span><button type="button" id="copy-bib">Copy</button></div>
 <pre id="bibtex">@misc{yu2026lotto,
   author = {Yu, Earl},
-  title = {Do poorer Filipinos have easier access to PCSO lottery outlets than richer Filipinos?},
+  title = {Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?},
   year = {2026},
   month = nov,
   howpublished = {\url{https://earlcyu-petcircle.github.io/ph-lottery-outlets/}},
