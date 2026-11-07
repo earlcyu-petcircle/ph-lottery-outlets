@@ -95,10 +95,7 @@ figure{margin:0;max-width:880px}
 figure img{display:block;width:100%;height:auto}
 figcaption{font-size:13px;line-height:1.5;color:var(--muted);margin-top:10px}
 .maps3{margin-top:30px}
-.maps3grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;margin-top:6px;align-items:start}
-.maps3grid figure:first-child{grid-row:1/3}
-.maps3grid figure{border-top:2px solid var(--ink);padding-top:8px}
-.maps3grid figcaption{font:600 12.5px var(--mono);color:var(--ink);margin-top:6px}
+figure.ncr{max-width:640px;margin-bottom:6px}
 button{font:600 12px var(--mono);background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:0;padding:7px 10px;cursor:pointer}
 button:hover{background:var(--grid)}
 
@@ -135,8 +132,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 @media (max-width:720px){
   :root{--pad:16px}
   body{font-size:16px}
-  .stats,.maps3grid{grid-template-columns:minmax(0,1fr)}
-  .maps3grid figure:first-child{grid-row:auto}
+  .stats{grid-template-columns:minmax(0,1fr)}
   .hero .wrap{padding-top:40px}
   section.block{padding:48px 0}
   .links{gap:2px 14px;font-size:13.5px}
@@ -212,7 +208,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
       <h3>Nationally, richer places have more lotto outlets per person, and the people there live closer to one</h3>
       <div class="stats">
         <div class="stat"><span class="n">31x</span><span class="l">more outlets per 100,000 people in the wealthiest quintile (12.7) than the poorest one (0.4)</span></div>
-        <div class="stat"><span class="n">11.5 vs 0.6 km</span><span class="l">median road distance to the nearest outlet, poorest against richest wealth quintile</span></div>
+        <div class="stat"><span class="n">11.5km vs 0.6km</span><span class="l">median road distance to the nearest outlet, poorest against richest wealth quintile</span></div>
         <div class="stat"><span class="n">2% vs 92%</span><span class="l">of people within 2 km of an outlet by road, poorest against richest wealth quintile</span></div>
       </div>
       <p class="note">On access, the national picture is the reverse of "a tax on the poor": the poorest Filipinos have the fewest outlets and the furthest to go. 99.5% of people in the poorest wealth quintile live in a tile with no outlet, against 5.5% in the richest.</p>
@@ -246,25 +242,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
         <div class="stat"><span class="n">0.4 to 0.5 km</span><span class="l">median road distance in every Metro Manila wealth quintile</span></div>
       </div>
       <p class="note">However, Metro Manila paints a different picture: an outlet within about 400 m for everyone, whatever their wealth. Almost everyone lives in urban cells and every wealth quintile has 5.1 to 7.5 shops per 1,000 people, so outlets are close to everyone. Metro Davao repeats the national gradient (12.5 km by road in its poorest wealth quintile against 0.7 km in its richest), and Metro Cebu sits in between.</p>
-      <div class="maps3">
-        <p class="ctitle">Metro Manila beside Metro Cebu and Metro Davao</p>
-        <p class="tsub">Each barangay by its city's wealth tercile (pink poorer, grey middle, cobalt richer) and its outlets per 100,000 people against the city's overall rate (pale: no outlet, deep: above it). Select a map to open it full size.</p>
-        <div class="maps3grid">
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Map: in Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Barangays by wealth tercile and outlet rate against the city rate of 14.1." loading="lazy" width="1156" height="1666"></a>
-            <figcaption>Metro Manila: 14.1 per 100,000 overall</figcaption>
-          </figure>
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_cebu_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_cebu_bivariate.png" alt="Map of Metro Cebu barangays by wealth tercile and outlet rate against the city rate." loading="lazy" width="1292" height="1530"></a>
-            <figcaption>Metro Cebu: 7.5 per 100,000 overall</figcaption>
-          </figure>
-          <figure>
-            <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_davao_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_davao_bivariate.png" alt="Map of Metro Davao barangays by wealth tercile and outlet rate: most of the region is poorer barangays with no outlet." loading="lazy" width="1632" height="1496"></a>
-            <figcaption>Metro Davao: 5.5 per 100,000 overall</figcaption>
-          </figure>
-        </div>
-        <p class="tsub" style="margin-top:10px">The Metro Manila map is Figure 1 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#summary">paper</a>. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/barangays.csv">barangays.csv</a>.</p>
-      </div>
+      <figure class="ncr">
+        <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/results/figures/map_ncr_bivariate.png"><img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/map_ncr_bivariate.png" alt="Map: in Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Barangays by wealth tercile and outlets per 100,000 people against the city rate of 14.1." loading="lazy" width="1156" height="1666"></a>
+        <figcaption>Figure 1 of the <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/docs/paper.md#summary">paper</a>; select the map to open it full size. Source: <a href="https://github.com/earlcyu-petcircle/ph-lottery-outlets/blob/main/data/derived/barangays.csv">barangays.csv</a>.</figcaption>
+      </figure>
       <div class="maps3">
       <figure>
         <img src="https://raw.githubusercontent.com/earlcyu-petcircle/ph-lottery-outlets/main/results/figures/fig13_rq3_road_cities.png" alt="Bar charts: median road distance is 0.4 to 0.5 km in every Metro Manila quintile and 12.5 to 0.7 km in Metro Davao. Metro Manila Q1 to Q5: 0.4, 0.5, 0.4, 0.4, 0.4 km. Metro Cebu: 4.5, 1.0, 0.7, 0.6, 0.8 km. Metro Davao: 12.5, 4.1, 1.6, 1.0, 0.7 km." loading="lazy" width="1800" height="780">
