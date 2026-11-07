@@ -23,8 +23,9 @@ results/figures/. The file numbers are the order within section 6, not the paper
     fig14_rq3_straight_line.png   median road against straight-line distance, national
 
 Each chart's kicker says where it sits in the paper, its title is the headline result, its
-subtitle says what it shows (measure, unit and grouping) and a line at the foot names the data
-sources (the paper's caption names the table). The numbers in titles are read from the tables, so a
+subtitle is the plain chart title (what is plotted, where), a short note under the chart says how
+to read it (what Q1 and Q5 mean, the ratio scale) and a line at the foot names the data sources
+(the paper's caption names the table and the method detail). The numbers in titles are read from the tables, so a
 rerun that moves them moves the titles too. Quintile axes run Q1 (poorest fifth of people) to Q5
 (richest). Ratios are per national standard deviation of RWI (0.49 points), on a log scale.
 Colours: cobalt and pink for two series, and one colour per city (atlas.CITY) in every RQ2 and
@@ -49,7 +50,9 @@ from analysis_samples import FIGURES, TABLES
 CITIES = [("NCR", "Metro Manila"), ("Metro Cebu", "Metro Cebu"), ("Metro Davao", "Metro Davao")]
 QUINTILES = ["Q1", "Q2", "Q3", "Q4", "Q5"]
 Q_NOTE = "Q1 is the poorest wealth quintile, Q5 the richest; each holds the same number of people."
-RATIO_NOTE = "Per national standard deviation of RWI (0.49 points), 95% intervals, log scale; 1 is no association."
+RATIO_NOTE = ("Ratio per national standard deviation of RWI (0.49 points), with its 95% interval, on a log scale; "
+              "1 is no association.")
+CITY_Q_NOTE = f"Each city's barangays split by its own people. {Q_NOTE}"
 VARIANTS = ["wealth only", "+ urban share", "+ shops", "+ shops and roads"]
 # Tiles in cobalt (the national main unit), barangays in fluoro pink and hollow, as in charts.py;
 # in the city charts each city keeps its own colour and the fill tells tiles from barangays
@@ -122,7 +125,7 @@ def _bars(ax, values, fmt, top=None, color=atlas.ACCENT, title=None):
         ax.set_title(title, loc="left", **atlas.head(10.5))
 
 
-def _bar_figure(name, kick, title, subtitle, source, panels, width=7.2, height=3.9):
+def _bar_figure(name, kick, title, subtitle, source, panels, width=7.2, height=3.9, note=Q_NOTE):
     """panels: (panel title or None, values, label format, shared top or None, colour)."""
     with plt.rc_context(atlas.style()):
         fig = _figure((width, height))
@@ -130,7 +133,7 @@ def _bar_figure(name, kick, title, subtitle, source, panels, width=7.2, height=3
         for ax, (ptitle, values, fmt, top, color) in zip(axes, panels):
             _bars(ax, values, fmt, top=top, color=color, title=ptitle)
         room = atlas.heading(fig, title, subtitle, kick=kick)
-        foot = atlas.source(fig, source)
+        foot = atlas.source(fig, source, note=note)
         fig.tight_layout(rect=(0, foot, 1, room), w_pad=2.5)
         return _save(fig, name)
 
@@ -170,11 +173,11 @@ def _legend(fig, units, foot, color=None):
 
 
 def _dot_figure(name, kick, title, subtitle, source, panels, row_labels, lo, hi, units, width=7.6, labels=True,
-                legend_color=None):
+                legend_color=None, note=RATIO_NOTE):
     """panels: (panel title or None, [(row index, model row, mark)]). Row 0 is drawn at the top."""
     n = len(row_labels)
     with plt.rc_context(atlas.style()):
-        fig = _figure((width, 0.42 * n * (1 if len(panels) == 1 else 1.1) + 2.5))
+        fig = _figure((width, 0.42 * n * (1 if len(panels) == 1 else 1.1) + 2.4 + 0.15 * note.count("\n")))
         axes = fig.subplots(1, len(panels), sharey=True, squeeze=False)[0]
         for ax, (ptitle, rows) in zip(axes, panels):
             _dots(ax, [(n - 1 - i + off, r, mk) for i, r, mk, off in rows], lo, hi, labels=labels)
@@ -183,7 +186,7 @@ def _dot_figure(name, kick, title, subtitle, source, panels, row_labels, lo, hi,
                 ax.set_title(ptitle, loc="left", **atlas.head(10.5))
         axes[0].set_yticks(range(n), row_labels[::-1], fontsize=8.5)
         room = atlas.heading(fig, title, subtitle, kick=kick)
-        foot = atlas.source(fig, source)
+        foot = atlas.source(fig, source, note=note)
         if units:
             foot = _legend(fig, units, foot, legend_color)
         fig.tight_layout(rect=(0, foot, 1, room), w_pad=1.5)
@@ -198,7 +201,7 @@ def rq1_outlet_rate(q):
     return _bar_figure(
         "fig01_rq1_outlet_rate.png", KICK[1],
         f"The richest quintile has {r[5] / r[1]:.0f} times the outlets per person of the poorest",
-        f"Lotto outlets per 100,000 people by national wealth quintile, on 2.4 km RWI tiles.\n{Q_NOTE}",
+        "Lotto outlets per 100,000 people by wealth quintile, Philippines (2.4 km tiles)",
         SOURCE["rate"], [(None, r, lambda v: f"{v:.1f}", None, atlas.ACCENT)])
 
 
@@ -207,8 +210,7 @@ def rq1_no_outlet(q):
     return _bar_figure(
         "fig02_rq1_no_outlet.png", KICK[1],
         f"{s[1]:.1f}% of people in Q1 live in a tile with no outlet, against {s[5]:.1f}% in Q5",
-        "Share of people living in a 2.4 km RWI tile with no lotto outlet, by national wealth quintile.\n"
-        f"{Q_NOTE}",
+        "Share of people in a tile with no lotto outlet, by wealth quintile, Philippines",
         SOURCE["rate"], [(None, s, lambda v: f"{v:.1f}%", 100, atlas.ACCENT)])
 
 
@@ -218,8 +220,7 @@ def rq1_shops_urban(q):
     return _bar_figure(
         "fig03_rq1_shops_urban.png", KICK[1],
         f"The richest quintile has {shops[5] / shops[1]:.0f} times the shops per person of the poorest",
-        f"Left: shops per 1,000 people (OpenStreetMap and Overture). Right: share of people in GHSL urban cells.\n"
-        f"By national wealth quintile, on 2.4 km RWI tiles. {Q_NOTE}",
+        "Shops per 1,000 people and share of people in urban cells, by wealth quintile, Philippines",
         SOURCE["shops"],
         [("Shops per 1,000 people", shops, lambda v: f"{v:.2f}", None, atlas.ACCENT),
          ("People in urban cells", urban, lambda v: f"{v:.0f}%" if v < 99.5 else f"{v:.1f}%", 100, atlas.SECOND)],
@@ -237,7 +238,7 @@ def rq1_count_model(m):
         "fig04_rq1_count_model.png", KICK[1],
         f"The wealth rate ratio falls from {first.wealth_ratio:.2f} with no controls to "
         f"{last.wealth_ratio:.2f} with every control",
-        f"Outlets per person, wealth rate ratio by control step; province intercepts in every step.\n{RATIO_NOTE}",
+        "Negative binomial wealth rate ratio by control step, Philippines",
         SOURCE["model"],
         [(None, rows)], ["Wealth only", "+ urban share", "+ shops", "+ shops and roads"], 0.8, 5,
         ["tile", "barangay"])
@@ -253,7 +254,7 @@ def rq1_presence_model(m):
     return _dot_figure(
         "fig05_rq1_presence_model.png", KICK[1],
         f"Wealth odds ratio of any outlet: {a.wealth_ratio:.2f} with urban share, {b.wealth_ratio:.2f} with shops",
-        f"Odds of at least one outlet, wealth odds ratio; log population and province intercepts in both.\n{RATIO_NOTE}",
+        "Logistic wealth odds ratio of at least one outlet, Philippines",
         SOURCE["model"],
         [(None, rows)], ["+ urban share", "+ shops"], 0.8, 5, ["tile", "barangay"])
 
@@ -275,9 +276,7 @@ def rq1_checks(m):
         "fig06_rq1_checks.png", KICK[1],
         f"Across the checks the tile ratio stays at {rng(vals['+ urban share'])} with urban share "
         f"and {rng(vals['+ shops'])} with shops",
-        "Negative binomial wealth rate ratio on 2.4 km tiles: the main model, a refit with 10 Moran eigenvectors,\n"
-        "only GPS points that match their address, and adding the outlets placed only at a town centre.\n"
-        f"{RATIO_NOTE}",
+        "Tile wealth rate ratio across spatial refits and outlet sensitivities, Philippines",
         SOURCE["model"],
         panels, [label for _, label in CHECKS], 0.9, 3.2, None, width=8.6)
 
@@ -292,9 +291,10 @@ def rq2_outlet_rate(q):
         "fig07_rq2_outlet_rate.png", KICK[2],
         f"Outlets per 100,000: {mm.min():.1f} to {mm.max():.1f} in every Metro Manila quintile, "
         f"{dv[1]:.1f} to {dv[5]:.1f} in Metro Davao",
-        f"Lotto outlets per 100,000 people by each city's own barangay wealth quintile.\n{Q_NOTE}",
+        "Lotto outlets per 100,000 people by barangay wealth quintile, three metro areas",
         SOURCE["city rate"],
-        [(name, r, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, r in rates.items()], width=9)
+        [(name, r, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, r in rates.items()], width=9,
+        note=CITY_Q_NOTE)
 
 
 def rq2_shops(q):
@@ -304,9 +304,10 @@ def rq2_shops(q):
     return _bar_figure(
         "fig08_rq2_shops.png", KICK[2],
         f"Shops per person peak in {peak[0]}, {peak[1]} and {peak[2]}",
-        f"Shops per 1,000 people (OpenStreetMap and Overture) by each city's own barangay wealth quintile.\n{Q_NOTE}",
+        "Shops per 1,000 people by barangay wealth quintile, three metro areas",
         SOURCE["city shops"],
-        [(name, s, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, s in shops.items()], width=9)
+        [(name, s, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, s in shops.items()], width=9,
+        note=CITY_Q_NOTE)
 
 
 def rq2_count_model(m):
@@ -318,8 +319,7 @@ def rq2_count_model(m):
     return _dot_figure(
         "fig09_rq2_count_model.png", KICK[2],
         "Every Metro Davao interval sits above 1; every Metro Manila interval includes 1",
-        "Outlets per person, wealth rate ratio by control step, on barangays; city and municipality intercepts,\n"
-        f"errors clustered by RWI tile. {RATIO_NOTE}",
+        "Negative binomial wealth rate ratio by control step, barangays in three metro areas",
         SOURCE["model"],
         panels, ["Wealth only", "+ urban share", "+ shops", "+ shops and roads"], 0.5, 10, None, width=9.4,
         labels=False)
@@ -335,8 +335,7 @@ def rq2_presence_model(m):
     return _dot_figure(
         "fig10_rq2_presence_model.png", KICK[2],
         f"Odds ratio of any outlet with shops: {shops[0]}, {shops[1]}, {shops[2]}",
-        "Odds of at least one outlet, wealth odds ratio, on barangays; log population, city and municipality\n"
-        f"intercepts, errors clustered by RWI tile. {RATIO_NOTE}",
+        "Logistic wealth odds ratio of at least one outlet, barangays in three metro areas",
         SOURCE["model"],
         panels, ["+ urban share", "+ shops"], 0.3, 16, None, width=9.4, labels=False)
 
@@ -357,10 +356,10 @@ def rq2_checks(m):
     return _dot_figure(
         "fig11_rq2_checks.png", KICK[2],
         f"On tiles with shops, the rate ratio is {shops[0]}, {shops[1]} and {shops[2]}",
-        f"Negative binomial wealth rate ratio on each city's 2.4 km tiles, and refits with Moran eigenvectors\n"
-        f"(barangays in Metro Manila and Metro Cebu, tiles in Metro Davao). {RATIO_NOTE}",
+        "Wealth rate ratio on tiles and in spatial refits, three metro areas",
         SOURCE["model"],
-        panels, labels, 0.5, 8, ["tile", "barangay"], width=9.4, labels=False, legend_color=atlas.INK)
+        panels, labels, 0.5, 8, ["tile", "barangay"], width=9.4, labels=False, legend_color=atlas.INK,
+        note=f"Spatial refits on barangays in Metro Manila and Metro Cebu, on tiles in Metro Davao.\n{RATIO_NOTE}")
 
 
 # RQ3 ---------------------------------------------------------------------------------------
@@ -376,9 +375,7 @@ def rq3_road_national(rd):
         "fig12_rq3_road_national.png", KICK[3],
         f"The median person in Q1 lives {n.road_km_median[1]:.1f} km from an outlet by road; in Q5, "
         f"{n.road_km_median[5]:.1f} km",
-        f"Left: median road distance to the nearest outlet, km. Right: share of people within 2 km by road.\n"
-        f"Shortest paths on OpenStreetMap roads from 100 m population pixels, by national wealth quintile.\n"
-        f"{Q_NOTE}",
+        "Road distance to the nearest lotto outlet by wealth quintile, Philippines",
         SOURCE["road"],
         [("Median road distance, km", n.road_km_median, lambda v: f"{v:.1f}", None, atlas.ACCENT),
          ("People within 2 km by road", n.share_people_within_2km_road * 100, lambda v: f"{v:.0f}%", 100,
@@ -394,9 +391,10 @@ def rq3_road_cities(rd):
         "fig13_rq3_road_cities.png", KICK[3],
         f"Median road distance: {mm.min():.1f} to {mm.max():.1f} km in every Metro Manila quintile, "
         f"{dv[1]:.1f} to {dv[5]:.1f} km in Metro Davao",
-        f"Median road distance to the nearest outlet, km, by each city's own barangay wealth quintile.\n{Q_NOTE}",
+        "Median road distance to the nearest lotto outlet by barangay wealth quintile, three metro areas",
         SOURCE["city road"],
-        [(name, r, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, r in med.items()], width=9)
+        [(name, r, lambda v: f"{v:.1f}", top, atlas.CITY[name]) for name, r in med.items()], width=9,
+        note=CITY_Q_NOTE)
 
 
 def rq3_straight_line(rd):
@@ -404,7 +402,7 @@ def rq3_straight_line(rd):
     xs = range(1, 6)
     w = 0.36
     with plt.rc_context(atlas.style()):
-        fig = _figure((7.2, 4.2))
+        fig = _figure((7.2, 4.1))
         ax = fig.subplots()
         top = n.road_km_median.max()
         for off, col, color in ((-w / 2, "road_km_median", atlas.ACCENT), (w / 2, "line_km_median", atlas.SECOND)):
@@ -418,15 +416,14 @@ def rq3_straight_line(rd):
         ax.set_xlim(0.4, 5.6)
         ax.set_yticks([])
         ax.set_xticks(list(xs), QUINTILES, fontfamily=atlas.family(atlas.MONO), fontsize=8.5)
-        foot = atlas.source(fig, SOURCE["road"])
+        foot = atlas.source(fig, SOURCE["road"], note=Q_NOTE)
         handles = [plt.Rectangle((0, 0), 1, 1, color=c, label=lab)
                    for c, lab in ((atlas.ACCENT, "By road"), (atlas.SECOND, "Straight line"))]
         fig.legend(handles=handles, loc="lower left", ncol=2, fontsize=8, bbox_to_anchor=(0.005, foot))
         room = atlas.heading(
             fig, f"Straight-line medians run from {n.line_km_median[1]:.1f} km in Q1 to "
                  f"{n.line_km_median[5]:.1f} km in Q5",
-            f"Median distance to the nearest outlet, km, by road and in a straight line, by national wealth quintile.\n"
-            f"{Q_NOTE}",
+            "Median distance to the nearest lotto outlet by road and in a straight line, Philippines",
             kick=KICK[3])
         fig.tight_layout(rect=(0, foot + 0.3 / fig.get_figheight(), 1, room))
         return _save(fig, "fig14_rq3_straight_line.png")

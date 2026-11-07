@@ -52,11 +52,9 @@ def _figure(size):
 
 def net_receipts_chart():
     with plt.rc_context(atlas.style()):
-        fig = _figure((6.4, 4.1))
+        fig = _figure((6.4, 3.8))
         top = atlas.heading(fig, "More than half of net receipts are allocated to prizes",
-                            "How PCSO's net receipts are split by law: Section 6 of the PCSO Charter (RA 1169),\n"
-                            "as amended in 1979. 40% of the charity fund goes to PhilHealth (RA 11223, 2019).",
-                            kick=KICK, x=0.03)
+                            "Breakdown of mandated allocations by law", kick=KICK, x=0.03)
         bottom = atlas.source(fig, "Source: Batas Pambansa Blg. 42 (1979), amending RA 1169, s 6 [7]; "
                                    "RA 11223, s 37(c) [8].", x=0.03)
         ax = fig.add_axes((0.03, bottom + 0.02, 0.44, top - bottom - 0.05))
@@ -81,10 +79,9 @@ def net_receipts_chart():
 def gaming_revenue_chart():
     rows = GAMING + [("Other games", round(GAMING_TOTAL - sum(v for _, v in GAMING), 2))]
     with plt.rc_context(atlas.style()):
-        fig = _figure((6.4, 3.1))
-        top = atlas.heading(fig, "Breakdown of 2024 PCSO revenue",
-                            f"Gaming revenue by game, PHP {GAMING_TOTAL:.2f} billion in all. Small Town Lottery brings in\n"
-                            "more than Lotto, and this study maps only Lotto.", kick=KICK, x=0.03)
+        fig = _figure((6.4, 2.9))
+        top = atlas.heading(fig, f"PCSO recorded a revenue of PHP {GAMING_TOTAL:.2f} billion as of 2024",
+                            "Breakdown of 2024 PCSO revenue", kick=KICK, x=0.03)
         bottom = atlas.source(fig, "Source: PCSO Accomplishment Report 2024, Year-end [3]. "
                                    "Other games: the remainder.", x=0.03)
         ax = fig.add_axes((0.3, bottom + 0.04, 0.56, top - bottom - 0.07))

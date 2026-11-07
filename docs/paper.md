@@ -15,9 +15,9 @@ Most of that gap is where shops and towns are: with urban share and shops held f
 In Metro Manila, where almost everyone lives among shops, wealth makes no difference: every wealth quintile has 12.5 to 15.2 outlets per 100,000 people and a median road distance of 0.4 to 0.5 km, while Metro Davao repeats the national gradient and Metro Cebu's lean goes with its shops.
 Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in the Philippines, the case has to be made on spending, not on access.
 
-![Figure 1: In Metro Manila, barangays with more outlets per person than the city as a whole sit in poorer, middle and richer areas alike](../results/figures/map_ncr_bivariate.png)
+![Figure 1: In Metro Manila, poorer barangays have as many lotto outlets per person as richer ones. Not the case on a national level.](../results/figures/map_ncr_bivariate.png)
 
-*Figure 1. Metro Manila's barangays by wealth tercile and outlets per 100,000 people against the city's overall rate of 14.1. Source: [`barangays.csv`](../data/derived/barangays.csv).*
+*Figure 1. Wealth and lotto outlets per 100,000 people by barangay, Metro Manila; barangays are coloured by wealth tercile, and the key's outlet levels are set against the city's overall rate of 14.1. Source: [`barangays.csv`](../data/derived/barangays.csv).*
 
 ## Contents
 
@@ -52,15 +52,15 @@ The first question can be answered via spatial analysis and is the main scope of
 
 The Philippine Charity Sweepstakes Office (PCSO) is a government-owned and controlled corporation that runs the country's national and local lotteries. As of 2024, it recorded a revenue of PHP 62.35 billion [[3](#ref-3)]. It operates 7,443 outlets nationwide [[4](#ref-4)] - more than the number of 7-11 convenience stores (~4,000) [[5](#ref-5)] and Jollibee branches (~1,300) [[6](#ref-6)] in the country.
 
-![Figure 2: Breakdown of 2024 PCSO revenue: Small Town Lottery PHP 31.76 billion, Lotto with digit games PHP 29.72 billion and other games PHP 0.87 billion, of PHP 62.35 billion](../results/figures/pcso_gaming_revenue_2024.png)
+![Figure 2: PCSO recorded a revenue of PHP 62.35 billion as of 2024: Small Town Lottery PHP 31.76 billion, Lotto with digit games PHP 29.72 billion and other games PHP 0.87 billion, of PHP 62.35 billion](../results/figures/pcso_gaming_revenue_2024.png)
 
-*Figure 2. PCSO gaming revenue in 2024 by game. Source: PCSO Accomplishment Report 2024, Year-end [[3](#ref-3)].*
+*Figure 2. Breakdown of 2024 PCSO revenue, by game; Small Town Lottery brings in more than Lotto, and this study maps only Lotto. Source: PCSO Accomplishment Report 2024, Year-end [[3](#ref-3)].*
 
 How the PCSO spends its money is dictated by law: 55% to prizes, 30% to a charity fund for "health programs, medical assistance and services, and/or charities of national character", and 15% to operations [[7](#ref-7)]. Moreover, the Universal Health Care Act (RA 11223) directs 40% of that charity fund to PhilHealth [[8](#ref-8)], which is 12% of net receipts.
 
 ![Figure 3: More than half of net receipts are allocated to prizes: by law 55% go to prizes, 30% to the charity fund (12% to PhilHealth and 18% to other charity) and 15% to operations](../results/figures/pcso_net_receipts_split.png)
 
-*Figure 3. The statutory split of PCSO's net receipts, with PhilHealth's share of the charity fund. Source: Batas Pambansa Blg. 42 [[7](#ref-7)], RA 11223 [[8](#ref-8)].*
+*Figure 3. Breakdown of mandated allocations of PCSO's net receipts by law, with PhilHealth's share of the charity fund. Source: Batas Pambansa Blg. 42 [[7](#ref-7)], RA 11223 [[8](#ref-8)].*
 
 ## 2. Research questions
 

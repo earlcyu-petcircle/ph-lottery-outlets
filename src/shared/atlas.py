@@ -103,25 +103,32 @@ def kicker(fig, x, y, text, **kw):
 
 def heading(fig, title, subtitle=None, *, kick, x=0.012):
     """The site's chart heading, a fixed size whatever the figure's height: a cobalt mono kicker
-    (from kick(), passed by every figure), a Bricolage title and a muted subtitle (a string, or
-    lines joined by newlines). Returns the figure fraction left below it, for tight_layout's rect
-    top."""
+    (from kick(), passed by every figure), a Bricolage headline that states the takeaway (lines
+    joined by newlines if it is long) and a muted subtitle that is the plain chart title, one
+    short line: what is plotted, where and when. Returns the figure fraction left below it, for
+    tight_layout's rect top."""
     h = fig.get_figheight()
     y = lambda inches: 1 - inches / h
     kicker(fig, x, y(0.16), kick, va="top")
-    fig.text(x, y(0.36), title, va="top", **head(13))
+    fig.text(x, y(0.36), title, va="top", linespacing=1.1, **head(13))
+    extra = 0.27 * title.count("\n")
     if not subtitle:
-        return y(0.72)
-    fig.text(x, y(0.68), subtitle, va="top", fontsize=8.5, color=MUTED, linespacing=1.45)
-    return y(0.98 + 0.17 * subtitle.count("\n"))
+        return y(0.72 + extra)
+    fig.text(x, y(0.68 + extra), subtitle, va="top", fontsize=8.5, color=MUTED, linespacing=1.45)
+    return y(0.98 + extra + 0.17 * subtitle.count("\n"))
 
 
-def source(fig, text, x=0.012):
+def source(fig, text, x=0.012, note=None):
     """The source line at the foot of every chart and map, in muted mono, a fixed distance from
-    the bottom. Returns the figure fraction it takes up, for the bottom of tight_layout's rect."""
+    the bottom, with an optional short note above it (how to read the chart: what Q1 and Q5 mean,
+    the ratio scale), lines joined by newlines. Returns the figure fraction they take up, for the
+    bottom of tight_layout's rect."""
     h = fig.get_figheight()
     fig.text(x, 0.1 / h, text, va="bottom", color=MUTED, **mono(6.5))
-    return 0.3 / h
+    if not note:
+        return 0.3 / h
+    fig.text(x, 0.3 / h, note, va="bottom", fontsize=7.5, color=MUTED, linespacing=1.4)
+    return (0.5 + 0.15 * note.count("\n")) / h
 
 
 def rule(fig, y, x0=0.0, x1=1.0, width=2.25):

@@ -38,15 +38,26 @@ from map_layers import BIV, NO_PEOPLE, RATE, RATE_NONE, RWI, map_classes, tile_p
 RWI5 = [RWI[0], RWI[1], RWI[3], RWI[5], RWI[6]]  # five of the web map's seven RWI steps
 UTM = "EPSG:32651"
 CITY = {"ncr": "NCR", "cebu": "Metro Cebu", "davao": "Metro Davao"}  # map scope -> analysis scope
-TITLE = {"national": "Philippines, RWI tiles (2.4 km)", "ncr": "Metro Manila (NCR), barangays",
-         "cebu": "Metro Cebu, barangays", "davao": "Metro Davao, barangays"}
+WHERE = {"national": "Philippines, 2.4 km RWI tiles", "ncr": "Metro Manila (NCR) barangays",
+         "cebu": "Metro Cebu barangays", "davao": "Metro Davao barangays"}
+# The summary map's subtitle, as worded for the paper; the others are built from WHERE
+SUBTITLE = {"ncr": "Wealth and lotto outlets per 100,000 people by barangay, Metro Manila"}
+# Each map's headline: what it shows at a glance, in line with the paper's results
+HEADLINE = {("bivariate", "national"): "Richer, outlet-dense tiles cluster in Metro Manila and the larger cities",
+            ("bivariate", "ncr"): "In Metro Manila, poorer barangays have as many lotto\noutlets per person as richer ones. Not the case on a\nnational level.",
+            ("bivariate", "cebu"): "Metro Cebu's poorer interior has few outlets",
+            ("bivariate", "davao"): "Metro Davao's outlets cluster in its urban core; its poorer hinterland has almost none",
+            ("rate and wealth", "national"): "Outlets are densest where wealth is highest",
+            ("rate and wealth", "ncr"): "In Metro Manila, outlet density does not follow wealth",
+            ("rate and wealth", "cebu"): "In Metro Cebu, outlets are sparse in the poorer interior",
+            ("rate and wealth", "davao"): "In Metro Davao, outlets are densest in the richer urban core"}
 PLACE = {"national": "the Philippines'", "ncr": "Metro Manila's", "cebu": "Metro Cebu's", "davao": "Metro Davao's"}
 UNIT = {"national": "tile", "ncr": "barangay", "cebu": "barangay", "davao": "barangay"}
 DPI = {"national": 150, "ncr": 170, "cebu": 170, "davao": 170}
-SIZE = {"national": ((12, 8.2), (8, 9.4)), "ncr": ((11, 8.8), (6.8, 9.8)),  # (rate and wealth, bivariate)
-        "cebu": ((11, 7.8), (7.6, 9.0)), "davao": ((12, 9.8), (9.6, 8.8))}
+SIZE = {"national": ((12, 8.4), (8, 9.4)), "ncr": ((11, 9.0), (6.8, 9.8)),  # (rate and wealth, bivariate)
+        "cebu": ((11, 8.0), (7.6, 9.0)), "davao": ((12, 10.0), (9.6, 8.8))}
 LEGEND_ROOM = {"cebu": 0.07, "davao": 0.12}  # figure fraction kept below the panels for their legends (default 0.03)
-KEY = {"national": (0.66, 0.62, 0.24, 0.22), "ncr": (0.17, 0.095, 0.24, 0.17),  # bivariate key, figure fractions
+KEY = {"national": (0.66, 0.62, 0.24, 0.22), "ncr": (0.17, 0.13, 0.24, 0.17),  # bivariate key, figure fractions
        "cebu": (0.66, 0.1, 0.2, 0.17), "davao": (0.78, 0.1, 0.17, 0.17)}
 MAP_X = {"ncr": (0.3, 0.68)}  # bivariate map's left edge and width, figure fractions (default 0.02, 0.96)
 # Where each map sits in docs/paper.md, for its kicker: Metro Manila's bivariate map is the summary
@@ -113,7 +124,8 @@ def rate_and_wealth_map(scope):
     g, overall = units(scope)
     with plt.rc_context(atlas.style()):
         fig = _figure(SIZE[scope][0])
-        top = atlas.heading(fig, f"PCSO lotto outlets and wealth: {TITLE[scope]}",
+        top = atlas.heading(fig, HEADLINE[("rate and wealth", scope)],
+                            f"Outlets per 100,000 people and Relative Wealth Index, {WHERE[scope]}",
                             kick=KICK.get(("rate and wealth", scope), APPENDIX), x=0.02)
         for i, (title, (colours, handles), legend_title) in enumerate((
                 ("Outlets per 100,000 people", _rate_classes(g),
@@ -157,12 +169,12 @@ def bivariate_map(scope):
     colours = np.array([BIV.get(c, NO_PEOPLE) if isinstance(c, str) else NO_PEOPLE for c in g.bivariate])
     with plt.rc_context(atlas.style()):
         fig = _figure(SIZE[scope][1])
-        top = atlas.heading(fig, f"Wealth and outlet density together: {TITLE[scope]}",
-                            f"Each {UNIT[scope]} by its wealth tercile and its outlets per 100,000 people against\n"
-                            f"{PLACE[scope]} overall rate of {overall:.1f}. Hue is wealth (pink poorer, grey middle,\n"
-                            "cobalt richer); depth is outlets (pale: none, deep: above the overall rate).",
+        top = atlas.heading(fig, HEADLINE[("bivariate", scope)],
+                            SUBTITLE.get(scope, f"Wealth tercile and outlets per 100,000 people, {WHERE[scope]}"),
                             kick=KICK.get(("bivariate", scope), APPENDIX), x=0.03)
-        foot = atlas.source(fig, SOURCE, x=0.03)
+        foot = atlas.source(fig, SOURCE, x=0.03, note=(
+            f"Each {UNIT[scope]} by its wealth tercile (hue: pink poorer, grey middle, cobalt richer) and its outlets\n"
+            f"per 100,000 people against {PLACE[scope]} overall rate of {overall:.1f} (depth: pale none, deep above it)."))
         h = 0.11 / fig.get_figheight()  # a swatch about 0.11 inch high, as tall as the text
         y = foot + 0.04 / fig.get_figheight()
         fig.patches.append(Rectangle((0.03, y), h * fig.get_figheight() / fig.get_figwidth(), h,
