@@ -7,7 +7,7 @@
 set -euo pipefail
 
 RAW="data/raw"
-UA="ph-lottery-outlets/1.0 (open-data spatial research; https://github.com/earlcyu-petcircle/ph-lottery-outlets)"
+UA="ph-lottery-outlets/1.0 (open-data spatial research; https://github.com/earlcyu/ph-lottery-outlets)"
 REFRESH=0
 [ "${1:-}" = "--refresh" ] && REFRESH=1
 mkdir -p "$RAW"

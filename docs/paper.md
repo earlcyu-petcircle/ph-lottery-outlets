@@ -4,7 +4,7 @@ By: Earl Christian Yu
 <br/>Published on: 04 November 2026
 <br/>Last edited: 04 November 2026
 
-*This is the full paper behind the one-page story site at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.*
+*This is the full paper behind the one-page story site at <https://earlcyu.github.io/ph-lottery-outlets/>, which carries the same results with an interactive map.*
 
 ## Summary
 
@@ -486,7 +486,7 @@ Shared helpers are in [`src/shared/`](../src/shared/) (`common.py` paths and gri
 
 ## Appendix B. Every figure and table
 
-The interactive web map in [`docs/map/`](map/) shows the same layers, and more, to zoom and click through, at <https://earlcyu-petcircle.github.io/ph-lottery-outlets/map/> or locally as the [README](../README.md#how-to-reproduce) describes.
+The interactive web map in [`docs/map/`](map/) shows the same layers, and more, to zoom and click through, at <https://earlcyu.github.io/ph-lottery-outlets/map/> or locally as the [README](../README.md#how-to-reproduce) describes.
 The static figures in [`results/figures/`](../results/figures/) can be read without it:
 
 | Figure | What it shows |
@@ -537,8 +537,8 @@ The tables in [`results/tables/`](../results/tables/):
 ## Appendix C. Project history
 
 The study was built in steps, each a pull request.
-It began on 23 October 2026 as a first pass built on OpenStreetMap's lotto points ([#1](https://github.com/earlcyu-petcircle/ph-lottery-outlets/pull/1)), which hold only about 6% of PCSO's agents, so the design was redone around PCSO's own outlet map.
-The final research design was settled on 31 October 2026 and shipped with the data collection ([#3](https://github.com/earlcyu-petcircle/ph-lottery-outlets/pull/3)).
-The data analysis followed, first nationally and for Metro Manila ([#4](https://github.com/earlcyu-petcircle/ph-lottery-outlets/pull/4)), then for Metro Cebu and Metro Davao ([#5](https://github.com/earlcyu-petcircle/ph-lottery-outlets/pull/5)).
-The results, discussion and clean-up came next, together, and turned the README into the finished paper ([#6](https://github.com/earlcyu-petcircle/ph-lottery-outlets/pull/6)).
+It began on 23 October 2026 as a first pass built on OpenStreetMap's lotto points ([#1](https://github.com/earlcyu/ph-lottery-outlets/pull/1)), which hold only about 6% of PCSO's agents, so the design was redone around PCSO's own outlet map.
+The final research design was settled on 31 October 2026 and shipped with the data collection ([#3](https://github.com/earlcyu/ph-lottery-outlets/pull/3)).
+The data analysis followed, first nationally and for Metro Manila ([#4](https://github.com/earlcyu/ph-lottery-outlets/pull/4)), then for Metro Cebu and Metro Davao ([#5](https://github.com/earlcyu/ph-lottery-outlets/pull/5)).
+The results, discussion and clean-up came next, together, and turned the README into the finished paper ([#6](https://github.com/earlcyu/ph-lottery-outlets/pull/6)).
 Last came the one-page story site on GitHub Pages, at which point the paper moved from the README to this file.
