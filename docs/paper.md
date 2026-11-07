@@ -8,7 +8,7 @@ By: Earl Christian Yu
 
 ## Summary
 
-In the US the lottery has been called "a tax on the poor", because poorer households spend far more on tickets than richer ones.
+In the US the lottery has been called "a tax on the poor", because poorer households spend a far larger share of their income on tickets than richer ones.
 That can be tested in two ways, access and spend, and this paper tests access in the Philippines: are PCSO's lotto outlets concentrated in poorer or richer neighborhoods?
 Nationally they are concentrated in richer ones: outlets per 100,000 people rise at every step from 0.4 in the poorest wealth quintile to 12.7 in the richest, about 31 times as many, and the median person in the poorest wealth quintile lives 11.5 km from an outlet by road, against 0.6 km in the richest.
 Most of that gap is where shops and towns are: with urban share and shops held fixed, the wealth rate ratio falls from 2.45 to 1.17, a small lean towards richer places that holds through the spatial refits and outlet sensitivities (1.16 to 1.18).
@@ -25,7 +25,7 @@ Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in 
 2. [Research questions](#2-research-questions)
 3. [Data sources](#3-data-sources)
 4. [Research design](#4-research-design)
-5. [Data](#5-data)
+5. [Processed data](#5-processed-data)
 6. [Results](#6-results)
 7. [Discussion](#7-discussion)
 8. [Limitations](#8-limitations)
@@ -40,7 +40,7 @@ Outlets follow commerce, not poverty, so if the lottery is a tax on the poor in 
 
 ### 1.1 Inspiration
 
-A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that shows why the US lottery is **"a tax on the poor"**. It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money. In the US, poorer households spend as much as 33 times more on lotto tickets than richer households [[2](#ref-2)]. No wonder the lottery became known as a tax on the poor.
+A few years ago, I came across [this YouTube video by Johnny Harris](https://www.youtube.com/watch?v=3Yn_3HqfV1w) [[1](#ref-1)] that shows why the US lottery is **"a tax on the poor"**. It is a way to tax people disguised as a fun game: you pay a small amount for a lotto ticket and get a chance to win a life-changing amount of money. In the US, poorer households spend as much as 33 times more of their income on lotto tickets than richer households [[2](#ref-2)]. No wonder the lottery became known as a tax on the poor.
 
 That got me thinking. **Is the Philippine lottery also a tax on poor Filipinos?** There are two ways to test this: **access and spend**. 
 - **Access:** Are Philippine lotto outlets concentrated in poorer or richer neighborhoods?
@@ -100,7 +100,7 @@ Every source is public and free to download. Why each data source was chosen is 
 | # | Research question | Data used | Methods used |
 |---|---|---|---|
 | RQ1 | Are PCSO lotto outlets more or less common per person in poorer neighborhoods than in richer ones?<br/>Does the answer change once we account for province, how urban a place is, how many shops it has, and its road length? | - PCSO lotto outlets counted per tile<br/> - Meta Relative Wealth Index, per 2.4 km tile<br/> - 2024 census population, spread onto tiles with WorldPop<br/> - GHSL urban share<br/> - Shop counts: OpenStreetMap and Overture<br/> - Road distance: OpenStreetMap | - **Descriptive statistics:** count of outlets per 100,000 people by population-weighted wealth quintile<br/> - **Regression model:** negative binomial regression and logistic regression<br/> |
-| RQ2 | Does the rich-poor pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together? | - RQ1 data cut to each city<br/> - official city boundaries | - same as RQ1 |
+| RQ2 | Does the rich-poor pattern persist in Metro Manila, Metro Cebu, and Metro Davao, where the poor and rich sit close together? | - RQ1 data cut to each city<br/> - city boundaries: Metro Manila is the NCR, Metro Cebu the 13 cities and municipalities of the Metro Cebu Development and Coordinating Board [[14](#ref-14)], and Metro Davao the 15 of RA 11708 [[15](#ref-15)] | - same as RQ1 |
 | RQ3 | How far do people in poor and rich neighbourhoods live from the nearest lotto outlet? | - OpenStreetMap road network<br/> - population on WorldPop 100m pixels<br/> - outlet points<br/> - wealth quintiles | - **Road distance:** Dijkstra's algorithm<br/> - **Descriptive statistics:** median road distance and share within 2km by wealth quintile, with straight-line distance alongside. |
 
 ### 4.1 Unit of analysis
@@ -131,7 +131,7 @@ $$\log E[\text{outlets}_i] = \log(\text{pop}i) + \alpha{\text{province}} + \beta
 - **Adding controls:** Control variables can be included to prevent them from distorting the predictor's answer. For this study, the controls are urban share, province intercept, and count of shops. By including these variables, the model will only compare tiles that have the same control variables to ensure that the control variables are not the ones responsible for predicting the final count. 
 - **Why negative binomial instead of Poisson:** Poisson assumes the variance equals the mean. Real counts are messier: lots of zeros, plus a few places with large clusters. Negative binomial adds a dispersion term, so the variance is μ + αμ². One way to picture it is that every place has its own hidden “appetite” for outlets beyond what the predictors explain. Poisson would ignore that extra spread and report confidence intervals that are too narrow.
 
-### 4.4  Djikstra's algorithm
+### 4.4 Dijkstra's algorithm
 
 This algorithm is used to determine the shortest path using real roads to the nearest lotto outlet. People are placed on 100m population pixels. Each pixel and each outlet is snapped to the nearest road, then one search from all outlets at once gives every location its distance by road to the closest outlet.
 
