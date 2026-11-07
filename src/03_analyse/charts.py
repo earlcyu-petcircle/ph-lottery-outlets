@@ -30,6 +30,9 @@ PANEL_TITLE = {"National": "Philippines", "NCR": "Metro Manila (NCR)", "Metro Ce
                "Metro Davao": "Metro Davao"}
 UNIT_LABEL = {"barangay": "Barangays (main unit in the cities; check nationally)",
               "tile": "RWI tiles (main unit nationally; low-n check in the cities)"}
+KICK = atlas.kick("Appendix B", "Every figure and table")
+SOURCE = ("Source: PCSO outlet map, Meta RWI, PSA 2024 census on WorldPop, GHSL, OpenStreetMap, Overture Maps, "
+          "OCHA COD-AB.")
 ROWS = [("count", "wealth only"), ("count", "+ urban share"), ("count", "+ shops"), ("count", "+ shops and roads"),
         ("count, spatial refit", "+ urban share"), ("count, spatial refit", "+ shops"),
         ("presence", "+ urban share"), ("presence", "+ shops")]
@@ -71,10 +74,11 @@ def quintile_chart(q):
             ax.set_title(f"{name}\n", loc="left", **atlas.head(10.5))
             ax.text(0, 1.0, unit_name, transform=ax.transAxes, va="bottom", color=atlas.MUTED,
                     **atlas.mono(7.5))
-        top_room = atlas.heading(fig, "Lotto outlets per 100,000 people, by wealth fifth",
-                                 "Each scope's people split into fifths by wealth; each city by its own people. "
-                                 "No controls.")
-        fig.tight_layout(rect=(0, 0, 1, top_room), w_pad=2.2)
+        top_room = atlas.heading(fig, "Lotto outlets per 100,000 people, by wealth quintile",
+                                 "Each scope's people split into wealth quintiles; each city by its own people. "
+                                 "No controls.", kick=KICK)
+        foot = atlas.source(fig, "Source: PCSO outlet map, Meta RWI, PSA 2024 census on WorldPop, OCHA COD-AB.")
+        fig.tight_layout(rect=(0, foot, 1, top_room), w_pad=2.2)
         fig.savefig(FIGURES / "quintile_rates.png")
     return FIGURES / "quintile_rates.png"
 
@@ -120,11 +124,12 @@ def rate_ratio_chart(m):
         axes[0].set_yticks(range(len(rows)), [ROW_LABEL[r] for r in rows][::-1], fontsize=8.5)
         top_room = atlas.heading(fig, "Wealth ratio by model variant, with 95% intervals",
                                  "Per 1 national SD of RWI, log scale. Above 1: more outlets per person in richer "
-                                 "places. The dashed line at 1 is no association.")
+                                 "places. The dashed line at 1 is no association.", kick=KICK)
+        foot = atlas.source(fig, SOURCE)
         handles = [plt.Line2D([], [], marker="s", linewidth=1.9, markersize=4.6, markeredgewidth=1.4,
                               markeredgecolor=UNIT_MARK[u]["color"], label=UNIT_LABEL[u], **UNIT_MARK[u])
                    for u in ("barangay", "tile")]
-        fig.legend(handles=handles, loc="lower left", ncol=2, fontsize=8, bbox_to_anchor=(0.005, 0.0))
-        fig.tight_layout(rect=(0, 0.06, 1, top_room))
+        fig.legend(handles=handles, loc="lower left", ncol=2, fontsize=8, bbox_to_anchor=(0.005, foot))
+        fig.tight_layout(rect=(0, foot + 0.3 / fig.get_figheight(), 1, top_room))
         fig.savefig(FIGURES / "rate_ratios.png")
     return FIGURES / "rate_ratios.png"
